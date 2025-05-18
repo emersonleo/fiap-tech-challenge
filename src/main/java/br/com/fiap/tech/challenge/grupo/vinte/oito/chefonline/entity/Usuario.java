@@ -1,0 +1,36 @@
+package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity;
+
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.UsuarioDTO;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
+public class Usuario {
+
+    private Long id;
+    private String nome;
+    private String email;
+    private String login;
+    private String senha;
+    private String endereco;
+    private LocalDate dataUltimaAlteracaoRegistro;
+    private LocalDate dataCriacaoRegistro;
+
+    public Usuario(UsuarioDTO usuarioDTO) {
+        this.nome = usuarioDTO.nome();
+        this.email = usuarioDTO.email();
+        this.login = usuarioDTO.login();
+        this.senha = usuarioDTO.senha();
+        this.endereco = usuarioDTO.endereco();
+        this.dataUltimaAlteracaoRegistro = usuarioDTO.dataUltimaAlteracaoRegistro();
+        this.dataCriacaoRegistro = usuarioDTO.dataCriacaoRegistro();
+    }
+
+}
