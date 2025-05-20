@@ -1,0 +1,56 @@
+package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service;
+
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Cliente;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.repository.ClienteRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Service
+public class ClienteService {
+
+    private final ClienteRepository clienteRepository;
+
+    public ClienteService(ClienteRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
+    }
+
+    public void criaCliente(ClienteDTO clienteDTO) {
+        Cliente cliente = new Cliente(clienteDTO);
+        cliente.setDataCriacaoRegistro(LocalDate.now());
+        var save = clienteRepository.save(cliente);
+//        Assert.state(save == 1, "Erro ao criar usuario: " + clienteDTO.nome());
+    }
+
+    public List<Cliente> buscaTodosClientes(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        var pageResult = clienteRepository.findAll(pageable);
+        return pageResult.getContent();
+    }
+
+    public void atualizaCliente(ClienteDTO clienteDTO, Long id) {
+        var clienteExistente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
+
+        clienteExistente.setNome(clienteDTO.nome());
+        clienteExistente.setEmail(clienteDTO.email());
+        clienteExistente.setLogin(clienteDTO.login());
+        clienteExistente.setSenha(clienteDTO.senha());
+        clienteExistente.setEndereco(clienteDTO.endereco());
+        clienteExistente.setDataUltimaAlteracaoRegistro(LocalDate.now());
+
+        clienteRepository.save(clienteExistente);
+    }
+
+    public void deletaCliente(Long id) {
+        var clienteExistente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
+
+        clienteRepository.delete(clienteExistente);
+    }
+
+}
