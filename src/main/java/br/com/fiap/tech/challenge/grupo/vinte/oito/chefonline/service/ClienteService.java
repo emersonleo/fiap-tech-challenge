@@ -57,4 +57,12 @@ public class ClienteService {
         clienteRepository.delete(clienteExistente);
     }
 
+    public boolean validaLogin(LoginRequestDTO loginRequestDTO) {
+        Cliente cliente = clienteRepository.findByUsuarioLogin(loginRequestDTO.login());
+        if (cliente == null) {
+            return false;
+        }
+        return cliente.getUsuario().getSenha().equals(loginRequestDTO.senha());
+    }
+
 }
