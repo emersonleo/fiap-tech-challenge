@@ -10,21 +10,26 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
 
-    public ClienteService(ClienteRepository clienteRepository) {
+    private final SenhaService senhaService;
+
+    public ClienteService(ClienteRepository clienteRepository, SenhaService senhaService) {
         this.clienteRepository = clienteRepository;
+        this.senhaService = senhaService;
     }
 
     public void criaCliente(ClienteRequestDTO clienteRequestDTO) {
         Cliente cliente = new Cliente(clienteRequestDTO);
+        cliente.getUsuario().setSenha(senhaService.hashSenha(cliente.getUsuario().getSenha()));
         cliente.getUsuario().setDataCriacaoRegistro(LocalDate.now());
         var save = clienteRepository.save(cliente);
-//        Assert.state(save == 1, "Erro ao criar usuario: " + clienteDTO.nome());
+//        Assert.state(save == 1, "Erro ao criar usuario: " + clienteRequestDTO.nome());
     }
 
     public List<ClienteResponseDTO> buscaTodosClientes(int page, int size) {
@@ -34,6 +39,10 @@ public class ClienteService {
                 .stream()
                 .map(ClienteResponseDTO::new)
                 .toList();
+    }
+
+    public Optional<Cliente> buscaClientPorLogin(String login) {
+        return clienteRepository.findByUsuarioLogin(login);
     }
 
     public void atualizaCliente(ClienteRequestDTO clienteRequestDTO, Long id) {
@@ -55,14 +64,6 @@ public class ClienteService {
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
 
         clienteRepository.delete(clienteExistente);
-    }
-
-    public boolean validaLogin(LoginRequestDTO loginRequestDTO) {
-        Cliente cliente = clienteRepository.findByUsuarioLogin(loginRequestDTO.login());
-        if (cliente == null) {
-            return false;
-        }
-        return cliente.getUsuario().getSenha().equals(loginRequestDTO.senha());
     }
 
 }

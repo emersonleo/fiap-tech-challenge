@@ -2,7 +2,6 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioRequestDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioResponseDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Cliente;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.repository.ProprietarioRepository;
 import org.springframework.data.domain.PageRequest;
@@ -11,18 +10,23 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProprietarioService {
 
     private final ProprietarioRepository proprietarioRepository;
 
-    public ProprietarioService(ProprietarioRepository proprietarioRepository) {
+    private final SenhaService senhaService;
+
+    public ProprietarioService(ProprietarioRepository proprietarioRepository, SenhaService senhaService) {
         this.proprietarioRepository = proprietarioRepository;
+        this.senhaService = senhaService;
     }
 
     public void criaProprietario(ProprietarioRequestDTO proprietarioRequestDTO) {
         Proprietario proprietario = new Proprietario(proprietarioRequestDTO);
+        proprietario.getUsuario().setSenha(senhaService.hashSenha(proprietario.getUsuario().getSenha()));
         proprietario.getUsuario().setDataCriacaoRegistro(LocalDate.now());
         var save = proprietarioRepository.save(proprietario);
 //        Assert.state(save == 1, "Erro ao criar usuario: " + clienteDTO.nome());
@@ -35,6 +39,10 @@ public class ProprietarioService {
                 .stream()
                 .map(ProprietarioResponseDTO::new)
                 .toList();
+    }
+
+    public Optional<Proprietario> buscaProprietarioPorLogin(String login) {
+        return proprietarioRepository.findByUsuarioLogin(login);
     }
 
     public void atualizaProprietario(ProprietarioRequestDTO proprietarioRequestDTO, Long id) {
@@ -59,14 +67,6 @@ public class ProprietarioService {
                 .orElseThrow(() -> new RuntimeException("Proprietario não encontrado com o id: " + id));
 
         proprietarioRepository.delete(proprietarioExistente);
-    }
-
-    public boolean validaLogin(LoginRequestDTO loginRequestDTO) {
-        Proprietario proprietario = proprietarioRepository.findByUsuarioLogin(loginRequestDTO.login());
-        if (proprietario == null) {
-            return false;
-        }
-        return proprietario.getUsuario().getSenha().equals(loginRequestDTO.senha());
     }
 
 }
