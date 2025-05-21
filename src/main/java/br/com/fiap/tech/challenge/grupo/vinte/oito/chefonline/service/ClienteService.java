@@ -9,18 +9,23 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
 
-    public ClienteService(ClienteRepository clienteRepository) {
+    private final SenhaService senhaService;
+
+    public ClienteService(ClienteRepository clienteRepository, SenhaService senhaService) {
         this.clienteRepository = clienteRepository;
+        this.senhaService = senhaService;
     }
 
     public void criaCliente(ClienteDTO clienteDTO) {
         Cliente cliente = new Cliente(clienteDTO);
+        cliente.setSenha(senhaService.hashSenha(cliente.getSenha()));
         cliente.setDataCriacaoRegistro(LocalDate.now());
         var save = clienteRepository.save(cliente);
 //        Assert.state(save == 1, "Erro ao criar usuario: " + clienteDTO.nome());
@@ -30,6 +35,10 @@ public class ClienteService {
         Pageable pageable = PageRequest.of(page, size);
         var pageResult = clienteRepository.findAll(pageable);
         return pageResult.getContent();
+    }
+
+    public Optional<Cliente> buscaClientPorLogin(String login) {
+        return clienteRepository.findByLogin(login);
     }
 
     public void atualizaCliente(ClienteDTO clienteDTO, Long id) {

@@ -9,18 +9,23 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProprietarioService {
 
     private final ProprietarioRepository proprietarioRepository;
 
-    public ProprietarioService(ProprietarioRepository proprietarioRepository) {
+    private final SenhaService senhaService;
+
+    public ProprietarioService(ProprietarioRepository proprietarioRepository, SenhaService senhaService) {
         this.proprietarioRepository = proprietarioRepository;
+        this.senhaService = senhaService;
     }
 
     public void criaProprietario(ProprietarioDTO proprietarioDTO) {
         Proprietario proprietario = new Proprietario(proprietarioDTO);
+        proprietario.setSenha(senhaService.hashSenha(proprietario.getSenha()));
         proprietario.setDataCriacaoRegistro(LocalDate.now());
         var save = proprietarioRepository.save(proprietario);
 //        Assert.state(save == 1, "Erro ao criar usuario: " + clienteDTO.nome());
@@ -30,6 +35,10 @@ public class ProprietarioService {
         Pageable pageable = PageRequest.of(page, size);
         var pageResult = proprietarioRepository.findAll(pageable);
         return pageResult.getContent();
+    }
+
+    public Optional<Proprietario> buscaProprietarioPorLogin(String login) {
+        return proprietarioRepository.findByLogin(login);
     }
 
     public void atualizaProprietario(ProprietarioDTO proprietarioDTO, Long id) {
