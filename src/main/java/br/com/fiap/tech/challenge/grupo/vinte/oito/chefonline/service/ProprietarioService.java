@@ -1,6 +1,7 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioRequestDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioResponseDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.repository.ProprietarioRepository;
 import org.springframework.data.domain.PageRequest;
@@ -26,10 +27,13 @@ public class ProprietarioService {
 //        Assert.state(save == 1, "Erro ao criar usuario: " + clienteDTO.nome());
     }
 
-    public List<Proprietario> buscaTodosProprietarios(int page, int size) {
+    public List<ProprietarioResponseDTO> buscaTodosProprietarios(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         var pageResult = proprietarioRepository.findAll(pageable);
-        return pageResult.getContent();
+        return pageResult.getContent()
+                .stream()
+                .map(ProprietarioResponseDTO::new)
+                .toList();
     }
 
     public void atualizaProprietario(ProprietarioRequestDTO proprietarioRequestDTO, Long id) {

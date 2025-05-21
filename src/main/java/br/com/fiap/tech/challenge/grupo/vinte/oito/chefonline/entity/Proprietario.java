@@ -19,18 +19,22 @@ public class Proprietario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Embedded
-    private Usuario usuario;
-
     private String cnpj;
     private String razaoSocial;
     private String nomeFantasia;
+    @Embedded
+    private Usuario usuario;
 
     public Proprietario(ProprietarioRequestDTO proprietarioRequestDTO) {
         this.cnpj = proprietarioRequestDTO.cnpj();
         this.razaoSocial = proprietarioRequestDTO.razaoSocial();
         this.nomeFantasia = proprietarioRequestDTO.nomeFantasia();
+        this.usuario = new Usuario();
+        this.usuario.setNome(proprietarioRequestDTO.nome());
+        this.usuario.setEmail(proprietarioRequestDTO.email());
+        this.usuario.setLogin(proprietarioRequestDTO.login());
+        this.usuario.setSenha(proprietarioRequestDTO.senha());
+        this.usuario.setEndereco(proprietarioRequestDTO.endereco());
     }
 
 }
