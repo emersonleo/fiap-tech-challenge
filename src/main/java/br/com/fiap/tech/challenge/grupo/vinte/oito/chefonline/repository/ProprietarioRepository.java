@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface ProprietarioRepository extends JpaRepository<Proprietario, Long> {
 
     Page<Proprietario> findAll(Pageable pageable);
-    Optional<Proprietario> findByLogin(String login);
+    Optional<Proprietario> findByUsuarioLogin(String login);
+
 }

@@ -17,7 +17,7 @@ public class SessaoProprietarioService {
                 .buscaProprietarioPorLogin(login)
                 .orElseThrow(() -> new RuntimeException("Informacoes incorretas de login"));
 
-        if (!senhaService.verificaSenha(senha, proprietario.getSenha())) {
+        if (!senhaService.verificaSenha(senha, proprietario.getUsuario().getSenha())) {
             throw new RuntimeException("Informacoes incorretas de login");
         }
     }

@@ -17,7 +17,7 @@ public class SessaoClienteService {
                 .buscaClientPorLogin(login)
                 .orElseThrow(() -> new RuntimeException("Informacoes incorretas de login"));
 
-        if (!senhaService.verificaSenha(senha, cliente.getSenha())) {
+        if (!senhaService.verificaSenha(senha, cliente.getUsuario().getSenha())) {
             throw new RuntimeException("Informacoes incorretas de login");
         }
     }

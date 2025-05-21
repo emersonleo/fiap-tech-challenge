@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     Page<Cliente> findAll(Pageable pageable);
-    Optional<Cliente> findByLogin(String login);
+    Optional<Cliente> findByUsuarioLogin(String login);
 }
