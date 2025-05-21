@@ -1,10 +1,12 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto;
 
-public record ClienteDTO(
+public record ProprietarioRequestDTO(
         String nome,
-        String cpf,
         String email,
         String login,
         String senha,
-        String endereco) {
+        String endereco,
+        String cnpj,
+        String razaoSocial,
+        String nomeFantasia) {
 }

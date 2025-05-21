@@ -1,6 +1,6 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service;
 
-import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioRequestDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.repository.ProprietarioRepository;
 import org.springframework.data.domain.PageRequest;
@@ -19,9 +19,9 @@ public class ProprietarioService {
         this.proprietarioRepository = proprietarioRepository;
     }
 
-    public void criaProprietario(ProprietarioDTO proprietarioDTO) {
-        Proprietario proprietario = new Proprietario(proprietarioDTO);
-        proprietario.setDataCriacaoRegistro(LocalDate.now());
+    public void criaProprietario(ProprietarioRequestDTO proprietarioRequestDTO) {
+        Proprietario proprietario = new Proprietario(proprietarioRequestDTO);
+        proprietario.getUsuario().setDataCriacaoRegistro(LocalDate.now());
         var save = proprietarioRepository.save(proprietario);
 //        Assert.state(save == 1, "Erro ao criar usuario: " + clienteDTO.nome());
     }
@@ -32,19 +32,19 @@ public class ProprietarioService {
         return pageResult.getContent();
     }
 
-    public void atualizaProprietario(ProprietarioDTO proprietarioDTO, Long id) {
+    public void atualizaProprietario(ProprietarioRequestDTO proprietarioRequestDTO, Long id) {
         var proprietarioExistente = proprietarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Proprietario não encontrado com o id: " + id));
 
-        proprietarioExistente.setNome(proprietarioDTO.nome());
-        proprietarioExistente.setEmail(proprietarioDTO.email());
-        proprietarioExistente.setLogin(proprietarioDTO.login());
-        proprietarioExistente.setSenha(proprietarioDTO.senha());
-        proprietarioExistente.setEndereco(proprietarioDTO.endereco());
-        proprietarioExistente.setCnpj(proprietarioDTO.cnpj());
-        proprietarioExistente.setRazaoSocial(proprietarioDTO.razaoSocial());
-        proprietarioExistente.setNomeFantasia(proprietarioDTO.nomeFantasia());
-        proprietarioExistente.setDataUltimaAlteracaoRegistro(LocalDate.now());
+        proprietarioExistente.getUsuario().setNome(proprietarioRequestDTO.nome());
+        proprietarioExistente.getUsuario().setEmail(proprietarioRequestDTO.email());
+        proprietarioExistente.getUsuario().setLogin(proprietarioRequestDTO.login());
+        proprietarioExistente.getUsuario().setSenha(proprietarioRequestDTO.senha());
+        proprietarioExistente.getUsuario().setEndereco(proprietarioRequestDTO.endereco());
+        proprietarioExistente.setCnpj(proprietarioRequestDTO.cnpj());
+        proprietarioExistente.setRazaoSocial(proprietarioRequestDTO.razaoSocial());
+        proprietarioExistente.setNomeFantasia(proprietarioRequestDTO.nomeFantasia());
+        proprietarioExistente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDate.now());
 
         proprietarioRepository.save(proprietarioExistente);
     }

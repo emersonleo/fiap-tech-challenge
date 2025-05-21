@@ -1,9 +1,7 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller;
 
-import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.UsuarioDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Cliente;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Usuario;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteRequestDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteResponseDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.ClienteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,15 +33,15 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<Void> criaCliente(
-            @RequestBody ClienteDTO clienteDTO
+            @RequestBody ClienteRequestDTO clienteRequestDTO
             ) {
         logger.info("POST -> /v1/clientes");
-        clienteService.criaCliente(clienteDTO);
+        clienteService.criaCliente(clienteRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> buscaTodosClientes(
+    public ResponseEntity<List<ClienteResponseDTO>> buscaTodosClientes(
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
         logger.info("GET -> /v1/clientes");
@@ -53,10 +51,10 @@ public class ClienteController {
 
     @PutMapping({"/{id}"})
     public ResponseEntity<Void> atualizaCliente(
-            @RequestBody ClienteDTO clienteDTO,
+            @RequestBody ClienteRequestDTO clienteRequestDTO,
             @PathVariable("id") Long id) {
         logger.info("PUT -> /v1/clientes/{id}", id);
-        clienteService.atualizaCliente(clienteDTO, id);
+        clienteService.atualizaCliente(clienteRequestDTO, id);
         return ResponseEntity.ok().build();
     }
 
