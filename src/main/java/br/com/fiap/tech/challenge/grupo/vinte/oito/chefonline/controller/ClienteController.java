@@ -3,6 +3,8 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteRequestDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteResponseDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.ClienteService;
+import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,7 +35,7 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<Void> criaCliente(
-            @RequestBody ClienteRequestDTO clienteRequestDTO
+            @Valid @RequestBody ClienteRequestDTO clienteRequestDTO
             ) {
         logger.info("POST -> /v1/clientes");
         clienteService.criaCliente(clienteRequestDTO);
@@ -51,7 +53,7 @@ public class ClienteController {
 
     @PutMapping({"/{id}"})
     public ResponseEntity<Void> atualizaCliente(
-            @RequestBody ClienteRequestDTO clienteRequestDTO,
+            @Valid @RequestBody ClienteRequestDTO clienteRequestDTO,
             @PathVariable("id") Long id) {
         logger.info("PUT -> /v1/clientes/{id}", id);
         clienteService.atualizaCliente(clienteRequestDTO, id);

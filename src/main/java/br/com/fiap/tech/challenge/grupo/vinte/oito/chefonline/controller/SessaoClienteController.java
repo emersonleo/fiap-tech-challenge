@@ -2,6 +2,8 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.UsuarioLoginDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.SessaoClienteService;
+import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,7 @@ public class SessaoClienteController {
 
     @PostMapping({"/login"})
     public ResponseEntity<?> login(
-            @RequestBody UsuarioLoginDTO usuarioLoginDTO
+            @Valid @RequestBody UsuarioLoginDTO usuarioLoginDTO
             ) {
         logger.info("POST -> /v1/sessao/clientes/login");
 
