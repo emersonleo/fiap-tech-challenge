@@ -1,6 +1,8 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class SessaoProprietarioService {
@@ -15,10 +17,11 @@ public class SessaoProprietarioService {
     public void login(String login, String senha) {
         var proprietario = proprietarioService
                 .buscaProprietarioPorLogin(login)
-                .orElseThrow(() -> new RuntimeException("Informacoes incorretas de login"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                "Informacoes incorretas de login"));
 
         if (!senhaService.verificaSenha(senha, proprietario.getUsuario().getSenha())) {
-            throw new RuntimeException("Informacoes incorretas de login");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Informacoes incorretas de login");
         }
     }
 }
