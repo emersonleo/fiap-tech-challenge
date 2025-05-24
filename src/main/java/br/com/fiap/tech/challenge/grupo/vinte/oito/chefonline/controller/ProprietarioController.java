@@ -4,6 +4,8 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioRe
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioResponseDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.ProprietarioService;
+import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -34,7 +36,7 @@ public class ProprietarioController {
 
     @PostMapping
     public ResponseEntity<Void> criaProprietario(
-            @RequestBody ProprietarioRequestDTO proprietarioRequestDTO
+            @Valid @RequestBody ProprietarioRequestDTO proprietarioRequestDTO
     ) {
         logger.info("POST -> /v1/proprietarios");
         proprietarioService.criaProprietario(proprietarioRequestDTO);
@@ -52,7 +54,7 @@ public class ProprietarioController {
 
     @PutMapping({"/{id}"})
     public ResponseEntity<Void> atualizaProprietario(
-            @RequestBody ProprietarioRequestDTO proprietarioRequestDTO,
+            @Valid @RequestBody ProprietarioRequestDTO proprietarioRequestDTO,
             @PathVariable("id") Long id) {
         logger.info("PUT -> /v1/proprietarios/{id}", id);
         proprietarioService.atualizaProprietario(proprietarioRequestDTO, id);
