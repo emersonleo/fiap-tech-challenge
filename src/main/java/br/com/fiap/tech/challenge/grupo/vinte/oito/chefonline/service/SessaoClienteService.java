@@ -17,11 +17,10 @@ public class SessaoClienteService {
     public void login(String login, String senha) {
         var cliente = clienteService
                 .buscaClientPorLogin(login)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                "Informacoes incorretas de login"));
+                .orElseThrow(() -> new RuntimeException("Informacoes incorretas de login"));
 
         if (!senhaService.verificaSenha(senha, cliente.getUsuario().getSenha())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Informacoes incorretas de login");
+            throw new RuntimeException("Informacoes incorretas de login");
         }
     }
 }
