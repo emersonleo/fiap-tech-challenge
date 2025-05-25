@@ -28,8 +28,7 @@ public class ClienteService {
         Cliente cliente = new Cliente(clienteRequestDTO);
         cliente.getUsuario().setSenha(senhaService.hashSenha(cliente.getUsuario().getSenha()));
         cliente.getUsuario().setDataCriacaoRegistro(LocalDate.now());
-        var save = clienteRepository.save(cliente);
-//        Assert.state(save == 1, "Erro ao criar usuario: " + clienteRequestDTO.nome());
+        clienteRepository.save(cliente);
     }
 
     public List<ClienteResponseDTO> buscaTodosClientes(int page, int size) {
@@ -39,6 +38,12 @@ public class ClienteService {
                 .stream()
                 .map(ClienteResponseDTO::new)
                 .toList();
+    }
+
+    public ClienteResponseDTO buscaClientePorId(Long id) {
+        var cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
+        return new ClienteResponseDTO(cliente);
     }
 
     public Optional<Cliente> buscaClientPorLogin(String login) {

@@ -1,5 +1,6 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller;
 
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller.swagger.ClienteControllerSwagger;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteRequestDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteResponseDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.ClienteService;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/clientes")
-public class ClienteController {
+public class ClienteController implements ClienteControllerSwagger {
 
     private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
 
@@ -33,6 +34,7 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<Void> criaCliente(
             @Valid @RequestBody ClienteRequestDTO clienteRequestDTO
@@ -42,6 +44,7 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Override
     @GetMapping
     public ResponseEntity<List<ClienteResponseDTO>> buscaTodosClientes(
             @RequestParam(value = "page", defaultValue = "1") int page,
@@ -51,19 +54,30 @@ public class ClienteController {
         return ResponseEntity.ok(clientes);
     }
 
+    @Override
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteResponseDTO> buscaClientePorId(
+            @PathVariable("id") Long id) {
+        logger.info("GET -> /v1/clientes/{}", id);
+        var cliente = clienteService.buscaClientePorId(id);
+        return ResponseEntity.ok(cliente);
+    }
+
+    @Override
     @PutMapping({"/{id}"})
     public ResponseEntity<Void> atualizaCliente(
             @Valid @RequestBody ClienteRequestDTO clienteRequestDTO,
             @PathVariable("id") Long id) {
-        logger.info("PUT -> /v1/clientes/{id}", id);
+        logger.info("PUT -> /v1/clientes/{}", id);
         clienteService.atualizaCliente(clienteRequestDTO, id);
         return ResponseEntity.ok().build();
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletaCliente(
             @PathVariable("id") Long id) {
-        logger.info("DELETE -> /v1/clientes/{id}", id);
+        logger.info("DELETE -> /v1/clientes/{}", id);
         clienteService.deletaCliente(id);
         return ResponseEntity.ok().build();
     }
