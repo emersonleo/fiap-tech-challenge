@@ -2,6 +2,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioRequestDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioResponseDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.UpdatePasswordDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.repository.ProprietarioRepository;
 import org.springframework.data.domain.PageRequest;
@@ -67,6 +68,16 @@ public class ProprietarioService {
                 .orElseThrow(() -> new RuntimeException("Proprietario não encontrado com o id: " + id));
 
         proprietarioRepository.delete(proprietarioExistente);
+    }
+
+    public void atualizaSenhaProprietario(UpdatePasswordDTO updatePasswordDTO) {
+        var proprietarioExistente = proprietarioRepository.findByUsuarioLogin(updatePasswordDTO.login())
+                .orElseThrow(() -> new RuntimeException("Proprietario não encontrado com o id: " + updatePasswordDTO.login()));
+
+
+        proprietarioExistente.getUsuario().setSenha(senhaService.hashSenha(updatePasswordDTO.novaSenha()));
+        proprietarioExistente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDate.now());
+        proprietarioRepository.save(proprietarioExistente);
     }
 
 }

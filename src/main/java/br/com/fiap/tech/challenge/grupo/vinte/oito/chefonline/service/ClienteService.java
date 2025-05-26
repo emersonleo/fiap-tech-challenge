@@ -2,6 +2,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteRequestDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteResponseDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.UpdatePasswordDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Cliente;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.repository.ClienteRepository;
 import org.springframework.data.domain.PageRequest;
@@ -69,6 +70,20 @@ public class ClienteService {
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
 
         clienteRepository.delete(clienteExistente);
+    }
+
+
+    public void atualizaSenha(UpdatePasswordDTO updatePasswordDTO) {
+        var cliente = clienteRepository.findByUsuarioLogin(updatePasswordDTO.login())
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o login: " + updatePasswordDTO.login()));
+
+        if (!cliente.getCpf().equals(updatePasswordDTO.CPF())) {
+            throw new RuntimeException("CPF não corresponde ao cliente.");
+        }
+
+        cliente.getUsuario().setSenha(senhaService.hashSenha(updatePasswordDTO.novaSenha()));
+        cliente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDate.now());
+        clienteRepository.save(cliente);
     }
 
 }
