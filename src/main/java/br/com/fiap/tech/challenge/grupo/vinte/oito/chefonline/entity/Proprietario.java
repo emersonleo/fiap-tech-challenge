@@ -1,6 +1,7 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioRequestDTO;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,9 +20,15 @@ public class Proprietario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "cnpj", nullable = false, unique = true)
     private String cnpj;
+
+    @Column(name = "razao_social", nullable = false, unique = true)
     private String razaoSocial;
+
     private String nomeFantasia;
+    
     @Embedded
     private Usuario usuario;
 
