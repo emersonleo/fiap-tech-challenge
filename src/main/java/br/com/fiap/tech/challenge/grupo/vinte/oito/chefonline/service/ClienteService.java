@@ -5,6 +5,7 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteRespons
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.UpdatePasswordDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Cliente;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.repository.ClienteRepository;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.exceptions.ClienteNotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class ClienteService {
 
     public ClienteResponseDTO buscaClientePorId(Long id) {
         var cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
+                .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado com o id: " + id));
         return new ClienteResponseDTO(cliente);
     }
 
@@ -53,7 +54,7 @@ public class ClienteService {
 
     public void atualizaCliente(ClienteRequestDTO clienteRequestDTO, Long id) {
         var clienteExistente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
+                .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado com o id: " + id));
 
         clienteExistente.getUsuario().setNome(clienteRequestDTO.nome());
         clienteExistente.getUsuario().setEmail(clienteRequestDTO.email());
@@ -67,7 +68,7 @@ public class ClienteService {
 
     public void deletaCliente(Long id) {
         var clienteExistente = clienteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
+                .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado com o id: " + id));
 
         clienteRepository.delete(clienteExistente);
     }
