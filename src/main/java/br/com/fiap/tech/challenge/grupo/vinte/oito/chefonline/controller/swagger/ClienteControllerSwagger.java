@@ -54,6 +54,7 @@ public interface ClienteControllerSwagger {
     @Operation(summary = "Busca todos os clientes", description = "Retorna uma lista de clientes cadastrados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de clientes retornada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     @GetMapping
