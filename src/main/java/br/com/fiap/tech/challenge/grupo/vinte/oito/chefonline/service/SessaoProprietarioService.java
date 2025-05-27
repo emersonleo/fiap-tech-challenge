@@ -17,10 +17,10 @@ public class SessaoProprietarioService {
     public void login(String login, String senha) {
         var proprietario = proprietarioService
                 .buscaProprietarioPorLogin(login)
-                .orElseThrow(() -> new RuntimeException("Informacoes incorretas de login"));
+                .orElseThrow(() -> new RuntimeException("Informações incorretas de login"));
 
         if (!senhaService.verificaSenha(senha, proprietario.getUsuario().getSenha())) {
-            throw new RuntimeException("Informacoes incorretas de login");
+            throw new RuntimeException("Informações incorretas de login");
         }
     }
 }

@@ -74,7 +74,6 @@ public class ProprietarioService {
         var proprietarioExistente = proprietarioRepository.findByUsuarioLogin(updatePasswordDTO.login())
                 .orElseThrow(() -> new RuntimeException("Proprietario não encontrado com o id: " + updatePasswordDTO.login()));
 
-
         proprietarioExistente.getUsuario().setSenha(senhaService.hashSenha(updatePasswordDTO.novaSenha()));
         proprietarioExistente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDate.now());
         proprietarioRepository.save(proprietarioExistente);
