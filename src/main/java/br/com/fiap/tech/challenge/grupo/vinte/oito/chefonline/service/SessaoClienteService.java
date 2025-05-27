@@ -17,10 +17,10 @@ public class SessaoClienteService {
     public void login(String login, String senha) {
         var cliente = clienteService
                 .buscaClientPorLogin(login)
-                .orElseThrow(() -> new RuntimeException("Informacoes incorretas de login"));
+                .orElseThrow(() -> new RuntimeException("Informações incorretas de login"));
 
         if (!senhaService.verificaSenha(senha, cliente.getUsuario().getSenha())) {
-            throw new RuntimeException("Informacoes incorretas de login");
+            throw new RuntimeException("Informações incorretas de login");
         }
     }
 }

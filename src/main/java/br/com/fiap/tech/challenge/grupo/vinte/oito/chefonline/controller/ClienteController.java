@@ -3,6 +3,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller.swagger.ClienteControllerSwagger;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteRequestDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ClienteResponseDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.UpdatePasswordDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.ClienteService;
 import jakarta.validation.Valid;
 
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -82,4 +84,12 @@ public class ClienteController implements ClienteControllerSwagger {
         return ResponseEntity.ok().build();
     }
 
+    @Override
+    @PatchMapping
+    public ResponseEntity<Void> atualizaSenha(
+            @Valid @RequestBody UpdatePasswordDTO updatePasswordDTO) {
+        logger.info("PATCH -> /v1/clientes");
+        clienteService.atualizaSenha(updatePasswordDTO);
+        return ResponseEntity.ok().build();
+    }
 }

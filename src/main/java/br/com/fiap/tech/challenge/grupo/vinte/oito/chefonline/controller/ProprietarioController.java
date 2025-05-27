@@ -2,6 +2,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioRequestDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioResponseDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.UpdatePasswordDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.ProprietarioService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -66,6 +68,14 @@ public class ProprietarioController {
             @PathVariable("id") Long id) {
         logger.info("DELETE -> /v1/proprietarios/{id}", id);
         proprietarioService.deletaProprietario(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping
+    public ResponseEntity<Void> atualizaSenha(
+            @Valid @RequestBody UpdatePasswordDTO updatePasswordDTO) {
+        logger.info("PATCH -> /v1/proprietarios");
+        proprietarioService.atualizaSenhaProprietario(updatePasswordDTO);
         return ResponseEntity.ok().build();
     }
 
