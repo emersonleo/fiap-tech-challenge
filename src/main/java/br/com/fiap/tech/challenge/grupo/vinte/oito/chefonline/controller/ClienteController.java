@@ -81,7 +81,7 @@ public class ClienteController implements ClienteControllerSwagger {
             @PathVariable("id") Long id) {
         logger.info("DELETE -> /v1/clientes/{}", id);
         clienteService.deletaCliente(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @Override
