@@ -29,8 +29,7 @@ public class ProprietarioService {
         Proprietario proprietario = new Proprietario(proprietarioRequestDTO);
         proprietario.getUsuario().setSenha(senhaService.hashSenha(proprietario.getUsuario().getSenha()));
         proprietario.getUsuario().setDataCriacaoRegistro(LocalDate.now());
-        var save = proprietarioRepository.save(proprietario);
-//        Assert.state(save == 1, "Erro ao criar usuario: " + clienteDTO.nome());
+        proprietarioRepository.save(proprietario);
     }
 
     public List<ProprietarioResponseDTO> buscaTodosProprietarios(int page, int size) {
@@ -40,6 +39,12 @@ public class ProprietarioService {
                 .stream()
                 .map(ProprietarioResponseDTO::new)
                 .toList();
+    }
+
+    public ProprietarioResponseDTO buscaProprietarioPorId(Long id) {
+        var proprietario = proprietarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Proprietario não encontrado com o id: " + id));
+        return new ProprietarioResponseDTO(proprietario);
     }
 
     public Optional<Proprietario> buscaProprietarioPorLogin(String login) {

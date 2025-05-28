@@ -54,6 +54,14 @@ public class ProprietarioController {
         return ResponseEntity.ok(proprietarios);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProprietarioResponseDTO> buscaProprietarioPorId(
+            @PathVariable("id") Long id) {
+        logger.info("GET -> /v1/proprietarios/{id}", id);
+        ProprietarioResponseDTO proprietario = proprietarioService.buscaProprietarioPorId(id);
+        return ResponseEntity.ok(proprietario);
+    }
+
     @PutMapping({"/{id}"})
     public ResponseEntity<Void> atualizaProprietario(
             @Valid @RequestBody ProprietarioRequestDTO proprietarioRequestDTO,
