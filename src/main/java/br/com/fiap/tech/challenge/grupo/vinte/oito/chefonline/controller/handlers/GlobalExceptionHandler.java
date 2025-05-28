@@ -1,6 +1,7 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller.handlers;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.exceptions.ClienteNotFoundException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.exceptions.ProprietarioNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -39,6 +40,16 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(response.getStatusCode()).body(response);
 
+    }
+
+    @ExceptionHandler(ProprietarioNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProprietarioNotFoundException(ProprietarioNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                ex.getMessage(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.name()
+        );
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
 }

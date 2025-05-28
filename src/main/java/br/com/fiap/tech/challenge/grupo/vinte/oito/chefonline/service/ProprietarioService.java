@@ -5,6 +5,7 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioRe
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.UpdatePasswordDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.repository.ProprietarioRepository;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.exceptions.ProprietarioNotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class ProprietarioService {
 
     public ProprietarioResponseDTO buscaProprietarioPorId(Long id) {
         var proprietario = proprietarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Proprietario não encontrado com o id: " + id));
+                .orElseThrow(() -> new ProprietarioNotFoundException("Proprietario não encontrado com o id: " + id));
         return new ProprietarioResponseDTO(proprietario);
     }
 
@@ -53,7 +54,7 @@ public class ProprietarioService {
 
     public void atualizaProprietario(ProprietarioRequestDTO proprietarioRequestDTO, Long id) {
         var proprietarioExistente = proprietarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Proprietario não encontrado com o id: " + id));
+                .orElseThrow(() -> new ProprietarioNotFoundException("Proprietario não encontrado com o id: " + id));
 
         proprietarioExistente.getUsuario().setNome(proprietarioRequestDTO.nome());
         proprietarioExistente.getUsuario().setEmail(proprietarioRequestDTO.email());
@@ -70,14 +71,14 @@ public class ProprietarioService {
 
     public void deletaProprietario(Long id) {
         var proprietarioExistente = proprietarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Proprietario não encontrado com o id: " + id));
+                .orElseThrow(() -> new ProprietarioNotFoundException("Proprietario não encontrado com o id: " + id));
 
         proprietarioRepository.delete(proprietarioExistente);
     }
 
     public void atualizaSenhaProprietario(UpdatePasswordDTO updatePasswordDTO) {
         var proprietarioExistente = proprietarioRepository.findByUsuarioLogin(updatePasswordDTO.login())
-                .orElseThrow(() -> new RuntimeException("Proprietario não encontrado com o id: " + updatePasswordDTO.login()));
+                .orElseThrow(() -> new ProprietarioNotFoundException("Proprietario não encontrado com o id: " + updatePasswordDTO.login()));
 
         proprietarioExistente.getUsuario().setSenha(senhaService.hashSenha(updatePasswordDTO.novaSenha()));
         proprietarioExistente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDate.now());
