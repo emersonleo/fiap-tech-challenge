@@ -1,12 +1,11 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller;
 
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.controller.swagger.ProprietarioControllerSwagger;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioRequestDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.ProprietarioResponseDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dto.UpdatePasswordDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entity.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.service.ProprietarioService;
 import jakarta.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/proprietarios")
-public class ProprietarioController {
+public class ProprietarioController implements ProprietarioControllerSwagger {
 
     private static final Logger logger = LoggerFactory.getLogger(ProprietarioController.class);
 
@@ -36,6 +35,7 @@ public class ProprietarioController {
         this.proprietarioService = proprietarioService;
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<Void> criaProprietario(
             @Valid @RequestBody ProprietarioRequestDTO proprietarioRequestDTO
@@ -45,6 +45,7 @@ public class ProprietarioController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Override
     @GetMapping
     public ResponseEntity<List<ProprietarioResponseDTO>> buscaTodosProprietarios(
             @RequestParam(value = "page", defaultValue = "1") int page,
@@ -54,31 +55,35 @@ public class ProprietarioController {
         return ResponseEntity.ok(proprietarios);
     }
 
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<ProprietarioResponseDTO> buscaProprietarioPorId(
             @PathVariable("id") Long id) {
-        logger.info("GET -> /v1/proprietarios/{id}", id);
+        logger.info("GET -> /v1/proprietarios/{}", id);
         ProprietarioResponseDTO proprietario = proprietarioService.buscaProprietarioPorId(id);
         return ResponseEntity.ok(proprietario);
     }
 
+    @Override
     @PutMapping({"/{id}"})
     public ResponseEntity<Void> atualizaProprietario(
             @Valid @RequestBody ProprietarioRequestDTO proprietarioRequestDTO,
             @PathVariable("id") Long id) {
-        logger.info("PUT -> /v1/proprietarios/{id}", id);
+        logger.info("PUT -> /v1/proprietarios/{}", id);
         proprietarioService.atualizaProprietario(proprietarioRequestDTO, id);
         return ResponseEntity.ok().build();
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletaProprietario(
             @PathVariable("id") Long id) {
-        logger.info("DELETE -> /v1/proprietarios/{id}", id);
+        logger.info("DELETE -> /v1/proprietarios/{}", id);
         proprietarioService.deletaProprietario(id);
         return ResponseEntity.ok().build();
     }
 
+    @Override
     @PatchMapping
     public ResponseEntity<Void> atualizaSenha(
             @Valid @RequestBody UpdatePasswordDTO updatePasswordDTO) {

@@ -78,7 +78,7 @@ public class ClienteService {
         var cliente = clienteRepository.findByUsuarioLogin(updatePasswordDTO.login())
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o login: " + updatePasswordDTO.login()));
 
-        if (!cliente.getCpf().equals(updatePasswordDTO.CPF())) {
+        if (!cliente.getCpf().equals(updatePasswordDTO.cpfCnpj())) {
             throw new RuntimeException("CPF não corresponde ao cliente.");
         }
 
