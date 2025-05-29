@@ -5,12 +5,13 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dtos.ProprietarioR
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dtos.UpdatePasswordDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entities.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.repositories.ProprietarioRepository;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.services.exceptions.DadoInvalidoException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.services.exceptions.ProprietarioNotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class ProprietarioService {
     public void criaProprietario(ProprietarioRequestDTO proprietarioRequestDTO) {
         Proprietario proprietario = new Proprietario(proprietarioRequestDTO);
         proprietario.getUsuario().setSenha(senhaService.hashSenha(proprietario.getUsuario().getSenha()));
-        proprietario.getUsuario().setDataCriacaoRegistro(LocalDate.now());
+        proprietario.getUsuario().setDataCriacaoRegistro(LocalDateTime.now());
         proprietarioRepository.save(proprietario);
     }
 
@@ -64,7 +65,7 @@ public class ProprietarioService {
         proprietarioExistente.setCnpj(proprietarioRequestDTO.cnpj());
         proprietarioExistente.setRazaoSocial(proprietarioRequestDTO.razaoSocial());
         proprietarioExistente.setNomeFantasia(proprietarioRequestDTO.nomeFantasia());
-        proprietarioExistente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDate.now());
+        proprietarioExistente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDateTime.now());
 
         proprietarioRepository.save(proprietarioExistente);
     }
@@ -78,10 +79,15 @@ public class ProprietarioService {
 
     public void atualizaSenhaProprietario(UpdatePasswordDTO updatePasswordDTO) {
         var proprietarioExistente = proprietarioRepository.findByUsuarioLogin(updatePasswordDTO.login())
-                .orElseThrow(() -> new ProprietarioNotFoundException("Proprietario não encontrado com o id: " + updatePasswordDTO.login()));
+                .orElseThrow(() -> new ProprietarioNotFoundException("Proprietario não encontrado com o login: " + updatePasswordDTO.login()));
+
+        if (!proprietarioExistente.getCnpj().equals(updatePasswordDTO.cpfCnpj())) {
+            throw new DadoInvalidoException("CNPJ não corresponde ao proprietário.");
+
+        }
 
         proprietarioExistente.getUsuario().setSenha(senhaService.hashSenha(updatePasswordDTO.novaSenha()));
-        proprietarioExistente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDate.now());
+        proprietarioExistente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDateTime.now());
         proprietarioRepository.save(proprietarioExistente);
     }
 

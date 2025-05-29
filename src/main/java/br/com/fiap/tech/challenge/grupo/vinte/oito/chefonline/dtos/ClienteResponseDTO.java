@@ -2,7 +2,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dtos;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entities.Cliente;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record ClienteResponseDTO(
         Long id,
@@ -12,8 +12,8 @@ public record ClienteResponseDTO(
         String login,
         String senha,
         String endereco,
-        LocalDate dataCriacaoRegistro,
-        LocalDate dataUltimaAlteracaoRegistro
+        LocalDateTime dataCriacaoRegistro,
+        LocalDateTime dataUltimaAlteracaoRegistro
 ) {
     public ClienteResponseDTO(Cliente cliente) {
         this(

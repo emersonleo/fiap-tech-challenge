@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -25,7 +26,7 @@ public class Usuario {
 
     @Column(name = "endereco", nullable = false)
     private String endereco;
-    private LocalDate dataUltimaAlteracaoRegistro;
-    private LocalDate dataCriacaoRegistro;
+    private LocalDateTime dataUltimaAlteracaoRegistro;
+    private LocalDateTime dataCriacaoRegistro;
 
 }

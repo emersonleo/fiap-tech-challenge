@@ -2,7 +2,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dtos;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entities.Proprietario;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record ProprietarioResponseDTO(
         Long id,
@@ -14,8 +14,8 @@ public record ProprietarioResponseDTO(
         String endereco,
         String razaoSocial,
         String nomeFantasia,
-        LocalDate dataCriacaoRegistro,
-        LocalDate dataUltimaAlteracaoRegistro
+        LocalDateTime dataCriacaoRegistro,
+        LocalDateTime dataUltimaAlteracaoRegistro
 ) {
     public ProprietarioResponseDTO(Proprietario proprietario) {
         this(

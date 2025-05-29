@@ -6,11 +6,12 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.dtos.UpdatePasswor
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.entities.Cliente;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.repositories.ClienteRepository;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.services.exceptions.ClienteNotFoundException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline.services.exceptions.DadoInvalidoException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,8 +30,9 @@ public class ClienteService {
     public void criaCliente(ClienteRequestDTO clienteRequestDTO) {
         Cliente cliente = new Cliente(clienteRequestDTO);
         cliente.getUsuario().setSenha(senhaService.hashSenha(cliente.getUsuario().getSenha()));
-        cliente.getUsuario().setDataCriacaoRegistro(LocalDate.now());
+        cliente.getUsuario().setDataCriacaoRegistro(LocalDateTime.now());
         clienteRepository.save(cliente);
+
     }
 
     public List<ClienteResponseDTO> buscaTodosClientes(int page, int size) {
@@ -61,7 +63,7 @@ public class ClienteService {
         clienteExistente.getUsuario().setLogin(clienteRequestDTO.login());
         clienteExistente.getUsuario().setSenha(clienteRequestDTO.senha());
         clienteExistente.getUsuario().setEndereco(clienteRequestDTO.endereco());
-        clienteExistente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDate.now());
+        clienteExistente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDateTime.now());
 
         clienteRepository.save(clienteExistente);
     }
@@ -76,14 +78,14 @@ public class ClienteService {
 
     public void atualizaSenha(UpdatePasswordDTO updatePasswordDTO) {
         var cliente = clienteRepository.findByUsuarioLogin(updatePasswordDTO.login())
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o login: " + updatePasswordDTO.login()));
+                .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado com o login: " + updatePasswordDTO.login()));
 
         if (!cliente.getCpf().equals(updatePasswordDTO.cpfCnpj())) {
-            throw new RuntimeException("CPF não corresponde ao cliente.");
+            throw new DadoInvalidoException("CPF não corresponde ao cliente.");
         }
 
         cliente.getUsuario().setSenha(senhaService.hashSenha(updatePasswordDTO.novaSenha()));
-        cliente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDate.now());
+        cliente.getUsuario().setDataUltimaAlteracaoRegistro(LocalDateTime.now());
         clienteRepository.save(cliente);
     }
 
