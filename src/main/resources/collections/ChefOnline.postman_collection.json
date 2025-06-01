@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "0ae2c7f1-1c41-40ba-a6f8-ed788a4246c4",
 		"name": "ChefOnline",
+		"description": "API para unir o cliente ao proprietario do restaurante, realiza operações de cadastro e login. Estamos em constante evolução. Acompanhe nossas coleções para ficar antenado nas próximas atualizações!",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "810020"
 	},
@@ -33,7 +34,8 @@
 								"v1",
 								"clientes"
 							]
-						}
+						},
+						"description": "Cria um novo cliente no sistema."
 					},
 					"response": []
 				},
@@ -62,7 +64,8 @@
 								"clientes",
 								"1"
 							]
-						}
+						},
+						"description": "Busca os detalhes de um cliente específico pelo ID."
 					},
 					"response": []
 				},
@@ -92,7 +95,8 @@
 									"value": "1"
 								}
 							]
-						}
+						},
+						"description": "Retorna a lista de todos os cliente cadastrados."
 					},
 					"response": []
 				},
@@ -113,7 +117,8 @@
 								"clientes",
 								"1"
 							]
-						}
+						},
+						"description": "Busca os detalhes de um cliente específico pelo ID."
 					},
 					"response": []
 				},
@@ -133,7 +138,37 @@
 								"clientes",
 								"1"
 							]
-						}
+						},
+						"description": "Remove um cliente do sistema pelo ID."
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/clientes",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"edesio.dantas\",\n    \"novaSenha\": \"123456\",\n    \"cpfCnpj\": \"85895685471\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/clientes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"clientes"
+							]
+						},
+						"description": "Atualiza a senha de um cliente com base no login e CPF."
 					},
 					"response": []
 				}
@@ -166,7 +201,8 @@
 								"v1",
 								"proprietarios"
 							]
-						}
+						},
+						"description": "Cria um novo proprietário no sistema."
 					},
 					"response": []
 				},
@@ -180,7 +216,12 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Eli Brito\",\n    \"email\": \"eli@teste.com.br\",\n    \"login\": \"eli.brito\",\n    \"senha\": \"!2%3A*\",\n    \"endereco\": \"Av. Caxangá, 1100\",\n    \"cnpj\": \"17.546.021/0001-00\",\n    \"razaoSocial\": \"teste razao social\",\n    \"nomeFantasia\": \"Minha Fantasia é ter este nome rsrs\"\n    \n}"
+							"raw": "{\n    \"nome\": \"Eli Brito\",\n    \"email\": \"eli@teste.com.br\",\n    \"login\": \"eli.brito\",\n    \"senha\": \"!2%3A*\",\n    \"endereco\": \"Av. Caxangá, 1100\",\n    \"cnpj\": \"17.546.021/0001-00\",\n    \"razaoSocial\": \"teste razao social\",\n    \"nomeFantasia\": \"Minha Fantasia é ter este nome rsrs\"\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "localhost:8080/v1/proprietarios?page=0&size=3",
@@ -202,7 +243,8 @@
 									"value": "3"
 								}
 							]
-						}
+						},
+						"description": "Retorna a lista de todos os proprietários cadastrados."
 					},
 					"response": []
 				},
@@ -212,7 +254,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/v1/proprietarios/2",
+							"raw": "localhost:8080/v1/proprietarios/1",
 							"host": [
 								"localhost"
 							],
@@ -220,9 +262,10 @@
 							"path": [
 								"v1",
 								"proprietarios",
-								"2"
+								"1"
 							]
-						}
+						},
+						"description": "Busca os detalhes de um proprietário específico pelo ID."
 					},
 					"response": []
 				},
@@ -251,7 +294,8 @@
 								"proprietarios",
 								"1"
 							]
-						}
+						},
+						"description": "Atualiza as informações de um proprietário existente."
 					},
 					"response": []
 				},
@@ -275,7 +319,104 @@
 								"proprietarios",
 								"1"
 							]
-						}
+						},
+						"description": "Remove um proprietário do sistema pelo ID."
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/proprietarios",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"carlos.sabor\",\n    \"novaSenha\": \"123456\",\n    \"cpfCnpj\": \"12345678000192\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/proprietarios",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"proprietarios"
+							]
+						},
+						"description": "Atualiza a senha de um proprietário com base no login e CNPJ."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "v1/sessao/clientes/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"edesio.dantas\",\n    \"senha\": \"1234567\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/sessao/clientes/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"sessao",
+								"clientes",
+								"login"
+							]
+						},
+						"description": "Realiza sessão de login do cliente"
+					},
+					"response": []
+				},
+				{
+					"name": "v1/sessao/proprietarios/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"carlos.sabor\",\n    \"senha\": \"saborCaseiro!@12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/sessao/proprietarios/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"sessao",
+								"proprietarios",
+								"login"
+							]
+						},
+						"description": "Realiza sessão de login do proprietario"
 					},
 					"response": []
 				}
