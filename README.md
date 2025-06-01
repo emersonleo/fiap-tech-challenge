@@ -49,7 +49,7 @@ A API possui documentação interativa gerada automaticamente com **SpringDoc Op
 
 Para mais detalhes sobre a arquitetura e informações técnicas do projeto, acesse a documentação completa no link abaixo:
 
-[Documentação Técnica](https://docs.google.com/document/d/1hHjojNrJT9MntKMdn3sz_x4ElxcYb3rHqQVvkT_h8yQ/edit?tab=t.0)
+[Documentação Técnica](https://drive.google.com/file/d/1KuWEPYWbWT9UJHHOXqJ8jp62MULUqBfZ/view?usp=sharing)
 
 ### Logging
 - **SLF4J com Logback**: Para registro de logs e monitoramento da aplicação.
