@@ -1,4 +1,4 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.chefonline;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
