@@ -1,20 +1,21 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.proprietario;
 
-public class ProprietarioNotFoundException extends RuntimeException {
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.CoreException;
+import lombok.Getter;
+
+@Getter
+public class ProprietarioNotFoundException extends CoreException {
+    public static final String CODE = "PROPRIETARIO_NOT_FOUND";
 
     private final Long id;
 
     public ProprietarioNotFoundException(String message) {
-        super(message);
+        super(CODE, message);
         this.id = null;
     }
 
     public ProprietarioNotFoundException(Long id) {
-        super("Proprietário não encontrado com o id: " + id);
+        super(CODE, "Proprietário não encontrado com o id: " + id);
         this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 }

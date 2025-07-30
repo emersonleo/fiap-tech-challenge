@@ -1,13 +1,12 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers;
 
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.useCases.proprietario.CriaProprietarioUseCase;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.useCases.proprietario.BuscaTodosProprietariosUseCase;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.useCases.proprietario.BuscaProprietarioPorIdUseCase;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.useCases.proprietario.BuscaProprietarioPorLoginUseCase;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.useCases.proprietario.AtualizaProprietarioUseCase;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.useCases.proprietario.DeletaProprietarioUseCase;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.useCases.proprietario.AtualizaSenhaProprietarioUseCase;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Proprietario;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.proprietario.CriaProprietarioUseCase;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.proprietario.BuscaTodosProprietariosUseCase;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.proprietario.BuscaProprietarioPorIdUseCase;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.proprietario.BuscaProprietarioPorLoginUseCase;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.proprietario.AtualizaProprietarioUseCase;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.proprietario.DeletaProprietarioUseCase;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.proprietario.AtualizaSenhaProprietarioUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.AtualizaProprietarioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.TrocaSenhaDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.ProprietarioDTO;
@@ -31,91 +30,57 @@ public class ProprietarioController {
         var gateway = ProprietarioGateway.create(proprietarioDataSource);
         var criaProprietario = CriaProprietarioUseCase.create(gateway);
 
-        try {
-            var proprietario = criaProprietario.run(novoProprietarioDTO);
-            return ProprietarioPresenter.toDTO(proprietario);
-        } catch (Exception e) {
-            // ...
-            return null;
-        }
+        var proprietario = criaProprietario.run(novoProprietarioDTO);
+        return ProprietarioPresenter.toDTO(proprietario);
     }
 
     public List<ProprietarioDTO> buscaTodosProprietarios(int page, int size) {
         var gateway = ProprietarioGateway.create(proprietarioDataSource);
         var buscaTodosProprietarios = BuscaTodosProprietariosUseCase.create(gateway);
 
-        try {
-            var proprietarios = buscaTodosProprietarios.run(page, size);
-            return proprietarios.stream()
-                    .map(ProprietarioPresenter::toDTO)
-                    .toList();
-        } catch (Exception e) {
-            // ...
-            return Collections.emptyList();
-        }
+        var proprietarios = buscaTodosProprietarios.run(page, size);
+        return proprietarios.stream()
+                .map(ProprietarioPresenter::toDTO)
+                .toList();
     }
 
     public ProprietarioDTO buscaProprietarioPorId(Long id) {
         var gateway = ProprietarioGateway.create(proprietarioDataSource);
         var buscaProprietarioPorId = BuscaProprietarioPorIdUseCase.create(gateway);
 
-        try {
-            var proprietario = buscaProprietarioPorId.run(id);
-            return ProprietarioPresenter.toDTO(proprietario);
-        } catch (Exception e) {
-            // ...
-            return null;
-        }
+        var proprietario = buscaProprietarioPorId.run(id);
+        return ProprietarioPresenter.toDTO(proprietario);
     }
 
     public Optional<ProprietarioDTO> buscaProprietarioPorLogin(String login) {
         var gateway = ProprietarioGateway.create(proprietarioDataSource);
         var buscaProprietarioPorLogin = BuscaProprietarioPorLoginUseCase.create(gateway);
 
-        try {
-            var proprietarioOpt = buscaProprietarioPorLogin.run(login);
-            return proprietarioOpt.map(ProprietarioPresenter::toDTO);
-        } catch (Exception e) {
-            // ...
-            return Optional.empty();
-        }
+        var proprietarioOpt = buscaProprietarioPorLogin.run(login);
+        return proprietarioOpt.map(ProprietarioPresenter::toDTO);
     }
 
     public ProprietarioDTO atualizaProprietario(AtualizaProprietarioDTO atualizaProprietarioDTO, Long id) {
         var gateway = ProprietarioGateway.create(proprietarioDataSource);
         var atualizaProprietario = AtualizaProprietarioUseCase.create(gateway);
 
-        try {
-            var proprietario = atualizaProprietario.run(atualizaProprietarioDTO, id);
-            return ProprietarioPresenter.toDTO(proprietario);
-        } catch (Exception e) {
-            // ...
-            return null;
-        }
+        var proprietario = atualizaProprietario.run(atualizaProprietarioDTO, id);
+        return ProprietarioPresenter.toDTO(proprietario);
     }
 
     public void deletaProprietario(Long id) {
         var gateway = ProprietarioGateway.create(proprietarioDataSource);
         var deletaProprietario = DeletaProprietarioUseCase.create(gateway);
 
-        try {
-            deletaProprietario.run(id);
-        } catch (Exception e) {
-            // ...
-        }
+        deletaProprietario.run(id);
     }
 
     public ProprietarioDTO atualizaSenha(TrocaSenhaDTO trocaSenhaDTO) {
         var gateway = ProprietarioGateway.create(proprietarioDataSource);
         var atualizaSenha = AtualizaSenhaProprietarioUseCase.create(gateway);
 
-        try {
-            var proprietario = atualizaSenha.run(trocaSenhaDTO);
-            return ProprietarioPresenter.toDTO(proprietario);
-        } catch (Exception e) {
-            // ...
-            return null;
-        }
+        var proprietario = atualizaSenha.run(trocaSenhaDTO);
+        return ProprietarioPresenter.toDTO(proprietario);
     }
 
 }

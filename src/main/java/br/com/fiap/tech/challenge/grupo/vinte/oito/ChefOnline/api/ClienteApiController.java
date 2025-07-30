@@ -3,14 +3,19 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.api;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.ClienteController;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.ClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.NovoClienteDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.cliente.ClienteNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.ClienteDataSource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/clientes")
+@Tag(name = "Clientes", description = "API para gerenciamento de clientes")
 public class ClienteApiController {
 
     private final ClienteController clienteController;
@@ -20,38 +25,19 @@ public class ClienteApiController {
     }
 
     @PostMapping
-    public ResponseEntity<?> criarCliente(@RequestBody NovoClienteDTO novoClienteDTO) {
-        try {
-            ClienteDTO clienteCriado = clienteController.criaCliente(novoClienteDTO);
-
-            if (clienteCriado == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Não foi possível criar o cliente. Verifique os dados informados.");
-            }
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(clienteCriado);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao criar cliente: " + e.getMessage());
-        }
+    @Operation(summary = "Criar um novo cliente", description = "Cria um novo cliente no sistema")
+    @ApiResponse(responseCode = "201", description = "Cliente criado com sucesso")
+    public ResponseEntity<ClienteDTO> criarCliente(@Valid @RequestBody NovoClienteDTO novoClienteDTO) {
+        ClienteDTO clienteCriado = clienteController.criaCliente(novoClienteDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteCriado);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarClientePorId(@PathVariable Long id) {
-        try {
-            ClienteDTO cliente = clienteController.buscaClientePorId(id);
-
-            if (cliente == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Cliente não encontrado com o id: " + id);
-            }
-
-            return ResponseEntity.ok(cliente);
-        } catch (ClienteNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao buscar cliente: " + e.getMessage());
-        }
+    @Operation(summary = "Buscar cliente por ID", description = "Busca um cliente específico pelo seu ID")
+    @ApiResponse(responseCode = "200", description = "Cliente encontrado com sucesso")
+    public ResponseEntity<ClienteDTO> buscarClientePorId(
+        @Parameter(description = "ID do cliente", required = true) @PathVariable Long id) {
+        ClienteDTO cliente = clienteController.buscaClientePorId(id);
+        return ResponseEntity.ok(cliente);
     }
 }
