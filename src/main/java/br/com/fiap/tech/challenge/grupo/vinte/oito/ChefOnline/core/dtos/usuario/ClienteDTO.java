@@ -7,7 +7,6 @@ public record ClienteDTO(
         String nome,
         String email,
         String login,
-        String senha,
         String endereco,
         Date dataUltimaAlteracao
 ) {

@@ -7,7 +7,6 @@ public record ProprietarioDTO(
         String nome,
         String email,
         String login,
-        String senha,
         String endereco,
         Date dataUltimaAlteracao
 ) {

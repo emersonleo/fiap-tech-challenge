@@ -10,7 +10,6 @@ public class UsuarioPresenter {
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getLogin(),
-                usuario.getSenha(),
                 usuario.getEndereco(),
                 usuario.getDataUltimaAlteracao()
         );
