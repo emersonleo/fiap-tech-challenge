@@ -8,10 +8,10 @@ import lombok.Setter;
 public class Proprietario extends Usuario {
 
     public Proprietario() {
-        super();
+        super(NomeDoTipo.PROPRIETARIO);
     }
 
     public Proprietario(Long id, String nome, String email, String login, String senha, String endereco) {
-        super(id, nome, email, login, senha, endereco);
+        super(id, nome, email, login, senha, endereco, NomeDoTipo.PROPRIETARIO);
     }
 }

@@ -11,11 +11,11 @@ RUN mvn clean package -DskipTests
 # RUN
 FROM eclipse-temurin:21-jre-alpine
 
-RUN mkdir -p /data/h2db
+RUN mkdir -p /var/log/chefonline
 
 RUN adduser -D -u 1001 chefonline
-RUN chown -R chefonline:chefonline /data/h2db
-RUN chmod 700 /data/h2db
+RUN chown -R chefonline:chefonline /var/log/chefonline
+RUN chmod 700 /var/log/chefonline
 
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar

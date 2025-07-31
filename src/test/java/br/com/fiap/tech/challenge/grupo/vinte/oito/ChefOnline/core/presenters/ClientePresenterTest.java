@@ -3,6 +3,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Cliente;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.ClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters.common.PresenterMasks;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters.usuario.ClientePresenter;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
