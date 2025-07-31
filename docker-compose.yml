@@ -5,13 +5,30 @@ services:
     build: .
     ports:
       - "8080:8080"
-    volumes:
-      - h2-database:/data/h2db
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - mysql
+    volumes:
+      - chefonline-logs:/var/log/chefonline
+
+  mysql:
+    image: mysql:9.4.0
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: chefonline
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql-database:/var/lib/mysql
 
 volumes:
-  h2-database:
+  mysql-database:
+    driver: local
+  chefonline-logs:
     driver: local
