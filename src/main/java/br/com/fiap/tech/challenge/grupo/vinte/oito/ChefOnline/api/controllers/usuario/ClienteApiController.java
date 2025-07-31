@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api/v1/clientes")
 @Tag(name = "Clientes", description = "API para gerenciamento de clientes")
 public class ClienteApiController {
 

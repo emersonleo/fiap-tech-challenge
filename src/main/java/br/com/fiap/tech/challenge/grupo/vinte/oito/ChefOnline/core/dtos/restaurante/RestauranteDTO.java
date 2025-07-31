@@ -3,5 +3,11 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaur
 import java.time.LocalDateTime;
 
 public record RestauranteDTO(
+        Long idRestaurante,
+        String nomeRestaurante,
+        String endereco,
+        String tipoCozinha,
+        String horarioFuncionamento
+
 ) {
 }
