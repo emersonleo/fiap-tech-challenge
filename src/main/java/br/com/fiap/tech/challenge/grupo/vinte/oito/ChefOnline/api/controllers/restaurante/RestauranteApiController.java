@@ -1,6 +1,7 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.api.controllers.restaurante;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.restaurante.RestauranteController;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.AtualizaRestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.NovoRestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.RestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.restaurante.RestauranteDataSource;
@@ -12,9 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,7 +50,7 @@ public class RestauranteApiController {
     @GetMapping
     public ResponseEntity<List<RestauranteDTO>> buscaTodosRestaurantes(
             @RequestParam(value = "page", defaultValue = "1") int page,
-           @RequestParam(value = "size", defaultValue = "10") int size) {
+            @RequestParam(value = "size", defaultValue = "10") int size) {
         logger.info("GET -> /api/v1/restaurantes - Buscando todos os restaurantes, página: {}, tamanho: {}", page, size);
         List<RestauranteDTO> restaurantes = restauranteController.buscaTodosRestaurantes(page, size);
         return ResponseEntity.ok(restaurantes);
@@ -60,6 +63,24 @@ public class RestauranteApiController {
         RestauranteDTO restaurante = restauranteController.buscaRestaurantePorId(id);
         logger.info("Restaurante encontrado com sucesso, ID: {}", restaurante.id());
         return ResponseEntity.ok(restaurante);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizaRestaurante(
+            @Valid @RequestBody AtualizaRestauranteDTO atualizaRestauranteDTO,
+            @PathVariable("id") Long id) {
+        logger.info("PUT -> /api/v1/restaurantes/{} - Atualizando restaurante", id);
+        restauranteController.atualizaRestaurante(atualizaRestauranteDTO, id);
+        logger.info("Restaurante atualizado com sucesso, ID: {}", id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletaRestaurante(@PathVariable("id") Long id) {
+        logger.info("DELETE -> /api/v1/restaurantes/{} - Deletando restaurante", id);
+        restauranteController.deletaRestaurante(id);
+        logger.info("Restaurante deletado com sucesso, ID: {}", id);
+        return ResponseEntity.noContent().build();
     }
 
 }

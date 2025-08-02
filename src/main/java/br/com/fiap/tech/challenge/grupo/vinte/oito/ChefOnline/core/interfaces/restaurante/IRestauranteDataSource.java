@@ -11,4 +11,8 @@ public interface IRestauranteDataSource {
     List<Restaurante> buscaTodosRestaurantes(int page, int size);
 
     Optional<Restaurante> buscaRestaurantePorId(Long id);
+
+    void deletaRestaurante(Restaurante restaurante);
+
+    void atualizaRestaurante(Restaurante restauranteExistente);
 }

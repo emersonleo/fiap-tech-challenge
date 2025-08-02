@@ -33,5 +33,15 @@ public class RestauranteGateway implements IRestauranteGateway {
         return restauranteDataSource.buscaRestaurantePorId(id);
     }
 
+    @Override
+    public void deletaRestaurante(Restaurante restaurante) {
+        restauranteDataSource.deletaRestaurante(restaurante);
+    }
+
+    @Override
+    public void atualizaRestaurante(Restaurante restauranteExistente) {
+        restauranteDataSource.atualizaRestaurante(restauranteExistente);
+    }
+
 
 }

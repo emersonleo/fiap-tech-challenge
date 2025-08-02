@@ -1,9 +1,11 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.restaurante;
 
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.restaurante.Restaurante;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.restaurante.AtualizaRestauranteUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.restaurante.BuscaRestaurantePorIdUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.restaurante.BuscaTodosRestaurantesUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.restaurante.CriaRestauranteUseCase;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.restaurante.DeletaRestauranteUseCase;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.AtualizaRestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.NovoRestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.RestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.gateway.restaurante.RestauranteGateway;
@@ -13,7 +15,6 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.us
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters.restaurante.RestaurantePresenter;
 
 import java.util.List;
-import java.util.Optional;
 
 public class RestauranteController {
     private final IProprietarioDataSource proprietarioDataSource;
@@ -51,4 +52,19 @@ public class RestauranteController {
                 .map(RestaurantePresenter::toDTO)
                 .toList();
     }
+
+    public void atualizaRestaurante(AtualizaRestauranteDTO atualizaRestauranteDTO, Long id) {
+        var restauranteGateway = RestauranteGateway.create(restauranteDataSource);
+        var atualizaRestaurante = AtualizaRestauranteUseCase.create(restauranteGateway);
+
+        atualizaRestaurante.run(atualizaRestauranteDTO, id);
+    }
+
+    public void deletaRestaurante(Long id) {
+        var restauranteGateway = RestauranteGateway.create(restauranteDataSource);
+        var deletaRestaurante = DeletaRestauranteUseCase.create(restauranteGateway);
+
+        deletaRestaurante.run(id);
+    }
+
 }

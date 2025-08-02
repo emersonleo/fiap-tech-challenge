@@ -44,4 +44,23 @@ public class RestauranteDataSource implements IRestauranteDataSource {
         return restauranteEntity.map(RestauranteMapper::toDomain);
     }
 
+    @Override
+    public void deletaRestaurante(Restaurante restaurante) {
+        if (restaurante.getId() != null) {
+            repository.deleteById(restaurante.getId());
+        }
+    }
+
+    @Override
+    public void atualizaRestaurante(Restaurante restaurante) {
+        Optional<RestauranteEntity> restauranteExistente = repository.findById(restaurante.getId());
+
+        if(restauranteExistente.isPresent()){
+            RestauranteEntity entity = restauranteExistente.get();
+            RestauranteMapper.updateEntityFromDomain(entity, restaurante);
+            repository.save(entity);
+        }
+
+    }
+
 }

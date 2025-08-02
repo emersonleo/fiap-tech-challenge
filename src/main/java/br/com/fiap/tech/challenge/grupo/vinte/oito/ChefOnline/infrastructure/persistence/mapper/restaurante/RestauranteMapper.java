@@ -36,4 +36,12 @@ public class RestauranteMapper {
         );
     }
 
+    public static void updateEntityFromDomain(RestauranteEntity entity, Restaurante restaurante) {
+        entity.setNomeRestaurante(restaurante.getNomeRestaurante());
+        entity.setEndereco(restaurante.getEndereco());
+        entity.setTipoCozinha(restaurante.getTipoCozinha());
+        entity.setHorarioFuncionamento(restaurante.getHorarioFuncionamento());
+        entity.setProprietario(ProprietarioMapper.toEntity(restaurante.getProprietario()));
+    }
+
 }
