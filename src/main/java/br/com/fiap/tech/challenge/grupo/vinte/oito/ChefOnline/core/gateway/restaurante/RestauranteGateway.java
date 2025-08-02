@@ -4,6 +4,9 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entiti
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.restaurante.IRestauranteDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.restaurante.IRestauranteGateway;
 
+import java.util.List;
+import java.util.Optional;
+
 public class RestauranteGateway implements IRestauranteGateway {
     private final IRestauranteDataSource restauranteDataSource;
 
@@ -15,9 +18,20 @@ public class RestauranteGateway implements IRestauranteGateway {
         return new RestauranteGateway(restauranteDataSource);
     }
 
-
     @Override
     public Restaurante adicionaRestaurante(Restaurante novoRestaurante) {
         return restauranteDataSource.adicionaRestaurante(novoRestaurante);
     }
+
+    @Override
+    public List<Restaurante> buscaTodosRestaurantes(int page, int size) {
+        return restauranteDataSource.buscaTodosRestaurantes(page, size);
+    }
+
+    @Override
+    public Optional<Restaurante> buscaRestaurantePorId(Long id) {
+        return restauranteDataSource.buscaRestaurantePorId(id);
+    }
+
+
 }

@@ -5,7 +5,12 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.re
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.restaurante.RestauranteEntity;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.mapper.restaurante.RestauranteMapper;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.repository.restaurante.RestauranteJpaRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class RestauranteDataSource implements IRestauranteDataSource {
@@ -16,11 +21,27 @@ public class RestauranteDataSource implements IRestauranteDataSource {
         this.repository = repository;
     }
 
-
     @Override
     public Restaurante adicionaRestaurante(Restaurante novoRestaurante) {
         RestauranteEntity restauranteEntity = RestauranteMapper.toEntity(novoRestaurante);
         RestauranteEntity savedRestauranteEntity = repository.save(restauranteEntity);
         return RestauranteMapper.toDomain(savedRestauranteEntity);
     }
+
+    @Override
+    public List<Restaurante> buscaTodosRestaurantes(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        var pageResult = repository.findAll(pageable);
+        return pageResult.getContent()
+                .stream()
+                .map(RestauranteMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public Optional<Restaurante> buscaRestaurantePorId(Long id) {
+        Optional<RestauranteEntity> restauranteEntity = repository.findById(id);
+        return restauranteEntity.map(RestauranteMapper::toDomain);
+    }
+
 }

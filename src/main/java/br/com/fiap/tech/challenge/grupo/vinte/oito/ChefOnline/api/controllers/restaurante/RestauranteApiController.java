@@ -4,10 +4,8 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.r
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.NovoRestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.RestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.restaurante.RestauranteDataSource;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.ClienteDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.ProprietarioDataSource;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -19,7 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/restaurantes")
@@ -43,10 +44,19 @@ public class RestauranteApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(restauranteCriado);
     }
 
+    @GetMapping
+    public ResponseEntity<List<RestauranteDTO>> buscaTodosRestaurantes(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+           @RequestParam(value = "size", defaultValue = "10") int size) {
+        logger.info("GET -> /api/v1/restaurantes - Buscando todos os restaurantes, página: {}, tamanho: {}", page, size);
+        List<RestauranteDTO> restaurantes = restauranteController.buscaTodosRestaurantes(page, size);
+        return ResponseEntity.ok(restaurantes);
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Buscar restaurante por ID", description = "Busca um restaurante específico pelo seu ID")
     public ResponseEntity<RestauranteDTO> buscaRestaurantePorId(@PathVariable Long id) {
-        logger.info("GET -> /api/restaurantes/{} - Buscando restaurante por ID", id);
+        logger.info("GET -> /api/v1/restaurantes/{} - Buscando restaurante por ID", id);
         RestauranteDTO restaurante = restauranteController.buscaRestaurantePorId(id);
         logger.info("Restaurante encontrado com sucesso, ID: {}", restaurante.id());
         return ResponseEntity.ok(restaurante);
