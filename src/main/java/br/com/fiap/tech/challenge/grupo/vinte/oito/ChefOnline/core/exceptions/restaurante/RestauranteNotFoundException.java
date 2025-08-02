@@ -1,7 +1,9 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.restaurante;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.CoreException;
+import lombok.Getter;
 
+@Getter
 public class RestauranteNotFoundException extends CoreException {
 
     public static final String CODE = "RESTAURANTE_NOT_FOUND";

@@ -1,8 +1,7 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.api.exception;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.exception;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.CoreException;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.util.Map;
