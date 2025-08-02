@@ -4,6 +4,7 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.u
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.ProprietarioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.NovoProprietarioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.ProprietarioDataSource;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.UsuarioDataSource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,8 +21,8 @@ public class ProprietarioApiController {
 
     private final ProprietarioController proprietarioController;
 
-    public ProprietarioApiController(ProprietarioDataSource proprietarioDataSource) {
-        this.proprietarioController = new ProprietarioController(proprietarioDataSource);
+    public ProprietarioApiController(ProprietarioDataSource proprietarioDataSource, UsuarioDataSource usuarioDataSource) {
+        this.proprietarioController = new ProprietarioController(proprietarioDataSource, usuarioDataSource);
     }
 
     @PostMapping

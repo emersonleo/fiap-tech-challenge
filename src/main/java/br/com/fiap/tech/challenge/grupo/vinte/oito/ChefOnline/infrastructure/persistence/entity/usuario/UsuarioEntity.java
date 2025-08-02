@@ -1,5 +1,6 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.usuario;
 
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.NomeDoTipo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,13 +11,11 @@ import java.util.Date;
 
 @Entity
 @Table(name = "usuarios")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo_usuario", discriminatorType = DiscriminatorType.STRING)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class UsuarioEntity {
+public class UsuarioEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +34,9 @@ public abstract class UsuarioEntity {
     private String senha;
     
     private String endereco;
+
+    @Enumerated(EnumType.STRING)
+    private NomeDoTipo tipo;
     
     @Column(name = "data_ultima_alteracao")
     @Temporal(TemporalType.TIMESTAMP)

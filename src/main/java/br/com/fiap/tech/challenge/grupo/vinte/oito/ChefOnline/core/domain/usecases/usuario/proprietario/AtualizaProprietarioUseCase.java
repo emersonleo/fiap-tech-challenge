@@ -3,6 +3,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.useca
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.AtualizaProprietarioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.InternalServerException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IProprietarioGateway;
 
 import java.util.Date;
@@ -29,6 +30,11 @@ public class AtualizaProprietarioUseCase {
         proprietarioExistente.setEndereco(proprietarioRequestDTO.endereco());
         proprietarioExistente.setDataUltimaAlteracao(new Date());
 
-        return proprietarioGateway.atualizaProprietario(proprietarioExistente);
+        try {
+            return proprietarioGateway.atualizaProprietario(proprietarioExistente);
+        } catch (ProprietarioNotFoundException e) {
+            throw new InternalServerException(
+                "Erro interno: Proprietário desapareceu durante atualização (possível race condition)", e);
+        }
     }
 }

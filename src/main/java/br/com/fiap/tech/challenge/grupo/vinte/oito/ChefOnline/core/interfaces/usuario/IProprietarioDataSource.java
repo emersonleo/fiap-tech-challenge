@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface IProprietarioDataSource {
     Proprietario adicionaProprietario(Proprietario novoProprietario);
-    Proprietario buscaProprietarioPorEmail(String email);
+    Optional<Proprietario> buscaProprietarioPorEmail(String email);
     Optional<Proprietario> buscaProprietarioPorId(Long id);
     List<Proprietario> buscaTodosProprietarios(int page, int size);
     Proprietario atualizaProprietario(Proprietario proprietario);

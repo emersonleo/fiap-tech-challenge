@@ -24,7 +24,7 @@ public class ClienteGateway implements IClienteGateway {
     }
 
     @Override
-    public Cliente buscaClientePorEmail(String email) {
+    public Optional<Cliente> buscaClientePorEmail(String email) {
         return clienteDataSource.buscaClientePorEmail(email);
     }
 
