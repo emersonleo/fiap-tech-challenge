@@ -1,0 +1,229 @@
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.api.controllers.swagger;
+
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.AtualizaRestauranteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.NovoRestauranteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.RestauranteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.exception.ErrorResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+
+public interface IRestauranteApiControllerSwagger {
+
+    @Operation(summary = "Cria um novo restaurante", description = "Adiciona um novo restaurante ao sistema")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Restaurante criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Requisição inválida",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
+                                    name = "Exemplo de Erro 400",
+                                    summary = "Exemplo de resposta para erro de validação",
+                                    value = """
+                                            {
+                                                "message": {
+                                                    "nomeRestaurante": "O campo 'nomeRestaurante' deve ser preenchido",
+                                                    "idProprietario": "O campo 'idProprietario' deve ser preenchido"
+                                                },
+                                                "statusCode": 400,
+                                                "error": "BAD_REQUEST"
+                                            }
+                                            """
+                            )
+                    )
+            )
+    })
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Exemplo de payload para criação de restaurante",
+            required = true,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = NovoRestauranteDTO.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
+                            name = "Exemplo de Cliente",
+                            summary = "Exemplo de payload",
+                            value = """
+                                    {
+                                        "nomeRestaurante": "Mania Caseira",
+                                        "endereco": "Av. Conde da Boa Vista, 110",
+                                        "tipoCozinha": "Nordestina",
+                                        "horarioFuncionamento": "11:00 às 22:00",
+                                        "idProprietario": 1,
+                                    }
+                                    """
+                    )
+            )
+    )
+    @PostMapping
+    ResponseEntity<RestauranteDTO> criaRestaurante(@RequestBody NovoRestauranteDTO restaurante);
+
+    @Operation(summary = "Busca todos os restaurantes", description = "Retorna uma lista de restaurantes cadastrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de restaurantes retornada com sucesso", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = NovoRestauranteDTO.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
+                            name = "Exemplo de Lista de Restaurantes",
+                            summary = "Exemplo de resposta para lista de restaurantes",
+                            value = """
+                                    [
+                                        {
+                                            "id": 1,
+                                            "nome": "João Silva",
+                                            "cpf": "12345678901",
+                                            "email": "joao.silva@gmail.com",
+                                            "idade": 30,
+                                            "endereco": "Avenida Caxangá, 123, Recife, PE"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "nome": "Maria Oliveira",
+                                            "cpf": "98765432100",
+                                            "email": "maria.oliveira@gmail.com",
+                                            "idade": 25,
+                                            "endereco": "Rua das Flores, 456, São Paulo, SP"
+                                        }
+                                    ]
+                                    """
+                    )
+            ))
+    })
+    @GetMapping
+    ResponseEntity<List<RestauranteDTO>> buscaTodosRestaurantes(@RequestParam int page, @RequestParam int size);
+
+    @Operation(summary = "Busca um restaurante por ID", description = "Retorna os dados de um restaurante específico pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Restaurante retornado com sucesso", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = RestauranteDTO.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
+                            name = "Exemplo de Cliente",
+                            summary = "Exemplo de resposta para cliente encontrado",
+                            value = """
+                                    {
+                                        "id": 1,
+                                        "nome": "João Silva",
+                                        "cpf": "12345678901",
+                                        "email": "joao.silva@gmail.com",
+                                        "idade": 30,
+                                        "endereco": "Avenida Caxangá, 123, Recife, PE"
+                                    }
+                                    """
+                    )
+            )),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Cliente não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
+                                    name = "Exemplo de Erro 404",
+                                    summary = "Exemplo de resposta para cliente não encontrado",
+                                    value = """
+                                            {
+                                                "message": "Cliente não encontrado com o id: 1",
+                                                "statusCode": 404,
+                                                "error": "NOT_FOUND"
+                                            }
+                                            """
+                            )
+                    )
+            )
+    })
+    @GetMapping("/{id}")
+    ResponseEntity<RestauranteDTO> buscaRestaurantePorId(@PathVariable Long id);
+
+
+    @Operation(summary = "Atualiza um restaurante", description = "Atualiza os dados de um restaurante existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Restaurante atualizado com sucesso"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Restaurante não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
+                                    name = "Exemplo de Erro 404",
+                                    summary = "Exemplo de resposta para cliente não encontrado",
+                                    value = """
+                                            {
+                                                "message": "Cliente não encontrado com o id: 1",
+                                                "statusCode": 404,
+                                                "error": "NOT_FOUND"
+                                            }
+                                            """
+                            )
+                    )
+            )
+    })
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Exemplo de payload para criação de restaurante",
+            required = true,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = RestauranteDTO.class),
+                    examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
+                            name = "Exemplo de Restaurante",
+                            summary = "Exemplo de payload",
+                            value = """
+                                    {
+                                        "nome": "João Silva",
+                                        "cpf": "12345678901",
+                                        "email": "joao.silva@gmail.com",
+                                        "login": "joaosilva",
+                                        "senha": "senhaSegura123",
+                                        "idade": 30,
+                                        "endereco": "Avenida Caxangá, 123, Recife, PE"
+                                    }
+                                    """
+                    )
+            )
+    )
+    @PutMapping("/{id}")
+    ResponseEntity<Void> atualizaRestaurante(@RequestBody AtualizaRestauranteDTO restaurante, @PathVariable("id") Long id);
+
+    @Operation(summary = "Exclui um restaurante", description = "Remove um restaurante do sistema")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Restaurante excluído com sucesso"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Restaurante não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
+                                    name = "Exemplo de Erro 404",
+                                    summary = "Exemplo de resposta para restaurante não encontrado",
+                                    value = """
+                                            {
+                                                "message": "Cliente não encontrado com o id: 1",
+                                                "statusCode": 404,
+                                                "error": "NOT_FOUND"
+                                            }
+                                            """
+                            )
+                    )
+            )
+    })
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> deletaRestaurante(@PathVariable Long id);
+
+}
