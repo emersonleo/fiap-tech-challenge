@@ -1,9 +1,9 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.api.exception;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.CoreException;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.cliente.ClienteJaExisteException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.auth.InvalidAuthException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.usuario.EmailJaCadastrado;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.cliente.ClienteNotFoundException;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioJaExisteException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
@@ -15,10 +15,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Global exception handler for REST API responses.
+ * <p>
+ * HTTP Status Code Guidelines:
+ * - 400 (Bad Request): Malformed requests, missing required fields, invalid JSON format
+ * - 422 (Unprocessable Entity): Well-formed requests that fail business logic validation
+ * - 404 (Not Found): Requested resource does not exist
+ * - 409 (Conflict): Resource already exists or state conflict
+ * - 500 (Internal Server Error): Unexpected server errors
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ApiResponse(responseCode = "400", description = "Dados de entrada inválidos")
+    @ApiResponse(responseCode = "400", description = "Requisição malformada - campos obrigatórios ausentes ou formato inválido")
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         Map<String, String> validationErrors = new HashMap<>();
@@ -26,7 +36,7 @@ public class GlobalExceptionHandler {
             validationErrors.put(error.getField(), error.getDefaultMessage())
         );
         ErrorResponse errorResponse = ErrorResponse.withDetails(
-            "VALIDATION_ERROR", 
+            "MALFORMED_REQUEST",
             "Dados de entrada inválidos", 
             validationErrors, 
             status
@@ -41,10 +51,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(ErrorResponse.fromCoreException(ex, status));
     }
 
-    @ExceptionHandler({ClienteJaExisteException.class, ProprietarioJaExisteException.class})
+    @ExceptionHandler({EmailJaCadastrado.class})
     @ApiResponse(responseCode = "409", description = "Recurso já existe")
     public ResponseEntity<ErrorResponse> handleConflictExceptions(CoreException ex) {
         HttpStatus status = HttpStatus.CONFLICT;
+        return ResponseEntity.status(status).body(ErrorResponse.fromCoreException(ex, status));
+    }
+
+    @ExceptionHandler({InvalidAuthException.class})
+    @ApiResponse(responseCode = "422", description = "Dados processáveis mas inválidos - falha nas regras de negócio ou autenticação")
+    public ResponseEntity<ErrorResponse> handleInvalidExceptions(CoreException ex) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
         return ResponseEntity.status(status).body(ErrorResponse.fromCoreException(ex, status));
     }
 

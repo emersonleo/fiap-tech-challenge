@@ -3,7 +3,9 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.useca
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Cliente;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.AtualizaClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.cliente.ClienteNotFoundException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.InternalServerException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IClienteGateway;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IUsuarioGateway;
 
 import java.util.Date;
 
@@ -29,7 +31,12 @@ public class AtualizaClienteUseCase {
         clienteExistente.setEndereco(clienteRequestDTO.endereco());
         clienteExistente.setDataUltimaAlteracao(new Date());
 
-        return clienteGateway.atualizaCliente(clienteExistente);
+        try {
+            return clienteGateway.atualizaCliente(clienteExistente);
+        } catch (ClienteNotFoundException e) {
+            throw new InternalServerException(
+                "Erro interno: Cliente desapareceu durante atualização (possível race condition)", e);
+        }
     }
     
 }

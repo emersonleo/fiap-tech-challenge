@@ -12,7 +12,9 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.ClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.NovoClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.gateway.usuario.ClienteGateway;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.gateway.usuario.UsuarioGateway;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IClienteDataSource;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IUsuarioDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters.usuario.ClientePresenter;
 
 import java.util.List;
@@ -20,22 +22,25 @@ import java.util.Optional;
 
 public class ClienteController {
     private final IClienteDataSource clienteDataSource;
+    private final IUsuarioDataSource usuarioDataSource;
 
-    public ClienteController(IClienteDataSource clienteDataSource) {
+    public ClienteController(IClienteDataSource clienteDataSource, IUsuarioDataSource usuarioDataSource) {
         this.clienteDataSource = clienteDataSource;
+        this.usuarioDataSource = usuarioDataSource;
     }
 
     public ClienteDTO criaCliente(NovoClienteDTO novoClienteDTO) {
-        var gateway = ClienteGateway.create(clienteDataSource);
-        var criaCliente = CriaClienteUseCase.create(gateway);
+        var clienteGateway = ClienteGateway.create(clienteDataSource);
+        var usuarioGateway = UsuarioGateway.create(usuarioDataSource);
+        var criaCliente = CriaClienteUseCase.create(clienteGateway, usuarioGateway);
 
         var cliente = criaCliente.run(novoClienteDTO);
         return ClientePresenter.toDTO(cliente);
     }
 
     public List<ClienteDTO> buscaTodosClientes(int page, int size) {
-        var gateway = ClienteGateway.create(clienteDataSource);
-        var buscaTodosClientes = BuscaTodosClientesUseCase.create(gateway);
+        var clienteGateway = ClienteGateway.create(clienteDataSource);
+        var buscaTodosClientes = BuscaTodosClientesUseCase.create(clienteGateway);
 
         var clientes = buscaTodosClientes.run(page, size);
         return clientes.stream()
@@ -44,39 +49,39 @@ public class ClienteController {
     }
 
     public ClienteDTO buscaClientePorId(Long id) {
-        var gateway = ClienteGateway.create(clienteDataSource);
-        var buscaClientePorId = BuscaClientePorIdUseCase.create(gateway);
+        var clienteGateway = ClienteGateway.create(clienteDataSource);
+        var buscaClientePorId = BuscaClientePorIdUseCase.create(clienteGateway);
 
         var cliente = buscaClientePorId.run(id);
         return ClientePresenter.toDTO(cliente);
     }
 
     public Optional<ClienteDTO> buscaClientePorLogin(String login) {
-        var gateway = ClienteGateway.create(clienteDataSource);
-        var buscaClientePorLogin = BuscaClientePorLoginUseCase.create(gateway);
+        var clienteGateway = ClienteGateway.create(clienteDataSource);
+        var buscaClientePorLogin = BuscaClientePorLoginUseCase.create(clienteGateway);
 
         var clienteOpt = buscaClientePorLogin.run(login);
         return clienteOpt.map(ClientePresenter::toDTO);
     }
 
     public ClienteDTO atualizaCliente(AtualizaClienteDTO atualizaClienteDTO, Long id) {
-        var gateway = ClienteGateway.create(clienteDataSource);
-        var atualizaCliente = AtualizaClienteUseCase.create(gateway);
+        var clienteGateway = ClienteGateway.create(clienteDataSource);
+        var atualizaCliente = AtualizaClienteUseCase.create(clienteGateway);
 
         var cliente = atualizaCliente.run(atualizaClienteDTO, id);
         return ClientePresenter.toDTO(cliente);
     }
 
     public void deletaCliente(Long id) {
-        var gateway = ClienteGateway.create(clienteDataSource);
-        var deletaCliente = DeletaClienteUseCase.create(gateway);
+        var clienteGateway = ClienteGateway.create(clienteDataSource);
+        var deletaCliente = DeletaClienteUseCase.create(clienteGateway);
 
         deletaCliente.run(id);
     }
 
     public ClienteDTO atualizaSenha(TrocaSenhaDTO trocaSenhaDTO) {
-        var gateway = ClienteGateway.create(clienteDataSource);
-        var atualizaSenha = AtualizaSenhaClienteUseCase.create(gateway);
+        var clienteGateway = ClienteGateway.create(clienteDataSource);
+        var atualizaSenha = AtualizaSenhaClienteUseCase.create(clienteGateway);
 
         var cliente = atualizaSenha.run(trocaSenhaDTO);
         return ClientePresenter.toDTO(cliente);

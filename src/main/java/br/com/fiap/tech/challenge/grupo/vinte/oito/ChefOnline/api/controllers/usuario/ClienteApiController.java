@@ -4,6 +4,7 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.u
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.ClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.NovoClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.ClienteDataSource;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.UsuarioDataSource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,15 +24,15 @@ public class ClienteApiController {
     private final ClienteController clienteController;
     private final Logger logger = LoggerFactory.getLogger(ClienteApiController.class);
 
-    public ClienteApiController(ClienteDataSource clienteDataSource) {
-        this.clienteController = new ClienteController(clienteDataSource);
+    public ClienteApiController(ClienteDataSource clienteDataSource, UsuarioDataSource usuarioDataSource) {
+        this.clienteController = new ClienteController(clienteDataSource, usuarioDataSource);
     }
 
     @PostMapping
     @Operation(summary = "Criar um novo cliente", description = "Cria um novo cliente no sistema")
     @ApiResponse(responseCode = "201", description = "Cliente criado com sucesso")
     public ResponseEntity<ClienteDTO> criarCliente(@Valid @RequestBody NovoClienteDTO novoClienteDTO) {
-        logger.info("POST -> /api/clientes - Criando novo cliente");
+        logger.info("POST -> /api/v1/clientes - Criando novo cliente");
         ClienteDTO clienteCriado = clienteController.criaCliente(novoClienteDTO);
         logger.info("Cliente criado com sucesso, ID: {}", clienteCriado.id());
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteCriado);
@@ -42,7 +43,7 @@ public class ClienteApiController {
     @ApiResponse(responseCode = "200", description = "Cliente encontrado com sucesso")
     public ResponseEntity<ClienteDTO> buscarClientePorId(
         @Parameter(description = "ID do cliente", required = true) @PathVariable Long id) {
-        logger.info("GET -> /api/clientes/{} - Buscando cliente por ID", id);
+        logger.info("GET -> /api/v1/clientes/{} - Buscando cliente por ID", id);
         ClienteDTO cliente = clienteController.buscaClientePorId(id);
         logger.info("Cliente encontrado com sucesso, ID: {}", cliente.id());
         return ResponseEntity.ok(cliente);

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface IClienteDataSource {
     Cliente adicionaCliente(Cliente novoCliente);
-    Cliente buscaClientePorEmail(String email);
+    Optional<Cliente> buscaClientePorEmail(String email);
     Optional<Cliente> buscaClientePorId(Long id);
     List<Cliente> buscaTodosClientes(int page, int size);
     Cliente atualizaCliente(Cliente cliente);

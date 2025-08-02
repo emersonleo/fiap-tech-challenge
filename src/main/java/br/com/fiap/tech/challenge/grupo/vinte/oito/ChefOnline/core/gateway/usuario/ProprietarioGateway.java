@@ -24,7 +24,7 @@ public class ProprietarioGateway implements IProprietarioGateway {
     }
 
     @Override
-    public Proprietario buscaProprietarioPorEmail(String email) {
+    public Optional<Proprietario> buscaProprietarioPorEmail(String email) {
         return proprietarioDataSource.buscaProprietarioPorEmail(email);
     }
 
