@@ -1,8 +1,8 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.api.exception;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.exception;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.CoreException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.auth.InvalidAuthException;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.usuario.EmailJaCadastrado;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.EmailJaCadastrado;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.cliente.ClienteNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

@@ -1,13 +1,21 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.mapper.restaurante;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.restaurante.Restaurante;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.restaurante.RestauranteEntity;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.mapper.usuario.ProprietarioMapper;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.mapper.usuario.UsuarioMapper;
 
 public class RestauranteMapper {
 
     public static Restaurante toDomain(RestauranteEntity restauranteEntity) {
         if (restauranteEntity == null) {
+            return null;
+        }
+
+        var proprietarioUsuario = UsuarioMapper.toDomain(restauranteEntity.getProprietario());
+        var proprietario = proprietarioUsuario instanceof Proprietario p ? p : null;
+
+        if (proprietario == null) {
             return null;
         }
 
@@ -17,7 +25,7 @@ public class RestauranteMapper {
                 restauranteEntity.getEndereco(),
                 restauranteEntity.getTipoCozinha(),
                 restauranteEntity.getHorarioFuncionamento(),
-                ProprietarioMapper.toDomain(restauranteEntity.getProprietario())
+                proprietario
         );
     }
 
@@ -32,7 +40,7 @@ public class RestauranteMapper {
                 novoRestauranteDomain.getEndereco(),
                 novoRestauranteDomain.getTipoCozinha(),
                 novoRestauranteDomain.getHorarioFuncionamento(),
-                ProprietarioMapper.toEntity(novoRestauranteDomain.getProprietario())
+                UsuarioMapper.toEntity(novoRestauranteDomain.getProprietario())
         );
     }
 
@@ -41,7 +49,7 @@ public class RestauranteMapper {
         entity.setEndereco(restaurante.getEndereco());
         entity.setTipoCozinha(restaurante.getTipoCozinha());
         entity.setHorarioFuncionamento(restaurante.getHorarioFuncionamento());
-        entity.setProprietario(ProprietarioMapper.toEntity(restaurante.getProprietario()));
+        entity.setProprietario(UsuarioMapper.toEntity(restaurante.getProprietario()));
     }
 
 }

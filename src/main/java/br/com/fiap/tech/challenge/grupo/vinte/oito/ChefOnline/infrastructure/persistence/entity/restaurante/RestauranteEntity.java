@@ -1,6 +1,5 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.restaurante;
 
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.usuario.ProprietarioEntity;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.usuario.UsuarioEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,6 +41,5 @@ public class RestauranteEntity {
 
     @ManyToOne
     @JoinColumn(name = "proprietario_id", nullable = false)
-    private ProprietarioEntity proprietario;
-
+    private UsuarioEntity proprietario;
 }
