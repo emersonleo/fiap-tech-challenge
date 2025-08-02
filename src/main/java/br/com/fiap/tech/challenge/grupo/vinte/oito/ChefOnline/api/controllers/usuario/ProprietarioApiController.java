@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/proprietarios")
+@RequestMapping("/api/v1/proprietarios")
 @Tag(name = "Proprietários", description = "API para gerenciamento de proprietários")
 public class ProprietarioApiController {
 

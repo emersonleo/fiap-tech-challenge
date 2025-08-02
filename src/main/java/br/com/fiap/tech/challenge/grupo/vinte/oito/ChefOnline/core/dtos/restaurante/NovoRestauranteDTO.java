@@ -1,6 +1,7 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record NovoRestauranteDTO(
         @NotBlank(message = "o nome do restaurante é obrigatório")
@@ -13,7 +14,7 @@ public record NovoRestauranteDTO(
 
         String horarioFuncionamento,
 
-        @NotBlank(message = "o ID do dono do restaurante é obrigatório")
-        Long idDonoRestaurante
+        @NotNull(message = "o ID do proprietario do restaurante é obrigatório")
+        Long idProprietario
 ) {
 }

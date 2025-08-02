@@ -1,13 +1,14 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante;
 
-import java.time.LocalDateTime;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.ProprietarioDTO;
 
 public record RestauranteDTO(
-        Long idRestaurante,
+        Long id,
         String nomeRestaurante,
         String endereco,
         String tipoCozinha,
-        String horarioFuncionamento
+        String horarioFuncionamento,
+        ProprietarioDTO donoRestaurante
 
 ) {
 }

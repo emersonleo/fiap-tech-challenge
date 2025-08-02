@@ -1,37 +1,41 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.restaurante;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.restaurante.Restaurante;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.NovoRestauranteDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.cliente.ClienteNotFoundException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.restaurante.IRestauranteGateway;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IClienteGateway;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IProprietarioGateway;
+
+import java.util.Optional;
 
 public class CriaRestauranteUseCase {
-    final IClienteGateway clienteGateway;
+    final IProprietarioGateway proprietarioGateway;
     final IRestauranteGateway restauranteGateway;
 
-    public CriaRestauranteUseCase(IClienteGateway clienteGateway, IRestauranteGateway restauranteGateway) {
-        this.clienteGateway = clienteGateway;
+    public CriaRestauranteUseCase(IProprietarioGateway proprietarioGateway, IRestauranteGateway restauranteGateway) {
+        this.proprietarioGateway = proprietarioGateway;
         this.restauranteGateway = restauranteGateway;
     }
 
-    public static CriaRestauranteUseCase create(IClienteGateway clienteGateway, IRestauranteGateway restauranteGateway) {
-        return new CriaRestauranteUseCase(clienteGateway, restauranteGateway);
+    public static CriaRestauranteUseCase create(IProprietarioGateway proprietarioGateway, IRestauranteGateway restauranteGateway) {
+        return new CriaRestauranteUseCase(proprietarioGateway, restauranteGateway);
     }
 
     public Restaurante run(NovoRestauranteDTO novoRestauranteDTO) {
-        boolean isExisteCliente = clienteGateway.buscaClientePorId(novoRestauranteDTO.idDonoRestaurante()).isPresent();
+        Optional<Proprietario> proprietario = proprietarioGateway.buscaProprietarioPorId(novoRestauranteDTO.idProprietario());
 
-        if (!isExisteCliente) {
-            throw new ClienteNotFoundException(novoRestauranteDTO.idDonoRestaurante());
+        if (proprietario.isEmpty()) {
+            throw new ProprietarioNotFoundException(novoRestauranteDTO.idProprietario());
         }
 
         final Restaurante novoRestaurante = new Restaurante(
+                null,
                 novoRestauranteDTO.nomeRestaurante(),
                 novoRestauranteDTO.endereco(),
                 novoRestauranteDTO.tipoCozinha(),
                 novoRestauranteDTO.horarioFuncionamento(),
-                novoRestauranteDTO.idDonoRestaurante()
+                proprietario.get()
         );
 
         return restauranteGateway.adicionaRestaurante(novoRestaurante);
