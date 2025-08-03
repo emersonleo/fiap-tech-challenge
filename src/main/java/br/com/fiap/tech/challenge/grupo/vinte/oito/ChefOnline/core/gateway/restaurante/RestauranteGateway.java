@@ -43,5 +43,8 @@ public class RestauranteGateway implements IRestauranteGateway {
         restauranteDataSource.atualizaRestaurante(restauranteExistente);
     }
 
-
+    @Override
+    public void deletaRestaurantePorProprietarioId(Long proprietarioId) {
+        restauranteDataSource.deletaRestaurantePorProprietarioId(proprietarioId);
+    }
 }

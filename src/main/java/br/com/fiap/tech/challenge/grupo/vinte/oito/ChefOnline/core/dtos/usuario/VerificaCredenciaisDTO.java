@@ -1,4 +1,4 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.auth.cliente;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario;
 
 import jakarta.validation.constraints.NotBlank;
 

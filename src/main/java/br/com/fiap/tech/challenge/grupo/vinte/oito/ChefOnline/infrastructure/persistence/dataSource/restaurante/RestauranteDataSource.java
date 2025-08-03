@@ -63,4 +63,8 @@ public class RestauranteDataSource implements IRestauranteDataSource {
 
     }
 
+    @Override
+    public void deletaRestaurantePorProprietarioId(Long proprietarioId) {
+        repository.deleteByProprietarioId(proprietarioId);
+    }
 }

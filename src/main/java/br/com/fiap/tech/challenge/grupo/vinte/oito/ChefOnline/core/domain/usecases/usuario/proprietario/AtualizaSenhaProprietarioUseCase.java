@@ -21,12 +21,10 @@ public class AtualizaSenhaProprietarioUseCase {
         final Proprietario proprietarioExistente = proprietarioGateway.buscaProprietarioPorLogin(trocaSenhaDTO.login())
                 .orElseThrow(() -> ProprietarioNotFoundException.withLogin(trocaSenhaDTO.login()));
 
-        // Verificar se a senha atual está correta
         if (!proprietarioExistente.getSenha().equals(trocaSenhaDTO.senhaAtual())) {
             throw new SenhaIncorretaException("Senha atual incorreta");
         }
 
-        // Atualizar senha
         proprietarioExistente.setSenha(trocaSenhaDTO.novaSenha());
 
         return proprietarioGateway.atualizaProprietario(proprietarioExistente);

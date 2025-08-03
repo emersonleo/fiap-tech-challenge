@@ -1,9 +1,9 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.usuario.cliente;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.usuario.ClienteController;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.AtualizaClienteDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.ClienteDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.NovoClienteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.cliente.AtualizaClienteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.cliente.ClienteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.cliente.NovoClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.TrocaSenhaDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.ClienteDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.UsuarioDataSource;
@@ -96,7 +96,7 @@ public class ClienteApiController {
     public ResponseEntity<ClienteDTO> atualizaSenhaCliente(@Valid @RequestBody TrocaSenhaDTO trocaSenhaDTO) {
         logger.info("PUT -> /api/v1/clientes/senha - Alterando senha do cliente login: {}", trocaSenhaDTO.login());
         ClienteDTO clienteAtualizado = clienteController.atualizaSenha(trocaSenhaDTO);
-        logger.info("Senha alterada com sucesso para cliente ID: {}", clienteAtualizado.id());
+        logger.info("Senha alterada com sucesso para cliente, ID: {}", clienteAtualizado.id());
         return ResponseEntity.ok(clienteAtualizado);
     }
 

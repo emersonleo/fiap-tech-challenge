@@ -1,22 +1,22 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.auth.cliente;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario;
 
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Cliente;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.NomeDoTipo;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Usuario;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.auth.cliente.VerificaCredenciaisDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.auth.cliente.IClienteAuthDataSource;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.VerificaCredenciaisDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.auth.proprietario.IProprietarioAuthDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.repository.usuario.UsuarioJpaRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClienteAuthDataSource implements IClienteAuthDataSource {
+public class ProprietarioAuthDataSource implements IProprietarioAuthDataSource {
     private final UsuarioJpaRepository usuarioJpaRepository;
 
-    private static Cliente safeCastCliente(Usuario usuario) {
-        return usuario instanceof Cliente cliente ? cliente : null;
+    private static Proprietario safeCastProprietario(Usuario usuario) {
+        return usuario instanceof Proprietario proprietario ? proprietario : null;
     }
 
-    public ClienteAuthDataSource(UsuarioJpaRepository usuarioJpaRepository) {
+    public ProprietarioAuthDataSource(UsuarioJpaRepository usuarioJpaRepository) {
         this.usuarioJpaRepository = usuarioJpaRepository;
     }
 
@@ -26,7 +26,7 @@ public class ClienteAuthDataSource implements IClienteAuthDataSource {
                 .findByLoginAndSenhaAndTipo(
                         verificaCredenciaisDTO.login(),
                         verificaCredenciaisDTO.senha(),
-                        NomeDoTipo.CLIENTE
+                        NomeDoTipo.PROPRIETARIO
                 ).isPresent();
     }
 }
