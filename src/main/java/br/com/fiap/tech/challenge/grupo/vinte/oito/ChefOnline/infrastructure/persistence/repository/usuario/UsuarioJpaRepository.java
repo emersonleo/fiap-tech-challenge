@@ -29,5 +29,6 @@ public interface UsuarioJpaRepository extends JpaRepository<UsuarioEntity, Long>
 
     Page<UsuarioEntity> findAllUsuariosByTipo(Pageable pageable, NomeDoTipo tipo);
 
+    @Transactional
     void deleteByIdAndTipo(Long id, NomeDoTipo tipo);
 }
