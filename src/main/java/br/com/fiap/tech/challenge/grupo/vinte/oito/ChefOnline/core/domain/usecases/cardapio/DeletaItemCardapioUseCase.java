@@ -4,15 +4,15 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entiti
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.cardapio.ItemCardapioNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.cardapio.IItemCardapioGateway;
 
-public class RemoveItemCardapioUseCase {
+public class DeletaItemCardapioUseCase {
         final IItemCardapioGateway itemCardapioGateway;
 
-    public RemoveItemCardapioUseCase(IItemCardapioGateway itemCardapioGateway) {
+    public DeletaItemCardapioUseCase(IItemCardapioGateway itemCardapioGateway) {
         this.itemCardapioGateway = itemCardapioGateway;
     }
 
-    public static RemoveItemCardapioUseCase create(IItemCardapioGateway itemCardapioGateway) {
-        return new RemoveItemCardapioUseCase(itemCardapioGateway);
+    public static DeletaItemCardapioUseCase create(IItemCardapioGateway itemCardapioGateway) {
+        return new DeletaItemCardapioUseCase(itemCardapioGateway);
     }
 
     public void run(Long id) {

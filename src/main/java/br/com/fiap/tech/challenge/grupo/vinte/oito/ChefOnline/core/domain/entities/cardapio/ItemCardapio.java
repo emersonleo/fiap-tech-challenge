@@ -1,7 +1,5 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.cardapio;
 
-import java.math.BigDecimal;
-
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.restaurante.Restaurante;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +13,7 @@ public class ItemCardapio {
     private String nome;
     private String descricao;
     private Boolean disponibilidade;
-    private BigDecimal preco;
+    private Double preco;
     private String foto;
     private Restaurante restaurante;
 

@@ -3,7 +3,6 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapi
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.DecimalMin;
-import java.math.BigDecimal;
 
 public record NovoItemCardapioDTO(
 
@@ -16,7 +15,7 @@ public record NovoItemCardapioDTO(
 
     @NotNull(message = "O preço é obrigatório")
     @DecimalMin("0.0")
-    BigDecimal preco,
+    Double preco,
 
     @NotNull(message = "A disponibilidade é obrigatória")
     Boolean disponibilidade,

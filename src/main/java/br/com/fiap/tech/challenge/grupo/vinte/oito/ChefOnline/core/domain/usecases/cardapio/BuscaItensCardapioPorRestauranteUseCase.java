@@ -16,8 +16,8 @@ public class BuscaItensCardapioPorRestauranteUseCase {
         return new BuscaItensCardapioPorRestauranteUseCase(itemCardapioGateway);
     }
 
-    public Optional<ItemCardapio> run(Long id) {
-        return itemCardapioGateway.buscaItensCardapioPorRestaurante(id);
+    public Optional<ItemCardapio> run(Long id, int page, int size) {
+        return itemCardapioGateway.buscaItensCardapioPorRestaurante(id, page, size);
                 
     }
 
