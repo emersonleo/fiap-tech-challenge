@@ -1,9 +1,9 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.auth.cliente;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Cliente;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.NomeDoTipo;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Usuario;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.auth.cliente.VerificaCredenciaisDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.VerificaCredenciaisDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.auth.cliente.IClienteAuthDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.repository.usuario.UsuarioJpaRepository;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ public class ClienteAuthDataSource implements IClienteAuthDataSource {
     @Override
     public boolean verificaCredenciais(VerificaCredenciaisDTO verificaCredenciaisDTO) {
         return usuarioJpaRepository
-                .findByLoginAndSenhaWithTipo(
+                .findByLoginAndSenhaAndTipo(
                         verificaCredenciaisDTO.login(),
                         verificaCredenciaisDTO.senha(),
                         NomeDoTipo.CLIENTE

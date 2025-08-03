@@ -12,6 +12,7 @@ public record NovoRestauranteDTO(
 
         String tipoCozinha,
 
+        @NotBlank(message = "o horário de funcionamento do restaurante é obrigatório")
         String horarioFuncionamento,
 
         @NotNull(message = "o ID do proprietario do restaurante é obrigatório")

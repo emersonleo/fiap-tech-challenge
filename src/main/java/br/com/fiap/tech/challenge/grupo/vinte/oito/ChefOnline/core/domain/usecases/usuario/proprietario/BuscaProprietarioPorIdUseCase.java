@@ -17,6 +17,6 @@ public class BuscaProprietarioPorIdUseCase {
 
     public Proprietario run(Long id) {
         return proprietarioGateway.buscaProprietarioPorId(id)
-                .orElseThrow(() -> new ProprietarioNotFoundException(id));
+                .orElseThrow(() -> ProprietarioNotFoundException.withId(id));
     }
 }

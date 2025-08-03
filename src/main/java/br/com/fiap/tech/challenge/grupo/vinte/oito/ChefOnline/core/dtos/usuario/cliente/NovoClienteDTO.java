@@ -1,9 +1,11 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.cliente;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public record AtualizaProprietarioDTO (
+public record NovoClienteDTO(
+        Long id,
+
         @NotBlank(message = "O nome é obrigatório")
         String nome,
 
@@ -16,6 +18,7 @@ public record AtualizaProprietarioDTO (
 
         @NotBlank(message = "A senha é obrigatória")
         String senha,
+
         String endereco
-){
+) {
 }

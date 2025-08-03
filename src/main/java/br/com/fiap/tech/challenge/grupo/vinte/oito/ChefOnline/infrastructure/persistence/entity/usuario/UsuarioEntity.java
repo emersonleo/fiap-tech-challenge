@@ -42,7 +42,6 @@ public class UsuarioEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataUltimaAlteracao;
     
-    @PrePersist
     @PreUpdate
     protected void updateTimestamp() {
         this.dataUltimaAlteracao = new Date();

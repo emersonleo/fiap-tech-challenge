@@ -1,5 +1,6 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.restaurante;
 
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.swagger.IRestauranteApiControllerSwagger;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.restaurante.RestauranteController;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.AtualizaRestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.NovoRestauranteDTO;
@@ -28,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/restaurantes")
 @Tag(name = "Restaurantes", description = "API para gerenciamento de restaurantes")
-public class RestauranteApiController {
+public class RestauranteApiController implements IRestauranteApiControllerSwagger {
 
     private final Logger logger = LoggerFactory.getLogger(RestauranteApiController.class);
 

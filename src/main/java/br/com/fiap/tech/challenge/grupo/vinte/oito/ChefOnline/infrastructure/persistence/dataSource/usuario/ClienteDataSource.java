@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -36,30 +37,31 @@ public class ClienteDataSource implements IClienteDataSource {
 
     @Override
     public Optional<Cliente> buscaClientePorEmail(String email) {
-        Optional<UsuarioEntity> entity = repository.findByEmailWithTipo(email, NomeDoTipo.CLIENTE);
+        Optional<UsuarioEntity> entity = repository.findByEmailAndTipo(email, NomeDoTipo.CLIENTE);
         return entity.map(UsuarioMapper::toDomain).map(ClienteDataSource::safeCastCliente);
     }
 
     @Override
     public Optional<Cliente> buscaClientePorId(Long id) {
-        Optional<UsuarioEntity> entity = repository.findByIdWithTipo(id, NomeDoTipo.CLIENTE);
+        Optional<UsuarioEntity> entity = repository.findByIdAndTipo(id, NomeDoTipo.CLIENTE);
         return entity.map(UsuarioMapper::toDomain).map(ClienteDataSource::safeCastCliente);
     }
 
     @Override
     public List<Cliente> buscaTodosClientes(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        return repository.findAllUsuariosWithTipo(pageRequest, NomeDoTipo.CLIENTE)
+        return repository.findAllUsuariosByTipo(pageRequest, NomeDoTipo.CLIENTE)
                 .getContent()
                 .stream()
                 .map(UsuarioMapper::toDomain)
                 .map(ClienteDataSource::safeCastCliente)
+                .filter(Objects::nonNull)
                 .toList();
     }
 
     @Override
     public Cliente atualizaCliente(Cliente cliente) {
-        Optional<UsuarioEntity> existingEntity = repository.findByIdWithTipo(cliente.getId(), NomeDoTipo.CLIENTE);
+        Optional<UsuarioEntity> existingEntity = repository.findByIdAndTipo(cliente.getId(), NomeDoTipo.CLIENTE);
 
         if (existingEntity.isPresent()) {
             UsuarioEntity entity = existingEntity.get();
@@ -68,19 +70,19 @@ public class ClienteDataSource implements IClienteDataSource {
             return safeCastCliente(UsuarioMapper.toDomain(savedEntity));
         }
 
-        throw new ClienteNotFoundException(cliente.getId());
+        throw ClienteNotFoundException.withId(cliente.getId());
     }
 
     @Override
     public Optional<Cliente> buscaClientePorLogin(String login) {
-        Optional<UsuarioEntity> entity = repository.findByLoginWithTipo(login, NomeDoTipo.CLIENTE);
+        Optional<UsuarioEntity> entity = repository.findByLoginAndTipo(login, NomeDoTipo.CLIENTE);
         return entity.map(UsuarioMapper::toDomain).map(ClienteDataSource::safeCastCliente);
     }
 
     @Override
     public void deletaCliente(Cliente cliente) {
         if (cliente.getId() != null) {
-            repository.deleteByIdWithTipo(cliente.getId(), NomeDoTipo.CLIENTE);
+            repository.deleteByIdAndTipo(cliente.getId(), NomeDoTipo.CLIENTE);
         }
     }
 }

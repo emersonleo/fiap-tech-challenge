@@ -1,12 +1,10 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.usuario.proprietario;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Proprietario;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.AtualizaProprietarioDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.proprietario.AtualizaProprietarioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.InternalServerException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IProprietarioGateway;
-
-import java.util.Date;
 
 public class AtualizaProprietarioUseCase {
     final IProprietarioGateway proprietarioGateway;
@@ -21,14 +19,12 @@ public class AtualizaProprietarioUseCase {
 
     public Proprietario run(AtualizaProprietarioDTO proprietarioRequestDTO, Long id) {
         final Proprietario proprietarioExistente = proprietarioGateway.buscaProprietarioPorId(id)
-                .orElseThrow(() -> new ProprietarioNotFoundException(id));
+                .orElseThrow(() -> ProprietarioNotFoundException.withId(id));
 
         proprietarioExistente.setNome(proprietarioRequestDTO.nome());
         proprietarioExistente.setEmail(proprietarioRequestDTO.email());
         proprietarioExistente.setLogin(proprietarioRequestDTO.login());
-        proprietarioExistente.setSenha(proprietarioRequestDTO.senha());
         proprietarioExistente.setEndereco(proprietarioRequestDTO.endereco());
-        proprietarioExistente.setDataUltimaAlteracao(new Date());
 
         try {
             return proprietarioGateway.atualizaProprietario(proprietarioExistente);

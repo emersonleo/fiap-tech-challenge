@@ -17,7 +17,7 @@ public class DeletaClienteUseCase {
 
     public void run(Long id) {
         final Cliente clienteExistente = clienteGateway.buscaClientePorId(id)
-                .orElseThrow(() -> new ClienteNotFoundException(id));
+                .orElseThrow(() -> ClienteNotFoundException.withId(id));
 
         clienteGateway.deletaCliente(clienteExistente);
     }

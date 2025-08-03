@@ -7,10 +7,10 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecas
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.usuario.cliente.AtualizaClienteUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.usuario.cliente.DeletaClienteUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.usuario.cliente.AtualizaSenhaClienteUseCase;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.AtualizaClienteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.cliente.AtualizaClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.TrocaSenhaDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.ClienteDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.NovoClienteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.cliente.ClienteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.cliente.NovoClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.gateway.usuario.ClienteGateway;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.gateway.usuario.UsuarioGateway;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IClienteDataSource;
@@ -18,7 +18,6 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.us
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters.usuario.ClientePresenter;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ClienteController {
     private final IClienteDataSource clienteDataSource;
@@ -56,12 +55,12 @@ public class ClienteController {
         return ClientePresenter.toDTO(cliente);
     }
 
-    public Optional<ClienteDTO> buscaClientePorLogin(String login) {
+    public ClienteDTO buscaClientePorLogin(String login) {
         var clienteGateway = ClienteGateway.create(clienteDataSource);
         var buscaClientePorLogin = BuscaClientePorLoginUseCase.create(clienteGateway);
 
-        var clienteOpt = buscaClientePorLogin.run(login);
-        return clienteOpt.map(ClientePresenter::toDTO);
+        var cliente = buscaClientePorLogin.run(login);
+        return ClientePresenter.toDTO(cliente);
     }
 
     public ClienteDTO atualizaCliente(AtualizaClienteDTO atualizaClienteDTO, Long id) {
