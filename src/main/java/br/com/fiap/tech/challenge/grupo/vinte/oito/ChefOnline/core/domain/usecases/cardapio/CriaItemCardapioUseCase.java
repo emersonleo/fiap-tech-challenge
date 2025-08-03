@@ -1,41 +1,46 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.cardapio;
 
+import java.util.Optional;
+
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.cardapio.ItemCardapio;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.ItemCardapioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.NovoItemCardapioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.cardapio.IItemCardapioGateway;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.restaurante.Restaurante;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.restaurante.RestauranteNotFoundException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.restaurante.IRestauranteGateway;
 
 public class CriaItemCardapioUseCase {
 
     private final IItemCardapioGateway itemCardapioGateway;
+    private final IRestauranteGateway restauranteGateway;
 
-    private CriaItemCardapioUseCase(IItemCardapioGateway itemCardapioGateway) {
+    public CriaItemCardapioUseCase(IItemCardapioGateway itemCardapioGateway, IRestauranteGateway restauranteGateway) {
         this.itemCardapioGateway = itemCardapioGateway;
-    }       
-
-    public static CriaItemCardapioUseCase create(IItemCardapioGateway itemCardapio) {
-        return new CriaItemCardapioUseCase(itemCardapio);
+        this.restauranteGateway = restauranteGateway;
     }
+    
+    public static CriaItemCardapioUseCase create(IItemCardapioGateway itemCardapioGateway, IRestauranteGateway restauranteGateway) {
+        return new CriaItemCardapioUseCase(itemCardapioGateway, restauranteGateway);
 
+    }
     public ItemCardapio run(NovoItemCardapioDTO novoItemCardapioDTO) {
         
-        //TODO: melhorar a lógica da busca do item de cardápio
-        // final ItemCardapio checkItemCardapio = itemCardapio.buscaItemCardapio(restauranteId); 
-        // if (checkItemCardapio == null) {
-        //     throw new CardapioJaExisteException(restauranteId);
-        // }
+        Optional<Restaurante> restaurante = restauranteGateway.buscaRestaurantePorId(novoItemCardapioDTO.idRestaurante());
 
-        //TODO: melhorar a lógica de id do restaurante
-        Long restauranteId = novoItemCardapioDTO.id() != null ? novoItemCardapioDTO.id() : 0L;
-        final ItemCardapio novoItem = new ItemCardapio(
-                novoItemCardapioDTO.id(),
+        if (restaurante.isEmpty()) {
+            throw new RestauranteNotFoundException(novoItemCardapioDTO.idRestaurante());
+        }           
+
+        final ItemCardapio novoItemCardapio = new ItemCardapio(
+                null,
                 novoItemCardapioDTO.nome(),
                 novoItemCardapioDTO.descricao(),
+                novoItemCardapioDTO.disponibilidade(), 
                 novoItemCardapioDTO.preco(),
-                novoItemCardapioDTO.disponibilidade(),
-                novoItemCardapioDTO.foto()
+                novoItemCardapioDTO.foto(), 
+                restaurante.get()
         );
 
-        return itemCardapioGateway.adicionaItemCardapio(novoItem, restauranteId);
+        return itemCardapioGateway.adicionaItemCardapio(novoItemCardapio);
     }       
 }

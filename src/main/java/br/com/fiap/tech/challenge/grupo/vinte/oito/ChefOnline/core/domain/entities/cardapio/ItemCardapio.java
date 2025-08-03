@@ -3,10 +3,12 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entit
 import java.math.BigDecimal;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.restaurante.Restaurante;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 @Getter
 @Setter
+@AllArgsConstructor
 public class ItemCardapio {
 
     private Long id;
@@ -17,13 +19,4 @@ public class ItemCardapio {
     private String foto;
     private Restaurante restaurante;
 
-    public ItemCardapio(Long id, String nome, String descricao, BigDecimal preco, Boolean disponibilidade, String foto, Restaurante restaurante) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
-        this.disponibilidade = disponibilidade;
-        this.foto = foto;
-        this.restaurante = restaurante;
-    }
 }

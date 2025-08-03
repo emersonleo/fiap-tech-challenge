@@ -21,7 +21,11 @@ public record NovoItemCardapioDTO(
     @NotNull(message = "A disponibilidade é obrigatória")
     Boolean disponibilidade,
 
-    String foto
+    String foto,
+
+    @NotNull(message = "o ID do restaurante é obrigatório")
+    Long idRestaurante
+
 ) {
 
     public Object restaurante() {

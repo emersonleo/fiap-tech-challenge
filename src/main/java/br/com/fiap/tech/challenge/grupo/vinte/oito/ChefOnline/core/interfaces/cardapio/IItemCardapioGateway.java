@@ -7,10 +7,10 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entiti
 
 
 public interface IItemCardapioGateway {
-    ItemCardapio adicionaItemCardapio(ItemCardapio novoItem, Long restauranteId);
+    ItemCardapio adicionaItemCardapio(ItemCardapio novoItem);
     Optional<ItemCardapio> buscaItemCardapioPorId(Long id);
-    List<ItemCardapio> buscaTodosItemCardapios(int page, int size);
-    List<ItemCardapio> buscaTodosItemCardapiosPorRestaurante(int page, int size, Long restauranteId);
+    Optional<ItemCardapio> buscaTodosItemCardapios(int page, int size);
+    Optional<ItemCardapio> buscaItensCardapioPorRestaurante(Long restauranteId);
     ItemCardapio atualizaItemCardapio(ItemCardapio itemCardapio);
     void deletaItemCardapio(ItemCardapio itemCardapio);
 }

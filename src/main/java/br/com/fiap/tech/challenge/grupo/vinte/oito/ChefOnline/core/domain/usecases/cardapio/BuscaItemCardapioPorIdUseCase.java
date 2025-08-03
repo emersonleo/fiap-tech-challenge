@@ -1,24 +1,24 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.cardapio;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.cardapio.ItemCardapio;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.cardapio.BuscaItemCardapioPorIdUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.cardapio.ItemCardapioNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.cardapio.IItemCardapioGateway;
 
-public class RemoveItemCardapioUseCase {
-        final IItemCardapioGateway itemCardapioGateway;
+public class BuscaItemCardapioPorIdUseCase {
 
-    public RemoveItemCardapioUseCase(IItemCardapioGateway itemCardapioGateway) {
+    final IItemCardapioGateway itemCardapioGateway;
+
+    public BuscaItemCardapioPorIdUseCase(IItemCardapioGateway itemCardapioGateway) {
         this.itemCardapioGateway = itemCardapioGateway;
     }
 
-    public static RemoveItemCardapioUseCase create(IItemCardapioGateway itemCardapioGateway) {
-        return new RemoveItemCardapioUseCase(itemCardapioGateway);
+    public static BuscaItemCardapioPorIdUseCase create(IItemCardapioGateway itemCardapioGateway) {
+        return new BuscaItemCardapioPorIdUseCase(itemCardapioGateway);
     }
 
-    public void run(Long id) {
-        final ItemCardapio itemCardapio = itemCardapioGateway.buscaItemCardapioPorId(id)
+    public ItemCardapio run(Long id) {
+        return itemCardapioGateway.buscaItemCardapioPorId(id)
                 .orElseThrow(() -> new ItemCardapioNotFoundException(id));
-
-        itemCardapioGateway.deletaItemCardapio(itemCardapio);
     }
 }
