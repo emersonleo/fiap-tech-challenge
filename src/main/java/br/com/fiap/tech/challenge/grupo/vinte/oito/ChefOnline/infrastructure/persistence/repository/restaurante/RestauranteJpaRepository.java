@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RestauranteJpaRepository extends JpaRepository<RestauranteEntity, Long> {
-
     Page<RestauranteEntity> findAll(Pageable pageable);
 
+    void deleteByProprietarioId(Long proprietarioId);
 }

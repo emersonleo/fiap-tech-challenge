@@ -1,9 +1,9 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.proprietario;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public record NovoClienteDTO(
+public record NovoProprietarioDTO(
         Long id,
 
         @NotBlank(message = "O nome é obrigatório")

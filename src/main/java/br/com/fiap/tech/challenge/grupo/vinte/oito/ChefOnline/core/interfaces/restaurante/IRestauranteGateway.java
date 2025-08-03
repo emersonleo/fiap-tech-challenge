@@ -15,4 +15,6 @@ public interface IRestauranteGateway {
     void deletaRestaurante(Restaurante restaurante);
 
     void atualizaRestaurante(Restaurante restauranteExistente);
+
+    void deletaRestaurantePorProprietarioId(Long proprietarioId);
 }

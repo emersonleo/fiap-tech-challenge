@@ -10,10 +10,10 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.us
 import java.util.Optional;
 
 public class CriaRestauranteUseCase {
-    final IProprietarioGateway proprietarioGateway;
-    final IRestauranteGateway restauranteGateway;
+    private final IProprietarioGateway proprietarioGateway;
+    private final IRestauranteGateway restauranteGateway;
 
-    public CriaRestauranteUseCase(IProprietarioGateway proprietarioGateway, IRestauranteGateway restauranteGateway) {
+    private CriaRestauranteUseCase(IProprietarioGateway proprietarioGateway, IRestauranteGateway restauranteGateway) {
         this.proprietarioGateway = proprietarioGateway;
         this.restauranteGateway = restauranteGateway;
     }

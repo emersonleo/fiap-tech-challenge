@@ -21,12 +21,10 @@ public class AtualizaSenhaClienteUseCase {
         final Cliente clienteExistente = clienteGateway.buscaClientePorLogin(trocaSenhaDTO.login())
                 .orElseThrow(() -> ClienteNotFoundException.withLogin(trocaSenhaDTO.login()));
 
-        // Verificar se a senha atual está correta
         if (!clienteExistente.getSenha().equals(trocaSenhaDTO.senhaAtual())) {
             throw new SenhaIncorretaException("Senha atual incorreta");
         }
 
-        // Atualizar senha
         clienteExistente.setSenha(trocaSenhaDTO.novaSenha());
 
         return clienteGateway.atualizaCliente(clienteExistente);

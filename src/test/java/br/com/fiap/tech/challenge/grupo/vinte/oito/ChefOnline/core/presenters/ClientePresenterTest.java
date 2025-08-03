@@ -1,7 +1,7 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Cliente;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.ClienteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.cliente.ClienteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters.common.PresenterMasks;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters.usuario.ClientePresenter;
 import org.junit.jupiter.api.Test;
@@ -17,8 +17,7 @@ class ClientePresenterTest {
     @Test
     void shouldConvertClienteToDTO() {
         Date testDate = new Date();
-        Cliente cliente = new Cliente(1L, "João Silva", "joao@email.com", "joao123", "senha123", "Rua A, 123");
-        cliente.setDataUltimaAlteracao(testDate);
+        Cliente cliente = new Cliente(1L, "João Silva", "joao@email.com", "joao123", "senha123", "Rua A, 123", testDate);
 
         try (MockedStatic<PresenterMasks> mockedMasks = mockStatic(PresenterMasks.class)) {
             mockedMasks.when(() -> PresenterMasks.maskEmail("joao@email.com")).thenReturn("masked-email");
@@ -32,7 +31,7 @@ class ClientePresenterTest {
             assertEquals("masked-email", result.email());
             assertEquals("joao123", result.login());
             assertEquals("masked-address", result.endereco());
-            assertEquals(testDate, result.dataUltimaAlteracao());
+            assertNull(result.dataUltimaAlteracao());
         }
     }
 

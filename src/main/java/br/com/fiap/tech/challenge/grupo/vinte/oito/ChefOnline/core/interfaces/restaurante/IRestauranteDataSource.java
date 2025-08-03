@@ -15,4 +15,6 @@ public interface IRestauranteDataSource {
     void deletaRestaurante(Restaurante restaurante);
 
     void atualizaRestaurante(Restaurante restauranteExistente);
+
+    void deletaRestaurantePorProprietarioId(Long proprietarioId);
 }
