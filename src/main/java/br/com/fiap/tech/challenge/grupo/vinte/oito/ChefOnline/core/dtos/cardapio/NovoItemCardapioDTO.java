@@ -2,7 +2,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapi
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Positive;
 
 public record NovoItemCardapioDTO(
 
@@ -13,8 +13,8 @@ public record NovoItemCardapioDTO(
 
     String descricao,
 
-    @NotNull(message = "O preço é obrigatório")
-    @DecimalMin("0.0")
+    @NotNull(message = "Preço é obrigatório")
+    @Positive(message = "Preço deve ser positivo")
     Double preco,
 
     @NotNull(message = "A disponibilidade é obrigatória")
@@ -26,10 +26,5 @@ public record NovoItemCardapioDTO(
     Long idRestaurante
 
 ) {
-
-    public Object restaurante() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'restaurante'");
-    }
     
 }

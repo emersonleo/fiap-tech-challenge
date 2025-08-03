@@ -2,11 +2,15 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.cardapio.AtualizaItemCardapioUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.cardapio.BuscaItemCardapioPorIdUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.cardapio.BuscaItensCardapioPorRestauranteUseCase;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.cardapio.BuscaTodosItensCardapioUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.cardapio.CriaItemCardapioUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.cardapio.DeletaItemCardapioUseCase;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.restaurante.BuscaTodosRestaurantesUseCase;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.AtualizaItemCardapioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.ItemCardapioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.NovoItemCardapioDTO;
@@ -15,7 +19,9 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.gateway.resta
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.cardapio.IItemCardapioDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.restaurante.IRestauranteDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters.cardapio.ItemCardapioPresenter;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.presenters.restaurante.RestaurantePresenter;
 
+@Component
 public class ItemCardapioController {
 
     final IRestauranteDataSource restauranteDataSource;
@@ -48,23 +54,34 @@ public class ItemCardapioController {
         
     }
 
-    public List<ItemCardapioDTO> buscaItensCardapioPorRestaurante(Long idRestaurante, int page, int size) {
+    public List<ItemCardapioDTO> buscaItensCardapioPorRestaurante(Long idRestaurante) {
         var itemCardapioGateway = ItemCardapioGateway.create(itemCardapioDataSource);
 
         var buscaItensCardapioPorRestaurante = BuscaItensCardapioPorRestauranteUseCase.create(itemCardapioGateway);
 
-        return buscaItensCardapioPorRestaurante.run(idRestaurante, page, size)
+        return buscaItensCardapioPorRestaurante.run(idRestaurante)
                 .stream()
                 .map(ItemCardapioPresenter::toDTO)
                 .toList();
     }
 
-    public void atualizaItemCardapio(AtualizaItemCardapioDTO novoItemCardapioDTO) {
+    public List<ItemCardapioDTO> buscaTodosItensCardapio(int page, int size) {
+
+        var itemCardapioGateway = ItemCardapioGateway.create(itemCardapioDataSource);
+        var buscaTodosItensCardapio = BuscaTodosItensCardapioUseCase.create(itemCardapioGateway);
+
+        return buscaTodosItensCardapio.run(page, size)
+                .stream()
+                .map(ItemCardapioPresenter::toDTO)
+                .toList();
+    }   
+
+    public void atualizaItemCardapio(Long id, AtualizaItemCardapioDTO novoItemCardapioDTO) {
         var itemCardapioGateway = ItemCardapioGateway.create(itemCardapioDataSource);
         
         var atualizaItemCardapio = AtualizaItemCardapioUseCase.create(itemCardapioGateway);
 
-        atualizaItemCardapio.run(novoItemCardapioDTO);
+        atualizaItemCardapio.run(id, novoItemCardapioDTO);
     }
 
     public void deletaItemCardapio(Long id) {

@@ -1,5 +1,6 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.cardapio;
 
+import java.util.List;
 import java.util.Optional;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.cardapio.ItemCardapio;
@@ -10,9 +11,9 @@ public interface IItemCardapioGateway {
 
     Optional<ItemCardapio> buscaItemCardapioPorId(Long id);
 
-    Optional<ItemCardapio> buscaTodosItensCardapio(int page, int size);
+    List<ItemCardapio> buscaTodosItensCardapio(int page, int size);
 
-    Optional<ItemCardapio> buscaItensCardapioPorRestaurante(Long restauranteId, int page, int size);
+    List<ItemCardapio> buscaItensCardapioPorRestaurante(Long restauranteId);
 
     void atualizaItemCardapio(ItemCardapio itemCardapio);
 

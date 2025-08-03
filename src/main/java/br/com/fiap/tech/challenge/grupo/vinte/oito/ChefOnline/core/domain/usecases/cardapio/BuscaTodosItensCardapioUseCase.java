@@ -4,19 +4,19 @@ import java.util.List;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.cardapio.ItemCardapio;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.cardapio.IItemCardapioGateway;
 
-public class BuscaItensCardapioPorRestauranteUseCase {
+public class BuscaTodosItensCardapioUseCase {
         final IItemCardapioGateway itemCardapioGateway;
 
-    public BuscaItensCardapioPorRestauranteUseCase(IItemCardapioGateway itemCardapioGateway) {
+    public BuscaTodosItensCardapioUseCase(IItemCardapioGateway itemCardapioGateway) {
         this.itemCardapioGateway = itemCardapioGateway;
     }
 
-    public static BuscaItensCardapioPorRestauranteUseCase create(IItemCardapioGateway itemCardapioGateway) {
-        return new BuscaItensCardapioPorRestauranteUseCase(itemCardapioGateway);
+    public static BuscaTodosItensCardapioUseCase create(IItemCardapioGateway itemCardapioGateway) {
+        return new BuscaTodosItensCardapioUseCase(itemCardapioGateway);
     }
 
-    public List<ItemCardapio> run(Long id) {
-        return itemCardapioGateway.buscaItensCardapioPorRestaurante(id);
+    public List<ItemCardapio> run(int page, int size) {
+        return itemCardapioGateway.buscaTodosItensCardapio(page, size);
                 
     }
 

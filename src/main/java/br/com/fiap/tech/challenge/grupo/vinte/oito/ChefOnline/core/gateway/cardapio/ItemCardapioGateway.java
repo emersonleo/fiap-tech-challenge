@@ -1,11 +1,11 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.gateway.cardapio;
 
+import java.util.List;
 import java.util.Optional;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.cardapio.ItemCardapio;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.cardapio.IItemCardapioDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.cardapio.IItemCardapioGateway;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IProprietarioGateway;
 
 public class ItemCardapioGateway implements IItemCardapioGateway{
     private final IItemCardapioDataSource itemCardapioDataSource;
@@ -26,11 +26,11 @@ public class ItemCardapioGateway implements IItemCardapioGateway{
         return itemCardapioDataSource.buscaItemCardapioPorId(id);
     }
 
-    public Optional<ItemCardapio> buscaTodosItensCardapio(int page, int size) {
+    public List<ItemCardapio> buscaTodosItensCardapio(int page, int size) {
         return itemCardapioDataSource.buscaTodosItensCardapio(page, size);
     }
 
-    public Optional<ItemCardapio> buscaItensCardapioPorRestaurante(Long restauranteId) {
+    public List<ItemCardapio> buscaItensCardapioPorRestaurante(Long restauranteId) {
         return itemCardapioDataSource.buscaItensCardapioPorRestaurante(restauranteId);
     }
 

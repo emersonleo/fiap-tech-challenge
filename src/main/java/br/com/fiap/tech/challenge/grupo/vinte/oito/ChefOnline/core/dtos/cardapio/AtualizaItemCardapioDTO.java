@@ -1,21 +1,18 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio;
 
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public record AtualizaItemCardapioDTO(
-
-    @NotNull(message = "O ID é obrigatório")
-    Long id,
 
     @NotBlank(message = "O nome é obrigatório")
     String nome,
 
     String descricao,
 
-    @NotBlank(message = "O preço é obrigatório")
-    @DecimalMin("0.0")
+    @NotNull(message = "Preço é obrigatório")
+    @Positive(message = "Preço deve ser positivo")
     Double preco,
 
     @NotNull(message = "A disponibilidade é obrigatória")

@@ -45,4 +45,15 @@ public class ItemCardapioMapper {
         );
     }
 
+    public static void updateEntityFromDomain(CardapioEntity entity, ItemCardapio itemCardapio) {
+
+        entity.setId(itemCardapio.getId());
+        entity.setNome(itemCardapio.getNome());
+        entity.setDescricao(itemCardapio.getDescricao());
+        entity.setDisponiblilidade(itemCardapio.getDisponibilidade());
+        entity.setPreco(itemCardapio.getPreco());
+        entity.setFoto(itemCardapio.getFoto());
+        entity.setRestaurante(RestauranteMapper.toEntity(itemCardapio.getRestaurante()));
+    }
+
 }
