@@ -8,6 +8,7 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.us
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.cliente.ClienteNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -72,6 +73,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleInvalidExceptions(CoreException ex) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
         return ResponseEntity.status(status).body(ErrorResponse.fromCoreException(ex, status));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ApiResponse(responseCode = "400", description = "Erro de integridade de dados - violação de restrições de banco de dados")
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        String message = String.format("Erro de integridade de dados: %s", ex.getMostSpecificCause().getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("DATA_INTEGRITY_VIOLATION", message, null, status.value());
+        return ResponseEntity.status(status).body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
