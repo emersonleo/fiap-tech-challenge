@@ -21,7 +21,7 @@ public class AtualizaProprietarioUseCase {
 
     public Proprietario run(AtualizaProprietarioDTO proprietarioRequestDTO, Long id) {
         final Proprietario proprietarioExistente = proprietarioGateway.buscaProprietarioPorId(id)
-                .orElseThrow(() -> new ProprietarioNotFoundException(id));
+                .orElseThrow(() -> ProprietarioNotFoundException.withId(id));
 
         proprietarioExistente.setNome(proprietarioRequestDTO.nome());
         proprietarioExistente.setEmail(proprietarioRequestDTO.email());

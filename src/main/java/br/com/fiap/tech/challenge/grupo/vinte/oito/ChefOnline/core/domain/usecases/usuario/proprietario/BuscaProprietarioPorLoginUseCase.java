@@ -1,9 +1,8 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.usuario.proprietario;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Proprietario;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IProprietarioGateway;
-
-import java.util.Optional;
 
 public class BuscaProprietarioPorLoginUseCase {
     final IProprietarioGateway proprietarioGateway;
@@ -16,7 +15,8 @@ public class BuscaProprietarioPorLoginUseCase {
         return new BuscaProprietarioPorLoginUseCase(proprietarioGateway);
     }
 
-    public Optional<Proprietario> run(String login) {
-        return proprietarioGateway.buscaProprietarioPorLogin(login);
+    public Proprietario run(String login) {
+        return proprietarioGateway.buscaProprietarioPorLogin(login)
+                .orElseThrow(() -> ProprietarioNotFoundException.withLogin(login));
     }
 }

@@ -5,7 +5,6 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.cliente.ClienteNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.InternalServerException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IClienteGateway;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IUsuarioGateway;
 
 import java.util.Date;
 
@@ -22,7 +21,7 @@ public class AtualizaClienteUseCase {
 
     public Cliente run(AtualizaClienteDTO clienteRequestDTO, Long id) {
         final Cliente clienteExistente = clienteGateway.buscaClientePorId(id)
-                .orElseThrow(() -> new ClienteNotFoundException(id));
+                .orElseThrow(() -> ClienteNotFoundException.withId(id));
 
         clienteExistente.setNome(clienteRequestDTO.nome());
         clienteExistente.setEmail(clienteRequestDTO.email());

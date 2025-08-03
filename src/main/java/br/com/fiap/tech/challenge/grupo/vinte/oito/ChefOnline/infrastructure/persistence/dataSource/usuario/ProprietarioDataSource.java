@@ -36,20 +36,20 @@ public class ProprietarioDataSource implements IProprietarioDataSource {
     
     @Override
     public Optional<Proprietario> buscaProprietarioPorEmail(String email) {
-        Optional<UsuarioEntity> entity = repository.findByEmailWithTipo(email, NomeDoTipo.PROPRIETARIO);
+        Optional<UsuarioEntity> entity = repository.findByEmailAndTipo(email, NomeDoTipo.PROPRIETARIO);
         return entity.map(UsuarioMapper::toDomain).map(ProprietarioDataSource::safeCastProprietario);
     }
     
     @Override
     public Optional<Proprietario> buscaProprietarioPorId(Long id) {
-        Optional<UsuarioEntity> entity = repository.findByIdWithTipo(id, NomeDoTipo.PROPRIETARIO);
+        Optional<UsuarioEntity> entity = repository.findByIdAndTipo(id, NomeDoTipo.PROPRIETARIO);
         return entity.map(UsuarioMapper::toDomain).map(ProprietarioDataSource::safeCastProprietario);
     }
     
     @Override
     public List<Proprietario> buscaTodosProprietarios(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        return repository.findAllUsuariosWithTipo(pageRequest, NomeDoTipo.PROPRIETARIO)
+        return repository.findAllUsuariosByTipo(pageRequest, NomeDoTipo.PROPRIETARIO)
                 .getContent()
                 .stream()
                 .map(UsuarioMapper::toDomain)
@@ -59,7 +59,7 @@ public class ProprietarioDataSource implements IProprietarioDataSource {
     
     @Override
     public Proprietario atualizaProprietario(Proprietario proprietario) {
-        Optional<UsuarioEntity> existingEntity = repository.findByIdWithTipo(proprietario.getId(), NomeDoTipo.PROPRIETARIO);
+        Optional<UsuarioEntity> existingEntity = repository.findByIdAndTipo(proprietario.getId(), NomeDoTipo.PROPRIETARIO);
         
         if (existingEntity.isPresent()) {
             UsuarioEntity entity = existingEntity.get();
@@ -68,19 +68,19 @@ public class ProprietarioDataSource implements IProprietarioDataSource {
             return safeCastProprietario(UsuarioMapper.toDomain(savedEntity));
         }
         
-        throw new ProprietarioNotFoundException(proprietario.getId());
+        throw ProprietarioNotFoundException.withId(proprietario.getId());
     }
     
     @Override
     public Optional<Proprietario> buscaProprietarioPorLogin(String login) {
-        Optional<UsuarioEntity> entity = repository.findByLoginWithTipo(login, NomeDoTipo.PROPRIETARIO);
+        Optional<UsuarioEntity> entity = repository.findByLoginAndTipo(login, NomeDoTipo.PROPRIETARIO);
         return entity.map(UsuarioMapper::toDomain).map(ProprietarioDataSource::safeCastProprietario);
     }
     
     @Override
     public void deletaProprietario(Proprietario proprietario) {
         if (proprietario.getId() != null) {
-            repository.deleteByIdWithTipo(proprietario.getId(), NomeDoTipo.PROPRIETARIO);
+            repository.deleteByIdAndTipo(proprietario.getId(), NomeDoTipo.PROPRIETARIO);
         }
     }
 }

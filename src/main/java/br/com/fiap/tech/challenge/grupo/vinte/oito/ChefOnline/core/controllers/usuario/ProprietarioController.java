@@ -57,12 +57,12 @@ public class ProprietarioController {
         return ProprietarioPresenter.toDTO(proprietario);
     }
 
-    public Optional<ProprietarioDTO> buscaProprietarioPorLogin(String login) {
+    public ProprietarioDTO buscaProprietarioPorLogin(String login) {
         var proprietarioGateway = ProprietarioGateway.create(proprietarioDataSource);
         var buscaProprietarioPorLogin = BuscaProprietarioPorLoginUseCase.create(proprietarioGateway);
 
-        var proprietarioOpt = buscaProprietarioPorLogin.run(login);
-        return proprietarioOpt.map(ProprietarioPresenter::toDTO);
+        var proprietario = buscaProprietarioPorLogin.run(login);
+        return ProprietarioPresenter.toDTO(proprietario);
     }
 
     public ProprietarioDTO atualizaProprietario(AtualizaProprietarioDTO atualizaProprietarioDTO, Long id) {

@@ -12,6 +12,6 @@ public class Cliente extends Usuario {
     }
 
     public Cliente(Long id, String nome, String email, String login, String senha, String endereco) {
-        super(id, nome, email, login, senha, endereco, NomeDoTipo.CLIENTE);
+        super(NomeDoTipo.CLIENTE, id, nome, email, login, senha, endereco, null);
     }
 }

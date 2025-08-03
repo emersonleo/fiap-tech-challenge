@@ -3,6 +3,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.useca
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Proprietario;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.TrocaSenhaDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.SenhaIncorretaException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IProprietarioGateway;
 
 public class AtualizaSenhaProprietarioUseCase {
@@ -18,11 +19,11 @@ public class AtualizaSenhaProprietarioUseCase {
 
     public Proprietario run(TrocaSenhaDTO trocaSenhaDTO) {
         final Proprietario proprietarioExistente = proprietarioGateway.buscaProprietarioPorLogin(trocaSenhaDTO.login())
-                .orElseThrow(() -> new ProprietarioNotFoundException("Proprietário não encontrado com login: " + trocaSenhaDTO.login()));
+                .orElseThrow(() -> ProprietarioNotFoundException.withLogin(trocaSenhaDTO.login()));
 
         // Verificar se a senha atual está correta
         if (!proprietarioExistente.getSenha().equals(trocaSenhaDTO.senhaAtual())) {
-            throw new IllegalArgumentException("Senha atual incorreta");
+            throw new SenhaIncorretaException("Senha atual incorreta");
         }
 
         // Atualizar senha
