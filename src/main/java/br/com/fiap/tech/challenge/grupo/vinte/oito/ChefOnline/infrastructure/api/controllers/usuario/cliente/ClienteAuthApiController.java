@@ -1,4 +1,4 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.auth.cliente;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.usuario.cliente;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.auth.cliente.ClienteAuthController;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.auth.cliente.LoginResponseClienteDTO;

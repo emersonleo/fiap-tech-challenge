@@ -17,7 +17,7 @@ public class DeletaProprietarioUseCase {
 
     public void run(Long id) {
         final Proprietario proprietarioExistente = proprietarioGateway.buscaProprietarioPorId(id)
-                .orElseThrow(() -> new ProprietarioNotFoundException(id));
+                .orElseThrow(() -> ProprietarioNotFoundException.withId(id));
 
         proprietarioGateway.deletaProprietario(proprietarioExistente);
     }

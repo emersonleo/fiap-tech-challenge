@@ -26,7 +26,7 @@ public class CriaRestauranteUseCase {
         Optional<Proprietario> proprietario = proprietarioGateway.buscaProprietarioPorId(novoRestauranteDTO.idProprietario());
 
         if (proprietario.isEmpty()) {
-            throw new ProprietarioNotFoundException(novoRestauranteDTO.idProprietario());
+            throw ProprietarioNotFoundException.withId(novoRestauranteDTO.idProprietario());
         }
 
         final Restaurante novoRestaurante = new Restaurante(

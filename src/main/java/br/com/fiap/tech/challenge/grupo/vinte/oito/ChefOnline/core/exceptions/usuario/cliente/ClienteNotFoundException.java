@@ -8,15 +8,20 @@ public class ClienteNotFoundException extends CoreException {
     public static final String CODE = "CLIENTE_NOT_FOUND";
 
     private final Long id;
+    private final String login;
 
-    public ClienteNotFoundException(String message) {
+    private ClienteNotFoundException(String message, Long id, String login) {
         super(CODE, message);
-        this.id = null;
+        this.id = id;
+        this.login = login;
     }
 
-    public ClienteNotFoundException(Long id) {
-        super(CODE, "Cliente não encontrado com o id: " + id);
-        this.id = id;
+    public static ClienteNotFoundException withId(Long id) {
+        return new ClienteNotFoundException("Cliente não encontrado com o id: " + id, id, null);
+    }
+
+    public static ClienteNotFoundException withLogin(String login) {
+        return new ClienteNotFoundException("Cliente não encontrado com o login: " + login, null, login);
     }
 
 }

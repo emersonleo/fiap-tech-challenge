@@ -1,9 +1,8 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecases.usuario.cliente;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Cliente;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.cliente.ClienteNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IClienteGateway;
-
-import java.util.Optional;
 
 public class BuscaClientePorLoginUseCase {
     final IClienteGateway clienteGateway;
@@ -16,7 +15,7 @@ public class BuscaClientePorLoginUseCase {
         return new BuscaClientePorLoginUseCase(clienteGateway);
     }
 
-    public Optional<Cliente> run(String login) {
-        return clienteGateway.buscaClientePorLogin(login);
+    public Cliente run(String login) {
+        return clienteGateway.buscaClientePorLogin(login).orElseThrow(() -> ClienteNotFoundException.withLogin(login));
     }
 }

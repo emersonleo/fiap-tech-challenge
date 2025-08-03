@@ -56,12 +56,12 @@ public class ClienteController {
         return ClientePresenter.toDTO(cliente);
     }
 
-    public Optional<ClienteDTO> buscaClientePorLogin(String login) {
+    public ClienteDTO buscaClientePorLogin(String login) {
         var clienteGateway = ClienteGateway.create(clienteDataSource);
         var buscaClientePorLogin = BuscaClientePorLoginUseCase.create(clienteGateway);
 
-        var clienteOpt = buscaClientePorLogin.run(login);
-        return clienteOpt.map(ClientePresenter::toDTO);
+        var cliente = buscaClientePorLogin.run(login);
+        return ClientePresenter.toDTO(cliente);
     }
 
     public ClienteDTO atualizaCliente(AtualizaClienteDTO atualizaClienteDTO, Long id) {

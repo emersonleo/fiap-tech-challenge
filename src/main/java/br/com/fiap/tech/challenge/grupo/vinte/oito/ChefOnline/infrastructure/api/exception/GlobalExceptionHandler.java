@@ -2,7 +2,9 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.ap
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.CoreException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.auth.InvalidAuthException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.restaurante.RestauranteNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.EmailJaCadastrado;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.SenhaIncorretaException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.cliente.ClienteNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -44,7 +46,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(errorResponse);
     }
 
-    @ExceptionHandler({ClienteNotFoundException.class, ProprietarioNotFoundException.class})
+    @ExceptionHandler({SenhaIncorretaException.class})
+    @ApiResponse(responseCode = "403", description = "Permissão negada")
+    public ResponseEntity<ErrorResponse> handlePermisisonDenied(CoreException ex) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        return ResponseEntity.status(status).body(ErrorResponse.fromCoreException(ex, status));
+    }
+
+    @ExceptionHandler({ClienteNotFoundException.class, ProprietarioNotFoundException.class, RestauranteNotFoundException.class})
     @ApiResponse(responseCode = "404", description = "Recurso não encontrado")
     public ResponseEntity<ErrorResponse> handleNotFoundExceptions(CoreException ex) {
         HttpStatus status = HttpStatus.NOT_FOUND;

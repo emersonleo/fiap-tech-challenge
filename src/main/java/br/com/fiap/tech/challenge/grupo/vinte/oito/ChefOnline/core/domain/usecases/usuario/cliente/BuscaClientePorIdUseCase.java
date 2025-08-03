@@ -17,6 +17,6 @@ public class BuscaClientePorIdUseCase {
 
     public Cliente run(Long id) {
         return clienteGateway.buscaClientePorId(id)
-                .orElseThrow(() -> new ClienteNotFoundException(id));
+                .orElseThrow(() -> ClienteNotFoundException.withId(id));
     }
 }

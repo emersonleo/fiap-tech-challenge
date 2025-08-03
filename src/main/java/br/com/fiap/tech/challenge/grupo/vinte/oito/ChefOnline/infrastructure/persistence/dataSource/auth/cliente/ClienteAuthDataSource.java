@@ -23,7 +23,7 @@ public class ClienteAuthDataSource implements IClienteAuthDataSource {
     @Override
     public boolean verificaCredenciais(VerificaCredenciaisDTO verificaCredenciaisDTO) {
         return usuarioJpaRepository
-                .findByLoginAndSenhaWithTipo(
+                .findByLoginAndSenhaAndTipo(
                         verificaCredenciaisDTO.login(),
                         verificaCredenciaisDTO.senha(),
                         NomeDoTipo.CLIENTE
