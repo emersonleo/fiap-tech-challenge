@@ -23,5 +23,10 @@ public record NovoItemCardapioDTO(
 
     String foto
 ) {
+
+    public Object restaurante() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'restaurante'");
+    }
     
 }
