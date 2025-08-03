@@ -26,9 +26,7 @@ public class AtualizaClienteUseCase {
         clienteExistente.setNome(clienteRequestDTO.nome());
         clienteExistente.setEmail(clienteRequestDTO.email());
         clienteExistente.setLogin(clienteRequestDTO.login());
-        clienteExistente.setSenha(clienteRequestDTO.senha());
         clienteExistente.setEndereco(clienteRequestDTO.endereco());
-        clienteExistente.setDataUltimaAlteracao(new Date());
 
         try {
             return clienteGateway.atualizaCliente(clienteExistente);

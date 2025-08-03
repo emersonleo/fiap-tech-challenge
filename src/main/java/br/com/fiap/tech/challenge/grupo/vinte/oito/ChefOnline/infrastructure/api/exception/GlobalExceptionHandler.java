@@ -4,6 +4,7 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.Co
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.auth.InvalidAuthException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.restaurante.RestauranteNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.EmailJaCadastrado;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.LoginJaCadastrado;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.SenhaIncorretaException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.cliente.ClienteNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
@@ -61,7 +62,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(ErrorResponse.fromCoreException(ex, status));
     }
 
-    @ExceptionHandler({EmailJaCadastrado.class})
+    @ExceptionHandler({EmailJaCadastrado.class, LoginJaCadastrado.class})
     @ApiResponse(responseCode = "409", description = "Recurso já existe")
     public ResponseEntity<ErrorResponse> handleConflictExceptions(CoreException ex) {
         HttpStatus status = HttpStatus.CONFLICT;
