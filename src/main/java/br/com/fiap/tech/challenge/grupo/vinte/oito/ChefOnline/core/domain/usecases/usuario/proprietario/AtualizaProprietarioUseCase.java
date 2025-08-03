@@ -26,9 +26,7 @@ public class AtualizaProprietarioUseCase {
         proprietarioExistente.setNome(proprietarioRequestDTO.nome());
         proprietarioExistente.setEmail(proprietarioRequestDTO.email());
         proprietarioExistente.setLogin(proprietarioRequestDTO.login());
-        proprietarioExistente.setSenha(proprietarioRequestDTO.senha());
         proprietarioExistente.setEndereco(proprietarioRequestDTO.endereco());
-        proprietarioExistente.setDataUltimaAlteracao(new Date());
 
         try {
             return proprietarioGateway.atualizaProprietario(proprietarioExistente);

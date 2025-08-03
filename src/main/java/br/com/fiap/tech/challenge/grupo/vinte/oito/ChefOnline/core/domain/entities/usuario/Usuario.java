@@ -10,7 +10,6 @@ import java.util.Date;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @AllArgsConstructor
 public abstract class Usuario {
     private final NomeDoTipo tipo;
@@ -20,6 +19,6 @@ public abstract class Usuario {
     private String login;
     private String senha;
     private String endereco;
-    private Date dataUltimaAlteracao;
+    private final Date dataUltimaAlteracao;
 }
 

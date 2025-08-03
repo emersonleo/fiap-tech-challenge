@@ -19,7 +19,8 @@ public class UsuarioMapper {
                     entity.getEmail(),
                     entity.getLogin(),
                     entity.getSenha(),
-                    entity.getEndereco()
+                    entity.getEndereco(),
+                    entity.getDataUltimaAlteracao()
             );
             case PROPRIETARIO -> new Proprietario(
                     entity.getId(),
@@ -27,7 +28,8 @@ public class UsuarioMapper {
                     entity.getEmail(),
                     entity.getLogin(),
                     entity.getSenha(),
-                    entity.getEndereco()
+                    entity.getEndereco(),
+                    entity.getDataUltimaAlteracao()
             );
         };
     }
