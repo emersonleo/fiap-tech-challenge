@@ -83,23 +83,37 @@ public interface IRestauranteApiControllerSwagger {
                             summary = "Exemplo de resposta para lista de restaurantes",
                             value = """
                                     [
-                                        {
-                                            "id": 1,
-                                            "nome": "João Silva",
-                                            "cpf": "12345678901",
-                                            "email": "joao.silva@gmail.com",
-                                            "idade": 30,
-                                            "endereco": "Avenida Caxangá, 123, Recife, PE"
-                                        },
-                                        {
-                                            "id": 2,
-                                            "nome": "Maria Oliveira",
-                                            "cpf": "98765432100",
-                                            "email": "maria.oliveira@gmail.com",
-                                            "idade": 25,
-                                            "endereco": "Rua das Flores, 456, São Paulo, SP"
-                                        }
-                                    ]
+                                         {
+                                             "id": 1,
+                                             "nomeRestaurante": "Mania Caseira",
+                                             "endereco": "Av. Conde da Boa Vista, 110",
+                                             "tipoCozinha": "Nordestina",
+                                             "horarioFuncionamento": "11:00 às 22:00",
+                                             "donoRestaurante": {
+                                                 "id": 1,
+                                                 "nome": "Carlos Souza",
+                                                 "email": "carlos.souza@maniacaseira.com",
+                                                 "login": "carlos_maniacaseira",
+                                                 "endereco": "Rua das Flores, 123",
+                                                 "dataUltimaAlteracao": null
+                                             }
+                                         },
+                                         {
+                                             "id": 2,
+                                             "nomeRestaurante": "Tradição Grill",
+                                             "endereco": "Av. Doutor Belmino Correia, 67",
+                                             "tipoCozinha": "Nordestina",
+                                             "horarioFuncionamento": "11:00 às 23:00",
+                                             "donoRestaurante": {
+                                                 "id": 2,
+                                                 "nome": "Adriano Santana",
+                                                 "email": "adriano.santana@tradicao.com",
+                                                 "login": "adriano.donotradicao",
+                                                 "endereco": "Rua Tambiar, 34",
+                                                 "dataUltimaAlteracao": null
+                                             }
+                                         }
+                                     ]
                                     """
                     )
             ))
@@ -113,34 +127,41 @@ public interface IRestauranteApiControllerSwagger {
                     mediaType = "application/json",
                     schema = @Schema(implementation = RestauranteDTO.class),
                     examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
-                            name = "Exemplo de Cliente",
-                            summary = "Exemplo de resposta para cliente encontrado",
+                            name = "Exemplo de Restaurantes",
+                            summary = "Exemplo de resposta para restaurante encontrado",
                             value = """
                                     {
-                                        "id": 1,
-                                        "nome": "João Silva",
-                                        "cpf": "12345678901",
-                                        "email": "joao.silva@gmail.com",
-                                        "idade": 30,
-                                        "endereco": "Avenida Caxangá, 123, Recife, PE"
-                                    }
+                                             "id": 2,
+                                             "nomeRestaurante": "Tradição Grill",
+                                             "endereco": "Av. Doutor Belmino Correia, 67",
+                                             "tipoCozinha": "Nordestina",
+                                             "horarioFuncionamento": "11:00 às 23:00",
+                                             "donoRestaurante": {
+                                                 "id": 2,
+                                                 "nome": "Adriano Santana",
+                                                 "email": "adriano.santana@tradicao.com",
+                                                 "login": "adriano.donotradicao",
+                                                 "endereco": "Rua Tambiar, 34",
+                                                 "dataUltimaAlteracao": null
+                                             }
+                                         }
                                     """
                     )
             )),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Cliente não encontrado",
+                    description = "Restaurante não encontrado",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class),
                             examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
                                     name = "Exemplo de Erro 404",
-                                    summary = "Exemplo de resposta para cliente não encontrado",
+                                    summary = "Exemplo de resposta para restaurante não encontrado",
                                     value = """
                                             {
-                                                "message": "Cliente não encontrado com o id: 1",
-                                                "statusCode": 404,
-                                                "error": "NOT_FOUND"
+                                                "code": "RESTAURANTE_NOT_FOUND",
+                                                "message": "Restaurante não encontrado com o id: 4",
+                                                "status": 404
                                             }
                                             """
                             )
@@ -162,12 +183,12 @@ public interface IRestauranteApiControllerSwagger {
                             schema = @Schema(implementation = ErrorResponse.class),
                             examples = @io.swagger.v3.oas.annotations.media.ExampleObject(
                                     name = "Exemplo de Erro 404",
-                                    summary = "Exemplo de resposta para cliente não encontrado",
+                                    summary = "Exemplo de resposta para restaurante não encontrado",
                                     value = """
                                             {
-                                                "message": "Cliente não encontrado com o id: 1",
-                                                "statusCode": 404,
-                                                "error": "NOT_FOUND"
+                                                "code": "RESTAURANTE_NOT_FOUND",
+                                                "message": "Restaurante não encontrado com o id: 10",
+                                                "status": 404
                                             }
                                             """
                             )
@@ -175,7 +196,7 @@ public interface IRestauranteApiControllerSwagger {
             )
     })
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "Exemplo de payload para criação de restaurante",
+            description = "Exemplo de payload para atualização de restaurante",
             required = true,
             content = @Content(
                     mediaType = "application/json",
@@ -185,13 +206,11 @@ public interface IRestauranteApiControllerSwagger {
                             summary = "Exemplo de payload",
                             value = """
                                     {
-                                        "nome": "João Silva",
-                                        "cpf": "12345678901",
-                                        "email": "joao.silva@gmail.com",
-                                        "login": "joaosilva",
-                                        "senha": "senhaSegura123",
-                                        "idade": 30,
-                                        "endereco": "Avenida Caxangá, 123, Recife, PE"
+                                        "nomeRestaurante": "Mania Caseira ALTERADO",
+                                        "endereco": "Av. Conde da Boa Vista, 110",
+                                        "tipoCozinha": "Nordestina",
+                                        "horarioFuncionamento": "11:00 às 22:00",
+                                        "idProprietario": 1
                                     }
                                     """
                     )
@@ -214,9 +233,9 @@ public interface IRestauranteApiControllerSwagger {
                                     summary = "Exemplo de resposta para restaurante não encontrado",
                                     value = """
                                             {
-                                                "message": "Cliente não encontrado com o id: 1",
-                                                "statusCode": 404,
-                                                "error": "NOT_FOUND"
+                                                "code": "RESTAURANTE_NOT_FOUND",
+                                                "message": "Restaurante não encontrado com o id: 10",
+                                                "status": 404
                                             }
                                             """
                             )
