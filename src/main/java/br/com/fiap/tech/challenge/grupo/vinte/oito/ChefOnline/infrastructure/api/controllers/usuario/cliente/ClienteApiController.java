@@ -8,10 +8,7 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.swagger.IClienteApiControllerSwagger;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.ClienteDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.UsuarioDataSource;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +28,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/clientes")
-@Tag(name = "Clientes", description = "API para gerenciamento de clientes")
 public class ClienteApiController implements IClienteApiControllerSwagger {
 
     private final ClienteController clienteController;

@@ -29,7 +29,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/proprietarios")
-@Tag(name = "Proprietários", description = "API para gerenciamento de proprietários")
 public class ProprietarioApiController implements IProprietarioApiControllerSwagger {
 
     private final ProprietarioController proprietarioController;

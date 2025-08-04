@@ -1,11 +1,11 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.cardapio;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.cardapio.ItemCardapioController;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.AtualizaItemCardapioDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.ItemCardapioDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.NovoItemCardapioDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.swagger.IItemCardapioApiControllerSwagger;
 import jakarta.validation.Valid;
-
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,16 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.cardapio.ItemCardapioController;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.AtualizaItemCardapioDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.ItemCardapioDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.NovoItemCardapioDTO;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/cardapios")
-@Tag(name = "Itens do Cardápio", description = "API para gerenciamento dos itens do cardápio de um restaurante")
-public class ItemCardapioApiController {
-    
+public class ItemCardapioApiController implements IItemCardapioApiControllerSwagger {
+
     private final Logger logger = LoggerFactory.getLogger(ItemCardapioApiController.class);
 
     private final ItemCardapioController itemCardapioController;
@@ -37,9 +33,9 @@ public class ItemCardapioApiController {
     public ItemCardapioApiController(ItemCardapioController itemCardapioController) {
         this.itemCardapioController = itemCardapioController;
     }
-    
+
+    @Override
     @PostMapping
-    @Operation(summary = "Adiciona um item no cardapio", description = "Adiciona um item no cardapio de um restaurante")
     public ResponseEntity<ItemCardapioDTO> criarItemCardapio(
             @Valid @RequestBody NovoItemCardapioDTO novoItemCardapioDTO) {
 
@@ -51,6 +47,7 @@ public class ItemCardapioApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoItem);
     }
 
+    @Override
     @GetMapping
     public ResponseEntity<List<ItemCardapioDTO>> buscarTodosItensCardapio(
             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -69,21 +66,21 @@ public class ItemCardapioApiController {
     }
 
     @GetMapping("/{itemId}")
-    @Operation(summary = "Buscar item do cardápio por ID", description = "Busca um item específico do cardápio pelo seu ID")
-    public ResponseEntity<?> buscarItemCardapioPorId(
+    public ResponseEntity<ItemCardapioDTO> buscarItemCardapioPorId(
             @PathVariable Long itemId) {
 
         logger.info("GET -> /api/v1/cardapio/{} - Buscando item do cardápio por ID", itemId);
-        Object item = itemCardapioController.buscaItemCardapioPorId(itemId);
+        ItemCardapioDTO item = itemCardapioController.buscaItemCardapioPorId(itemId);
 
         logger.info("Item do cardápio encontrado com sucesso, ID: {}", itemId);
         return ResponseEntity.ok(item);
     }
 
+    @Override
     @PutMapping("/{itemId}")
     public ResponseEntity<Void> atualizarItemCardapio(
-            @PathVariable Long itemId,
-            @Valid @RequestBody AtualizaItemCardapioDTO atualizaItemCardapioDTO) {
+            @Valid @RequestBody AtualizaItemCardapioDTO atualizaItemCardapioDTO,
+            @PathVariable Long itemId) {
 
         logger.info("PUT -> /api/v1/cardapio/- Atualizando item {} do cardápio", itemId);
         itemCardapioController.atualizaItemCardapio(itemId, atualizaItemCardapioDTO);
@@ -91,6 +88,7 @@ public class ItemCardapioApiController {
         return ResponseEntity.ok().build();
     }
 
+    @Override
     @DeleteMapping("/{itemId}")
     public ResponseEntity<Void> deletarItemCardapio(
             @PathVariable("itemId") Long itemId) {
