@@ -38,7 +38,6 @@ public class ItemCardapioApiController {
         this.itemCardapioController = itemCardapioController;
     }
     
-    // Adiciona um item ao cardápio de um restaurante
     @PostMapping
     @Operation(summary = "Adiciona um item no cardapio", description = "Adiciona um item no cardapio de um restaurante")
     public ResponseEntity<ItemCardapioDTO> criarItemCardapio(
@@ -52,7 +51,6 @@ public class ItemCardapioApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoItem);
     }
 
-    // Busca todos os itens de cardapio
     @GetMapping
     public ResponseEntity<List<ItemCardapioDTO>> buscarTodosItensCardapio(
             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -62,7 +60,6 @@ public class ItemCardapioApiController {
         return ResponseEntity.ok(itens);
     }
 
-    // Busca todos os itens do cardápio de um restaurante
     @GetMapping("/restaurante/{restauranteId}")
     public ResponseEntity<List<ItemCardapioDTO>> buscarTodosItensCardapioRestaurante(
             @PathVariable Long restauranteId) {
@@ -71,7 +68,6 @@ public class ItemCardapioApiController {
         return ResponseEntity.ok(itens);
     }
 
-    // Busca um item específico do cardápio de um restaurante
     @GetMapping("/{itemId}")
     @Operation(summary = "Buscar item do cardápio por ID", description = "Busca um item específico do cardápio pelo seu ID")
     public ResponseEntity<?> buscarItemCardapioPorId(
@@ -84,7 +80,6 @@ public class ItemCardapioApiController {
         return ResponseEntity.ok(item);
     }
 
-    // Atualiza um item do cardápio de um restaurante
     @PutMapping("/{itemId}")
     public ResponseEntity<Void> atualizarItemCardapio(
             @PathVariable Long itemId,
@@ -96,7 +91,6 @@ public class ItemCardapioApiController {
         return ResponseEntity.ok().build();
     }
 
-    // Remove um item do cardápio de um restaurante
     @DeleteMapping("/{itemId}")
     public ResponseEntity<Void> deletarItemCardapio(
             @PathVariable("itemId") Long itemId) {
@@ -107,6 +101,5 @@ public class ItemCardapioApiController {
         logger.info("Item do cardápio deletado com sucesso, ID: {}", itemId);
         return ResponseEntity.noContent().build();
     }
-
 
 }
