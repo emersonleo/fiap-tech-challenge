@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.cardapio.ItemCardapio;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.cardapio.IItemCardapioDataSource;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.cardapio.CardapioEntity;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.cardapio.ItemCardapioEntity;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.mapper.cardapio.ItemCardapioMapper;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.repository.cardapio.ItemCardapioJpaRepository;
 
@@ -31,8 +31,8 @@ public class ItemCardapioDataSource implements IItemCardapioDataSource{
 
     @Override
     public Optional<ItemCardapio> buscaItemCardapioPorId(Long id) {
-        Optional<CardapioEntity> cardapioEntity = repository.findById(id);
-        return cardapioEntity.map(ItemCardapioMapper::toDomain);
+        Optional<ItemCardapioEntity> itemCardapioEntity = repository.findById(id);
+        return itemCardapioEntity.map(ItemCardapioMapper::toDomain);
     }
 
     @Override
@@ -47,18 +47,18 @@ public class ItemCardapioDataSource implements IItemCardapioDataSource{
 
     @Override
     public List<ItemCardapio> buscaItensCardapioPorRestaurante(Long restauranteId) {
-        List<CardapioEntity> cardapioEntity = repository.findAllByRestauranteId(restauranteId);
-            return cardapioEntity.stream() 
+        List<ItemCardapioEntity> itemCardapioEntity = repository.findAllByRestauranteId(restauranteId);
+            return itemCardapioEntity.stream() 
             .map(ItemCardapioMapper::toDomain)
             .toList();  
     }
 
     @Override
     public void atualizaItemCardapio(ItemCardapio itemCardapio) {
-        Optional<CardapioEntity> itemCardapioExistente = repository.findById(itemCardapio.getId());
+        Optional<ItemCardapioEntity> itemCardapioExistente = repository.findById(itemCardapio.getId());
 
         if(itemCardapioExistente.isPresent()){
-            CardapioEntity entity = itemCardapioExistente.get();
+            ItemCardapioEntity entity = itemCardapioExistente.get();
             ItemCardapioMapper.updateEntityFromDomain(entity, itemCardapio);
             repository.save(entity);
         }

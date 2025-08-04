@@ -2,11 +2,11 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.pe
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.cardapio.ItemCardapio;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.restaurante.Restaurante;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.cardapio.CardapioEntity;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.cardapio.ItemCardapioEntity;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.mapper.restaurante.RestauranteMapper;
 
 public class ItemCardapioMapper {
-    public static ItemCardapio toDomain(CardapioEntity itemCardapioEntity) {
+    public static ItemCardapio toDomain(ItemCardapioEntity itemCardapioEntity) {
         if (itemCardapioEntity == null) {
             return null;
         }
@@ -29,12 +29,12 @@ public class ItemCardapioMapper {
         );
     }
 
-    public static CardapioEntity toEntity(ItemCardapio itemCardapioDomain) {
+    public static ItemCardapioEntity toEntity(ItemCardapio itemCardapioDomain) {
         if (itemCardapioDomain == null) {
             return null;
         }
 
-        return new CardapioEntity(
+        return new ItemCardapioEntity(
                 itemCardapioDomain.getId(),
                 itemCardapioDomain.getNome(),
                 itemCardapioDomain.getDescricao(),
@@ -45,7 +45,7 @@ public class ItemCardapioMapper {
         );
     }
 
-    public static void updateEntityFromDomain(CardapioEntity entity, ItemCardapio itemCardapio) {
+    public static void updateEntityFromDomain(ItemCardapioEntity entity, ItemCardapio itemCardapio) {
 
         entity.setId(itemCardapio.getId());
         entity.setNome(itemCardapio.getNome());

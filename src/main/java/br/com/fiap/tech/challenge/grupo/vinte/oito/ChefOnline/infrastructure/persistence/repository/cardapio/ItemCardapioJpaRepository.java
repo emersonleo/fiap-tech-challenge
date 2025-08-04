@@ -7,13 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.cardapio.CardapioEntity;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.cardapio.ItemCardapioEntity;
 
 @Repository
-public interface ItemCardapioJpaRepository extends JpaRepository<CardapioEntity, Long> {
+public interface ItemCardapioJpaRepository extends JpaRepository<ItemCardapioEntity, Long> {
 
-    Page<CardapioEntity> findAll(Pageable pageable);
+    Page<ItemCardapioEntity> findAll(Pageable pageable);
 
-    List<CardapioEntity> findAllByRestauranteId(Long restauranteId);
+    List<ItemCardapioEntity> findAllByRestauranteId(Long restauranteId);
     
 }
