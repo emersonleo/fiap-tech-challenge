@@ -1,8 +1,13 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.RestauranteDTO;
 
 public record ItemCardapioDTO(
+    Long id,
+    String nome,
+    String descricao,
+    Double preco,
+    Boolean disponibilidade,
+    String foto,
+    RestauranteDTO restaurante
 ) {
 }
