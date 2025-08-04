@@ -2,6 +2,7 @@ package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.ap
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.CoreException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.auth.InvalidAuthException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.cardapio.ItemCardapioNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.restaurante.RestauranteNotFoundException;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.EmailJaCadastrado;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.LoginJaCadastrado;
@@ -13,9 +14,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -95,7 +96,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(ErrorResponse.fromCoreException(ex, status));
     }
 
-    @ExceptionHandler({ClienteNotFoundException.class, ProprietarioNotFoundException.class, RestauranteNotFoundException.class})
+    @ExceptionHandler({ClienteNotFoundException.class, ProprietarioNotFoundException.class, RestauranteNotFoundException.class, ItemCardapioNotFoundException.class})
     @ApiResponse(responseCode = "404", description = "Recurso não encontrado")
     public ResponseEntity<ErrorResponse> handleNotFoundExceptions(CoreException ex) {
         HttpStatus status = HttpStatus.NOT_FOUND;

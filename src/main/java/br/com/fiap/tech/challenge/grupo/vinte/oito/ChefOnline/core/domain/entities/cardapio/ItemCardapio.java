@@ -4,6 +4,7 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entiti
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,7 +13,7 @@ public class ItemCardapio {
     private Long id;
     private String nome;
     private String descricao;
-    private Boolean disponibilidade;
+    private String disponibilidadeConsumo;
     private Double preco;
     private String foto;
     private Restaurante restaurante;

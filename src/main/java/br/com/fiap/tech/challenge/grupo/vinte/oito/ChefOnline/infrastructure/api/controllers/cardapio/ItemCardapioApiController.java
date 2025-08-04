@@ -26,8 +26,8 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio.NovoItemCardapioDTO;
 
 @RestController
-@RequestMapping("/api/v1/cardapio")
-@Tag(name = "Cardapio", description = "API para gerenciamento do cardapio de um restaurante")
+@RequestMapping("/api/v1/cardapios")
+@Tag(name = "Itens do Cardápio", description = "API para gerenciamento dos itens do cardápio de um restaurante")
 public class ItemCardapioApiController {
     
     private final Logger logger = LoggerFactory.getLogger(ItemCardapioApiController.class);
@@ -41,7 +41,7 @@ public class ItemCardapioApiController {
     // Adiciona um item ao cardápio de um restaurante
     @PostMapping
     @Operation(summary = "Adiciona um item no cardapio", description = "Adiciona um item no cardapio de um restaurante")
-    public ResponseEntity<ItemCardapioDTO> criaItemCardapio(
+    public ResponseEntity<ItemCardapioDTO> criarItemCardapio(
             @Valid @RequestBody NovoItemCardapioDTO novoItemCardapioDTO) {
 
         logger.info("POST -> /api/v1/cardapio - Adicionando item ao cardápio");
@@ -54,7 +54,7 @@ public class ItemCardapioApiController {
 
     // Busca todos os itens de cardapio
     @GetMapping
-    public ResponseEntity<List<ItemCardapioDTO>> buscaTodosItensCardapio(
+    public ResponseEntity<List<ItemCardapioDTO>> buscarTodosItensCardapio(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
         logger.info("GET -> /api/v1/cardapio - Buscando itens do cardápio, página: {}, tamanho: {}", page, size);
@@ -64,7 +64,7 @@ public class ItemCardapioApiController {
 
     // Busca todos os itens do cardápio de um restaurante
     @GetMapping("/restaurante/{restauranteId}")
-    public ResponseEntity<List<ItemCardapioDTO>> buscaTodosItensCardapioRestaurante(
+    public ResponseEntity<List<ItemCardapioDTO>> buscarTodosItensCardapioRestaurante(
             @PathVariable Long restauranteId) {
         logger.info("GET -> /api/v1/cardapio - Buscando itens do cardápio por restaurante ID: {}", restauranteId);
         List<ItemCardapioDTO> itens = itemCardapioController.buscaItensCardapioPorRestaurante(restauranteId);
@@ -74,7 +74,7 @@ public class ItemCardapioApiController {
     // Busca um item específico do cardápio de um restaurante
     @GetMapping("/{itemId}")
     @Operation(summary = "Buscar item do cardápio por ID", description = "Busca um item específico do cardápio pelo seu ID")
-    public ResponseEntity<?> buscaItemCardapioPorId(
+    public ResponseEntity<?> buscarItemCardapioPorId(
             @PathVariable Long itemId) {
 
         logger.info("GET -> /api/v1/cardapio/{} - Buscando item do cardápio por ID", itemId);
@@ -86,7 +86,7 @@ public class ItemCardapioApiController {
 
     // Atualiza um item do cardápio de um restaurante
     @PutMapping("/{itemId}")
-    public ResponseEntity<Void> atualizaItemCardapio(
+    public ResponseEntity<Void> atualizarItemCardapio(
             @PathVariable Long itemId,
             @Valid @RequestBody AtualizaItemCardapioDTO atualizaItemCardapioDTO) {
 
@@ -98,7 +98,7 @@ public class ItemCardapioApiController {
 
     // Remove um item do cardápio de um restaurante
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<Void> deletaItemCardapio(
+    public ResponseEntity<Void> deletarItemCardapio(
             @PathVariable("itemId") Long itemId) {
 
         logger.info("DELETE -> /api/v1/cardapio/{} - Deletando item do cardápio", itemId);

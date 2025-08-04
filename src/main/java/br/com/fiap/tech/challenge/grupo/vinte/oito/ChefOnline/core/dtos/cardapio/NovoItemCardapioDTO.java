@@ -1,8 +1,11 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.cardapio;
 
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.cardapio.DisponibilidadeConsumoPedidoEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+
+import java.util.List;
 
 public record NovoItemCardapioDTO(
 
@@ -17,8 +20,8 @@ public record NovoItemCardapioDTO(
     @Positive(message = "Preço deve ser positivo")
     Double preco,
 
-    @NotNull(message = "A disponibilidade é obrigatória")
-    Boolean disponibilidade,
+    @NotNull(message = "A disponibilidade do consumo do pedido é obrigatória")
+    List<DisponibilidadeConsumoPedidoEnum> disponibilidadeConsumo,
 
     String foto,
 

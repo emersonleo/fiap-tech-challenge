@@ -24,7 +24,7 @@ public class AtualizaItemCardapioUseCase {
         itemCardapioExistente.setNome(atualizaItemCardapioDTO.nome());
         itemCardapioExistente.setDescricao(atualizaItemCardapioDTO.descricao());
         itemCardapioExistente.setPreco(atualizaItemCardapioDTO.preco());
-        itemCardapioExistente.setDisponibilidade(atualizaItemCardapioDTO.disponibilidade());
+//        itemCardapioExistente.setDisponibilidadeConsumo(atualizaItemCardapioDTO.disponibilidadeConsumo());
         itemCardapioExistente.setFoto(atualizaItemCardapioDTO.foto());
         itemCardapioExistente.getRestaurante().setId(atualizaItemCardapioDTO.idRestaurante());
 

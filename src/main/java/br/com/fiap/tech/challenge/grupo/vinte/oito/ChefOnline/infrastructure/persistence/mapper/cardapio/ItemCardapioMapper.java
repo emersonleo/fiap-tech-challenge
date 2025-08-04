@@ -22,7 +22,7 @@ public class ItemCardapioMapper {
                 itemCardapioEntity.getId(),
                 itemCardapioEntity.getNome(),
                 itemCardapioEntity.getDescricao(),
-                itemCardapioEntity.getDisponiblilidade(),
+                itemCardapioEntity.getDisponibilidadeConsumo(),
                 itemCardapioEntity.getPreco(),
                 itemCardapioEntity.getFoto(),
                 restaurante
@@ -40,7 +40,7 @@ public class ItemCardapioMapper {
                 itemCardapioDomain.getDescricao(),
                 itemCardapioDomain.getPreco(),
                 itemCardapioDomain.getFoto(),
-                itemCardapioDomain.getDisponibilidade(),
+                itemCardapioDomain.getDisponibilidadeConsumo(),
                 RestauranteMapper.toEntity(itemCardapioDomain.getRestaurante())
         );
     }
@@ -50,7 +50,7 @@ public class ItemCardapioMapper {
         entity.setId(itemCardapio.getId());
         entity.setNome(itemCardapio.getNome());
         entity.setDescricao(itemCardapio.getDescricao());
-        entity.setDisponiblilidade(itemCardapio.getDisponibilidade());
+        entity.setDisponibilidadeConsumo(itemCardapio.getDisponibilidadeConsumo());
         entity.setPreco(itemCardapio.getPreco());
         entity.setFoto(itemCardapio.getFoto());
         entity.setRestaurante(RestauranteMapper.toEntity(itemCardapio.getRestaurante()));

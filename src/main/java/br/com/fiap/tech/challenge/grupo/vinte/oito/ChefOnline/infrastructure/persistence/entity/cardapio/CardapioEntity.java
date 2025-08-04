@@ -15,16 +15,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "cardapio")
+@Table(name = "cardapios")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CardapioEntity {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    
+
     @Column(name = "nome")
     private String nome;
 
@@ -37,8 +38,7 @@ public class CardapioEntity {
     @Column(name = "foto")
     private String foto;
 
-    @Column(name = "disponiblilidade")
-    private Boolean disponiblilidade;
+    private String disponibilidadeConsumo;
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id", nullable = false)
