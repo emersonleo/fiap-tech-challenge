@@ -15,12 +15,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "cardapios")
+@Table(name = "itens_cardapio")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CardapioEntity {
+public class ItemCardapioEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
