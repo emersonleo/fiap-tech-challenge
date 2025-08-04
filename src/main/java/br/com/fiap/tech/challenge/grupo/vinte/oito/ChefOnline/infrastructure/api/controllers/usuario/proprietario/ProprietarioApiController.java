@@ -1,31 +1,36 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.usuario.proprietario;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.usuario.ProprietarioController;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.proprietario.AtualizaProprietarioDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.proprietario.ProprietarioDTO;
-import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.proprietario.NovoProprietarioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.TrocaSenhaDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.proprietario.AtualizaProprietarioDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.proprietario.NovoProprietarioDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.proprietario.ProprietarioDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.swagger.IProprietarioApiControllerSwagger;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.ProprietarioDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.UsuarioDataSource;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/proprietarios")
 @Tag(name = "Proprietários", description = "API para gerenciamento de proprietários")
-public class ProprietarioApiController {
+public class ProprietarioApiController implements IProprietarioApiControllerSwagger {
 
     private final ProprietarioController proprietarioController;
     private final Logger logger = LoggerFactory.getLogger(ProprietarioApiController.class);
@@ -34,19 +39,17 @@ public class ProprietarioApiController {
         this.proprietarioController = new ProprietarioController(proprietarioDataSource, usuarioDataSource);
     }
 
+    @Override
     @PostMapping
-    @Operation(summary = "Criar um novo proprietário", description = "Cria um novo proprietário no sistema")
-    @ApiResponse(responseCode = "201", description = "Proprietário criado com sucesso")
-    public ResponseEntity<ProprietarioDTO> criarProprietario(@Valid @RequestBody NovoProprietarioDTO novoProprietarioDTO) {
+    public ResponseEntity<ProprietarioDTO> criaProprietario(@Valid @RequestBody NovoProprietarioDTO novoProprietarioDTO) {
         logger.info("POST -> /api/v1/proprietarios - Criando novo proprietário");
         ProprietarioDTO proprietarioCriado = proprietarioController.criaProprietario(novoProprietarioDTO);
         logger.info("Proprietário criado com sucesso, ID: {}", proprietarioCriado.id());
         return ResponseEntity.status(HttpStatus.CREATED).body(proprietarioCriado);
     }
 
+    @Override
     @GetMapping
-    @Operation(summary = "Buscar todos os proprietários", description = "Lista todos os proprietários com paginação")
-    @ApiResponse(responseCode = "200", description = "Lista de proprietários retornada com sucesso")
     public ResponseEntity<List<ProprietarioDTO>> buscaTodosProprietarios(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
@@ -56,10 +59,9 @@ public class ProprietarioApiController {
         return ResponseEntity.ok(proprietarios);
     }
 
+    @Override
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar proprietário por ID", description = "Busca um proprietário específico pelo seu ID")
-    @ApiResponse(responseCode = "200", description = "Proprietário encontrado com sucesso")
-    public ResponseEntity<ProprietarioDTO> buscarProprietarioPorId(
+    public ResponseEntity<ProprietarioDTO> buscaProprietarioPorId(
             @Parameter(description = "ID do proprietário", required = true) @PathVariable Long id) {
         logger.info("GET -> /api/v1/proprietarios/{} - Buscando proprietário por ID", id);
         ProprietarioDTO proprietario = proprietarioController.buscaProprietarioPorId(id);
@@ -67,9 +69,8 @@ public class ProprietarioApiController {
         return ResponseEntity.ok(proprietario);
     }
 
+//    @Override
     @GetMapping("/login/{login}")
-    @Operation(summary = "Buscar proprietário por login", description = "Busca um proprietário específico pelo seu login")
-    @ApiResponse(responseCode = "200", description = "Proprietário encontrado com sucesso")
     public ResponseEntity<ProprietarioDTO> buscarProprietarioPorLogin(
             @Parameter(description = "Login do proprietário", required = true) @PathVariable String login) {
         logger.info("GET -> /api/v1/proprietarios/login/{} - Buscando proprietário por login", login);
@@ -78,9 +79,8 @@ public class ProprietarioApiController {
         return ResponseEntity.ok(proprietario);
     }
 
+    @Override
     @PutMapping("/{id}")
-    @Operation(summary = "Atualizar proprietário", description = "Atualiza os dados de um proprietário existente")
-    @ApiResponse(responseCode = "200", description = "Proprietário atualizado com sucesso")
     public ResponseEntity<Void> atualizaProprietario(
             @Valid @RequestBody AtualizaProprietarioDTO atualizaProprietarioDTO,
             @Parameter(description = "ID do proprietário", required = true) @PathVariable("id") Long id) {
@@ -90,9 +90,8 @@ public class ProprietarioApiController {
         return ResponseEntity.ok().build();
     }
 
+    @Override
     @PutMapping("/senha")
-    @Operation(summary = "Alterar senha do proprietário", description = "Altera a senha de um proprietário mediante verificação da senha atual")
-    @ApiResponse(responseCode = "200", description = "Senha alterada com sucesso")
     public ResponseEntity<ProprietarioDTO> atualizaSenhaProprietario(@Valid @RequestBody TrocaSenhaDTO trocaSenhaDTO) {
         logger.info("PUT -> /api/v1/proprietarios/senha - Alterando senha do proprietário login: {}", trocaSenhaDTO.login());
         ProprietarioDTO proprietarioAtualizado = proprietarioController.atualizaSenha(trocaSenhaDTO);
@@ -100,9 +99,8 @@ public class ProprietarioApiController {
         return ResponseEntity.ok(proprietarioAtualizado);
     }
 
+    @Override
     @DeleteMapping("/{id}")
-    @Operation(summary = "Deletar proprietário", description = "Remove um proprietário do sistema")
-    @ApiResponse(responseCode = "204", description = "Proprietário deletado com sucesso")
     public ResponseEntity<Void> deletaProprietario(
             @Parameter(description = "ID do proprietário", required = true) @PathVariable("id") Long id) {
         logger.info("DELETE -> /api/v1/proprietarios/{} - Deletando proprietário", id);
@@ -110,4 +108,5 @@ public class ProprietarioApiController {
         logger.info("Proprietário deletado com sucesso, ID: {}", id);
         return ResponseEntity.noContent().build();
     }
+
 }
