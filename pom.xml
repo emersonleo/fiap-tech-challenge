@@ -115,6 +115,7 @@
                             <excludes>
                                 <exclude>**/config/**/*.class</exclude>
                                 <exclude>**/entity/**/*.class</exclude>
+                                <exclude>**/entities/**/*.class</exclude>
                                 <exclude>**/infrastructure/**/*.class</exclude>
                                 <exclude>**/controller/**/*.class</exclude>
                                 <exclude>**/dto/**/*.class</exclude>
@@ -149,6 +150,7 @@
                             <excludes>
                                 <exclude>**/config/**/*.class</exclude>
                                 <exclude>**/entity/**/*.class</exclude>
+                                <exclude>**/entities/**/*.class</exclude>
                                 <exclude>**/infrastructure/**/*.class</exclude>
                                 <exclude>**/controller/**/*.class</exclude>
                                 <exclude>**/dto/**/*.class</exclude>
