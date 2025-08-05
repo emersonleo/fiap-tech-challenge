@@ -11,8 +11,13 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.usecas
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.AtualizaRestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.restaurante.NovoRestauranteDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.exceptions.usuario.proprietario.ProprietarioNotFoundException;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.gateway.restaurante.RestauranteGateway;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.gateway.usuario.ProprietarioGateway;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.restaurante.IRestauranteDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.restaurante.IRestauranteGateway;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IProprietarioDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.usuario.IProprietarioGateway;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.restaurante.RestauranteDataSource;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.usuario.UsuarioEntity;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.repository.restaurante.RestauranteJpaRepository;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.repository.usuario.UsuarioJpaRepository;
@@ -35,24 +40,25 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 @DisplayName("Restaurante Use Cases Integration Tests")
 class RestauranteUseCaseIntegrationTest {
 
-    @Autowired
-    private IProprietarioGateway proprietarioGateway;
+    private IProprietarioDataSource proprietarioDataSource;
+    private IRestauranteDataSource restauranteDataSource;
 
     @Autowired
-    private IRestauranteGateway restauranteGateway;
+    private ProprietarioGateway proprietarioGateway;
 
-    // Repositories para setup de dados de teste
+    @Autowired
+    private RestauranteGateway restauranteGateway;
+
     @Autowired
     private UsuarioJpaRepository usuarioRepository;
 
     @Autowired
     private RestauranteJpaRepository restauranteRepository;
 
-    // Use Cases - serão criados no setup
     private CriaRestauranteUseCase criaRestauranteUseCase;
     private BuscaRestaurantePorIdUseCase buscaRestaurantePorIdUseCase;
     private BuscaTodosRestaurantesUseCase buscaTodosRestaurantesUseCase;
@@ -68,12 +74,15 @@ class RestauranteUseCaseIntegrationTest {
         restauranteRepository.deleteAll();
         usuarioRepository.deleteAll();
 
+        this.proprietarioGateway = ProprietarioGateway.create(this.proprietarioDataSource);
+        this.restauranteGateway = RestauranteGateway.create(this.restauranteDataSource);
+
         // Cria os use cases
-        criaRestauranteUseCase = CriaRestauranteUseCase.create(proprietarioGateway, restauranteGateway);
-        buscaRestaurantePorIdUseCase = BuscaRestaurantePorIdUseCase.create(restauranteGateway);
-        buscaTodosRestaurantesUseCase = BuscaTodosRestaurantesUseCase.create(restauranteGateway);
-        atualizaRestauranteUseCase = AtualizaRestauranteUseCase.create(restauranteGateway);
-        deletaRestauranteUseCase = DeletaRestauranteUseCase.create(restauranteGateway);
+        criaRestauranteUseCase = CriaRestauranteUseCase.create(this.proprietarioGateway, this.restauranteGateway);
+        buscaRestaurantePorIdUseCase = BuscaRestaurantePorIdUseCase.create(this.restauranteGateway);
+        buscaTodosRestaurantesUseCase = BuscaTodosRestaurantesUseCase.create(this.restauranteGateway);
+        atualizaRestauranteUseCase = AtualizaRestauranteUseCase.create(this.restauranteGateway);
+        deletaRestauranteUseCase = DeletaRestauranteUseCase.create(this.restauranteGateway);
 
         // Cria um proprietário válido para os testes
         criarProprietarioValido();
@@ -107,7 +116,7 @@ class RestauranteUseCaseIntegrationTest {
         assertThat(restauranteNoBanco).isPresent();
         assertThat(restauranteNoBanco.get().getNomeRestaurante()).isEqualTo("Pizzaria do João");
     }
-
+    
     @Test
     @DisplayName("Deve lançar exceção quando tentar criar restaurante com proprietário inexistente")
     void deveLancarExcecaoQuandoTentarCriarRestauranteComProprietarioInexistente() {
@@ -301,7 +310,7 @@ class RestauranteUseCaseIntegrationTest {
         Optional<Restaurante> restauranteDeletado = restauranteGateway.buscaRestaurantePorId(restauranteSalvo.getId());
         assertThat(restauranteDeletado).isEmpty();
 
-    }
+    } 
 
     private void criarProprietarioValido() {
         UsuarioEntity usuarioEntity = new UsuarioEntity();
