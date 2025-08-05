@@ -1,5 +1,6 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.usuario;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.usuario.proprietario;
 
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.usuario.ProprietarioAuthController;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.LoginResponseProprietarioDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.VerificaCredenciaisDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.auth.proprietario.IProprietarioAuthDataSource;

@@ -120,6 +120,7 @@
                                 <exclude>**/controller/**/*.class</exclude>
                                 <exclude>**/dto/**/*.class</exclude>
                                 <exclude>**/dtos/**/*.class</exclude>
+                                <exclude>**/presenters/**/*.class</exclude>
                                 <exclude>**/gateway/**/*.class</exclude>
                                 <exclude>**/exceptions/**/*.class</exclude>
                                 <exclude>**/repository/**/*.class</exclude>
@@ -155,6 +156,7 @@
                                 <exclude>**/controller/**/*.class</exclude>
                                 <exclude>**/dto/**/*.class</exclude>
                                 <exclude>**/dtos/**/*.class</exclude>
+                                <exclude>**/presenters/**/*.class</exclude>
                                 <exclude>**/gateway/**/*.class</exclude>
                                 <exclude>**/exceptions/**/*.class</exclude>
                                 <exclude>**/repository/**/*.class</exclude>

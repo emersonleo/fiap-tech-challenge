@@ -1,5 +1,6 @@
-package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.usuario;
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.usuario.cliente;
 
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.usuario.ClienteController;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.domain.entities.usuario.Cliente;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.TrocaSenhaDTO;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.cliente.AtualizaClienteDTO;

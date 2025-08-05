@@ -14,6 +14,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "itens_cardapio")
 @Getter
@@ -33,7 +35,7 @@ public class ItemCardapioEntity {
     private String descricao;
 
     @Column(name = "preco")
-    private Double preco;
+    private BigDecimal preco;
 
     @Column(name = "foto")
     private String foto;

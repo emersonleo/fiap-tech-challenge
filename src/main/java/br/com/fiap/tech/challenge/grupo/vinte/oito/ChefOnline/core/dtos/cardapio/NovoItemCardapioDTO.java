@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public record NovoItemCardapioDTO(
@@ -18,7 +19,7 @@ public record NovoItemCardapioDTO(
 
     @NotNull(message = "Preço é obrigatório")
     @Positive(message = "Preço deve ser positivo")
-    Double preco,
+    BigDecimal preco,
 
     @NotNull(message = "A disponibilidade do consumo do pedido é obrigatória")
     List<DisponibilidadeConsumoPedidoEnum> disponibilidadeConsumo,

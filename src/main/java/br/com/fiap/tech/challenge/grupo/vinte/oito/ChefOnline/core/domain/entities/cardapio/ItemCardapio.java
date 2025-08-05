@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,7 +16,7 @@ public class ItemCardapio {
     private String nome;
     private String descricao;
     private String disponibilidadeConsumo;
-    private Double preco;
+    private BigDecimal preco;
     private String foto;
     private Restaurante restaurante;
 
