@@ -5,6 +5,7 @@ import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.interfaces.re
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.restaurante.RestauranteEntity;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.mapper.restaurante.RestauranteMapper;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.repository.restaurante.RestauranteJpaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -45,6 +46,7 @@ public class RestauranteDataSource implements IRestauranteDataSource {
     }
 
     @Override
+    @Transactional
     public void deletaRestaurante(Restaurante restaurante) {
         if (restaurante.getId() != null) {
             repository.deleteById(restaurante.getId());

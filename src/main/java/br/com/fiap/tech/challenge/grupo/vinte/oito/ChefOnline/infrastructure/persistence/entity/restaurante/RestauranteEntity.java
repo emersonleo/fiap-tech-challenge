@@ -1,9 +1,10 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.restaurante;
 
 import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.entity.usuario.UsuarioEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,6 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -40,7 +43,8 @@ public class RestauranteEntity {
     @Column(nullable = false)
     private String horarioFuncionamento;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "proprietario_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proprietario_id", foreignKey = @ForeignKey(name = "FK_RESTAURANTE_PROPRIETARIO"), nullable = false)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private UsuarioEntity proprietario;
 }
