@@ -169,7 +169,7 @@ Para mais detalhes sobre a arquitetura e informações técnicas do projeto, ace
 1. Acesse a aplicação em `http://localhost:8080`.
 
 🧑‍💻 Autores  
-Projeto desenvolvido pelo grupo 28 no desafio técnico da FIAP.
+Projeto desenvolvido pelo grupo 133 no desafio técnico da FIAP.
 
 **Membros da equipe:**
 - Dhebbora Leane Bezerra de Vasconcelos
