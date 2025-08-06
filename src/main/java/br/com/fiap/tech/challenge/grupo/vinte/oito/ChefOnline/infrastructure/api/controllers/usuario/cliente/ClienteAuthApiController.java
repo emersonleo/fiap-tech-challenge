@@ -1,0 +1,30 @@
+package br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.api.controllers.usuario.cliente;
+
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.controllers.usuario.ClienteAuthController;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.LoginResponseClienteDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.core.dtos.usuario.VerificaCredenciaisDTO;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.ChefOnline.infrastructure.persistence.dataSource.usuario.ClienteAuthDataSource;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/v1/auth/clientes")
+@Tag(name = "Cliente Auth", description = "API para autenticação de clientes")
+public class ClienteAuthApiController {
+    private final ClienteAuthController clienteAuthController;
+
+    public ClienteAuthApiController(ClienteAuthDataSource clienteAuthDataSource) {
+        this.clienteAuthController = new ClienteAuthController(clienteAuthDataSource);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> login(@Valid @RequestBody VerificaCredenciaisDTO verificaCredenciaisDTO) {
+        LoginResponseClienteDTO responseClienteDTO = clienteAuthController.login(verificaCredenciaisDTO);
+        return ResponseEntity.ok(responseClienteDTO);
+    }
+}
