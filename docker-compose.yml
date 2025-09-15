@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  chefonline:
+  horadoremedio:
     build: .
     ports:
       - "8080:8080"
@@ -12,7 +12,7 @@ services:
     depends_on:
       - mysql
     volumes:
-      - chefonline-logs:/var/log/chefonline
+      - horadoremedio-logs:/var/log/horadoremedio
 
   mysql:
     image: mysql:9.4.0
@@ -21,7 +21,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: chefonline
+      MYSQL_DATABASE: horadoremedio
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
@@ -30,5 +30,5 @@ services:
 volumes:
   mysql-database:
     driver: local
-  chefonline-logs:
+  horadoremedio-logs:
     driver: local
