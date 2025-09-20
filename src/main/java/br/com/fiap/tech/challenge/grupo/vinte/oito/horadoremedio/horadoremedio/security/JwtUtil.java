@@ -1,3 +1,5 @@
+package br.com.fiap.tech.challenge.grupo.vinte.oito.horadoremedio.horadoremedio.security;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

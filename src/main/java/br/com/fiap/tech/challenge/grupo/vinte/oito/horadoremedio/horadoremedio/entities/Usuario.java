@@ -1,8 +1,12 @@
-import jakarta.persistence.*;
-import java.util.Set;
-
 package br.com.fiap.tech.challenge.grupo.vinte.oito.horadoremedio.horadoremedio.entities;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
