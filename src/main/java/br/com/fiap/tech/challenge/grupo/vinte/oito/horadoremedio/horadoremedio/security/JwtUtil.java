@@ -18,7 +18,7 @@ import java.util.function.Function;
 public class JwtUtil {
 
     //TODO: DEFINIR UMA SecretKey
-    @Value("${jwt.secret:}")
+    @Value("${jwt.secret:horadoremedio1234}")
     private String secret;
 
     @Value("${jwt.expiration:86400000}") // 24 horas
