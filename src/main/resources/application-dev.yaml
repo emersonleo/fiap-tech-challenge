@@ -2,8 +2,11 @@ spring:
   datasource:
     url: jdbc:mysql://mysql:3306/horadoremedio
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: user
+    username: root
     password: pass
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5
   jpa:
     hibernate:
       ddl-auto: update
@@ -11,9 +14,39 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
     show-sql: true
 
+# Configurações JWT
+jwt:
+  secret: ${JWT_SECRET:horadoremedio123} # Mínimo 32 caracteres para HS256
+  expiration: ${JWT_EXPIRATION:86400000} # 24 horas em millisegundos
+
+# Configurações de segurança dos usuários
+app:
+  security:
+    medico:
+      username: ${MEDICO_USERNAME:medico}
+      password: ${MEDICO_PASSWORD:MedicoSeguro@2024}
+    enfermeiro:
+      username: ${ENFERMEIRO_USERNAME:enfermeiro}
+      password: ${ENFERMEIRO_PASSWORD:EnfermeiroSeguro@2024}
+    paciente:
+      username: ${PACIENTE_USERNAME:paciente}
+      password: ${PACIENTE_PASSWORD:PacienteSeguro@2024}
+
+# Configurações de logging
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    br.com.fiap.tech.challenge.grupo.vinte.oito.horadoremedio: DEBUG
+    org.springframework.security: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Configurações do servidor
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
