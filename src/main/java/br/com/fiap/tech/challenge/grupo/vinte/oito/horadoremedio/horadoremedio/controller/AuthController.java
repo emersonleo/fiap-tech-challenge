@@ -1,10 +1,13 @@
 package br.com.fiap.tech.challenge.grupo.vinte.oito.horadoremedio.horadoremedio.controller;
 
+import br.com.fiap.tech.challenge.grupo.vinte.oito.horadoremedio.horadoremedio.DTO.ErrorResponse;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.horadoremedio.horadoremedio.DTO.JWTResponse;
+import br.com.fiap.tech.challenge.grupo.vinte.oito.horadoremedio.horadoremedio.DTO.LoginRequest;
 import br.com.fiap.tech.challenge.grupo.vinte.oito.horadoremedio.horadoremedio.security.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,16 +22,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/auth")
 @Tag(name = "Autenticação", description = "Endpoints para autenticação JWT")
 @Slf4j
+@RequiredArgsConstructor  // Lombok gera construtor com dependências final
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
+    private final UserDetailsService userDetailsService;
 
     @PostMapping("/login")
     @Operation(summary = "Realizar login", description = "Autentica usuário e retorna token JWT")
@@ -38,7 +37,8 @@ public class AuthController {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                     loginRequest.getUsername(), 
-                    loginRequest.getPassword())
+                    loginRequest.getPassword()
+                )
             );
             
             log.info("Login realizado com sucesso para o usuário: {}", loginRequest.getUsername());
@@ -48,53 +48,24 @@ public class AuthController {
                      loginRequest.getUsername());
             return ResponseEntity.badRequest()
                 .body(new ErrorResponse("Credenciais inválidas"));
+        } catch (Exception e) {
+            log.error("Erro ao realizar login para usuário: {}", loginRequest.getUsername(), e);
+            return ResponseEntity.badRequest()
+                .body(new ErrorResponse("Erro ao realizar login"));
         }
 
+        // Carrega os detalhes do usuário autenticado
         final UserDetails userDetails = userDetailsService
             .loadUserByUsername(loginRequest.getUsername());
         
+        // Gera o token JWT
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), 
-                                                userDetails.getAuthorities().toString()));
-    }
-
-    // DTO Classes
-    public static class LoginRequest {
-        private String username;
-        private String password;
-
-        // Getters e Setters
-        public String getUsername() { return username; }
-        public void setUsername(String username) { this.username = username; }
-        public String getPassword() { return password; }
-        public void setPassword(String password) { this.password = password; }
-    }
-
-    public static class JwtResponse {
-        private String token;
-        private String username;
-        private String roles;
-
-        public JwtResponse(String token, String username, String roles) {
-            this.token = token;
-            this.username = username;
-            this.roles = roles;
-        }
-
-        // Getters
-        public String getToken() { return token; }
-        public String getUsername() { return username; }
-        public String getRoles() { return roles; }
-    }
-
-    public static class ErrorResponse {
-        private String message;
-
-        public ErrorResponse(String message) {
-            this.message = message;
-        }
-
-        public String getMessage() { return message; }
+        // Retorna o token e informações do usuário
+        return ResponseEntity.ok(new JWTResponse(
+            jwt, 
+            userDetails.getUsername(), 
+            userDetails.getAuthorities().toString()
+        ));
     }
 }

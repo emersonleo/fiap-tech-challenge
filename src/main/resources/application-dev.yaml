@@ -19,7 +19,7 @@ spring:
 
 # Configurações JWT
 jwt:
-  secret: ${JWT_SECRET:horadoremedio123} # Mínimo 32 caracteres para HS256
+  secret: ${JWT_SECRET:desenvolvimento-local-key-2025-fiap} # Mínimo 32 caracteres para HS256
   expiration: ${JWT_EXPIRATION:86400000} # 24 horas em millisegundos
 
 # Configurações de segurança dos usuários
