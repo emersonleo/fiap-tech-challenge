@@ -43,4 +43,12 @@ public class UsuarioService {
         }
 
     }
+
+    public Usuario buscarUsuarioPorId(Long id) {
+        if(id == null || id <= 0) {
+            throw new IllegalArgumentException("ID inválido");
+        }
+
+        return usuarioRepository.findById(id).orElse(null);
+    }
 }

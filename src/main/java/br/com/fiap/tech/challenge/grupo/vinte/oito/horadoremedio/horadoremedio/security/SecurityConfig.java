@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .requestMatchers("/auth/login", "/actuator/health", 
                                "/swagger-ui/**", "/api-docs/**", 
                                "/swagger-ui.html", "/v3/api-docs/**",
-                               "/error", "/usuario/criar").permitAll()
+                               "/error", "/usuario/**").permitAll()
                 
                 // Endpoints com roles específicas
                 .requestMatchers("/medico/**").hasRole("MEDICO")
